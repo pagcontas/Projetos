@@ -9,7 +9,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.jsoft.centralfinanceira.modelo.central.ConvenioBanPop;
 
-/**
+/**Classe para objetos do tipo ConvenioBanPop, onde serão contidos, valores e métodos para o mesmo.
  *
  * @author ti05
  */

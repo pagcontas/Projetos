@@ -19,6 +19,12 @@ import javax.persistence.Query;
 @Stateless
 public class FatosBoletosDAOImpl extends BaseDAOImpl<FatosBoletos> implements FatosBoletosDAO {
 
+    /** Metodo utilizado para atualizaçao do unitario de um determiado convenio (update all) em um determinado periodo
+     * @author Juniel
+     * @param id
+     * @param valor
+     * @param periodo 
+     */
     @Override
     public void updateUnitarioConvenio(Long id, BigDecimal valor, Integer periodo) {
         String queryString = " UPDATE " + FatosBoletos.class.getName()
@@ -32,6 +38,12 @@ public class FatosBoletosDAOImpl extends BaseDAOImpl<FatosBoletos> implements Fa
         query.executeUpdate();        
     }
     
+    /** Metodo utilizado para atualizaçao do unitario de um determiada Loja (update all) em um determinado periodo
+     * 
+     * @param id
+     * @param valor
+     * @param periodo 
+     */
     @Override
     public void updateUnitarioLoja(Long id, BigDecimal valor, Integer periodo) {
         String queryString = " UPDATE " + FatosBoletos.class.getName()
@@ -45,6 +57,10 @@ public class FatosBoletosDAOImpl extends BaseDAOImpl<FatosBoletos> implements Fa
         query.executeUpdate();
     }
 
+    /** Metodo utilizado para listar a comissao de todos os convenios ordenando por periodo
+     * @author Juniel
+     * @return List<ComissaoConvenioVO>
+     */
     @Override
     public List<ComissaoConvenioVO> listBoletoConvenio() {
         List<ComissaoConvenioVO> listaComissao = new ArrayList<ComissaoConvenioVO>();
@@ -78,6 +94,10 @@ public class FatosBoletosDAOImpl extends BaseDAOImpl<FatosBoletos> implements Fa
         return listaComissao;
     }
     
+    /** Metodo utilizado para listar a comissao de todas as lojas ordenando por periodo
+     * @author Juniel
+     * @return List<ComissaoLojaVO>
+     */
     @Override
     public List<ComissaoLojaVO> listBoletoLoja() {
         List<ComissaoLojaVO> listaComissao = new ArrayList<ComissaoLojaVO>();

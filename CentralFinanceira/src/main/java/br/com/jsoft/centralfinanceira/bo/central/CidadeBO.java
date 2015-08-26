@@ -9,9 +9,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import br.com.jsoft.centralfinanceira.modelo.central.Cidade;
 
-/**
+/**Classe para objetos do tipo Cidade, onde serão contidos, valores e métodos para o mesmo.
  *
  * @author Juniel
+ * @version 1.0
+ * @since 10/01/2015
  */
 @Stateless
 public class CidadeBO extends AbstractBusinessObject<Cidade> {

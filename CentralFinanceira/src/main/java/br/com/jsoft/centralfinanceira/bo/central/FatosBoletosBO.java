@@ -35,9 +35,11 @@ import java.util.HashMap;
 import javax.faces.context.FacesContext;
 import javax.persistence.Query;
 
-/**
+/**Classe para objetos do tipo Cidade, onde serão contidos, valores e métodos para o mesmo.
  *
  * @author Juniel
+ * @version 1.9
+ * @since 10/01/2015
  */
 @Stateless
 public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
@@ -65,12 +67,12 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return true;
     }
 
-    /**
+    /** Metodo utilizado para geraçao de um relatorio de remuneraçao
      *
      * @author Juniel
      * @param fatos
-     * @see Metodo usado para gerar relatorio Caused by:
-     * java.lang.OutOfMemoryError: GC overhead limit exceeded
+     * @throws Metodo usado para gerar relatorio Caused by: java.lang.OutOfMemoryError: GC overhead limit exceeded
+     * se a lista for muito extensa
      */
     public void gerarReport(List<RelatorioRemunecaoVO> fatos) {
         SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -84,6 +86,12 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
 
     }
 
+    
+    /** Metodo utilizado para gerar uma lista para o Relatorio de remuneraçao (FatosBoletosBM)
+     * @author Juniel
+     * @param consultaFatosVO
+     * @return List<RelatorioRemunecaoVO>
+     */
     public List<RelatorioRemunecaoVO> consultaLoja(ConsultaFatosVO consultaFatosVO) {
 
         Restrictions restrictions = new Restrictions();
@@ -124,6 +132,10 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return relatorioRemunecao;
     }
 
+    /**Metodo utitilizado para fazer a alteraçao unica de um
+     * 
+     * @param comissaoConvenio 
+     */
     public void updateUniConvenio(ComissaoConvenioVO comissaoConvenio) {
         fatosBoletosDAO.updateUnitarioConvenio(comissaoConvenio.getId(), comissaoConvenio.getUnitarioconvenio(), comissaoConvenio.getPeriodo());
     }
@@ -209,7 +221,7 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
             if (tupla[2] != null) {
                 rentabilidade.setGuias(((Number) tupla[2]).intValue());
             } else {
-                rentabilidade.setGuias(Integer.valueOf(0));
+                rentabilidade.setGuias(0);
             }
 
             if (tupla[3] != null) {
