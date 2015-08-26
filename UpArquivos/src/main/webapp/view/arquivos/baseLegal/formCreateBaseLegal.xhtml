@@ -1,0 +1,69 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateBaseLegal" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages autoUpdate="true"/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descricao" value="* #{msg['baseLegal.descricao']}:" />
+                        <p:inputText id="descricao" value="#{baseLegalMB.entity.descricao}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigo" value="* #{msg['baseLegal.codigo']}:" />
+                        <p:inputText id="codigo" value="#{baseLegalMB.entity.codigo}" maxlength="255"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataPublicao" value="* #{msg['baseLegal.dataPublicao']}:" />
+                        <p:calendar id="dataPublicao" value="#{baseLegalMB.entity.dataPublicao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <h:panelGroup id="panelUm" rendered="#{baseLegalMB.entity.id ==null}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <p:outputLabel value="Arquivo" styleClass="grid_3" />
+
+                            <p:fileUpload id="arquivo" mode="advanced" requiredMessage="É necessário o envio de pelo menos um arquivo!"
+                                          allowTypes="/(\.|\/)(gif|jpe?g|rtf|odt|png|doc|docx|xls|xlsx|pps|ppsx|ppt|pptx|pdf|jpg|zip|txt|7z|rar|dcm)$/"
+                                          invalidFileMessage="Tipo de arquivo não permitido" invalidSizeMessage="Arquivo com tamanho acima do permitido" 
+                                          uploadLabel="Carregar" cancelLabel="Cancelar" label="Selecionar" multiple="false" 
+                                          sizeLimit="10485760" fileUploadListener="#{baseLegalMB.upload}" styleClass="grid_9" />
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelDois" rendered="#{baseLegalMB.entity.id !=null}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <p:dataTable value="#{baseLegalMB.entity.arquivo}" var="item" styleClass="grid_8">
+                                <p:column headerText="Nome" width="200">
+                                    <p:outputLabel value="#{item.nome}" />
+                                </p:column>
+                                <p:column headerText="#{wds['button.download']}" style="text-align:center" width="30">
+                                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" title="#{wds['button.download']}" ajax="false" immediate="true" update=":baseLegalTabView">
+                                        <p:fileDownload value="#{baseLegalMB.downloadArquivo(item)}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="baseLegal.create">
+                <p:commandButton process="@form" update="@form" action="#{baseLegalMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="baseLegal.audit">
+                <x:audit for="#{baseLegalMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

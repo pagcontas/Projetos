@@ -1,0 +1,106 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailContrato" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.posto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.posto}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cidade}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.limiteCoban']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.limiteCoban}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.limiteConvenios']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.limiteConvenios}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.limiteRecarga']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.limiteRecarga}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.limiteTotal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.limiteTotal}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.novoLimite']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.novoLimite}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.sistema']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.sistema}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.consultor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.consultor}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.novoBoleto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.novoBoleto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.dataInicial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.dataInicial}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.dataFinal']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.dataFinal}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.avalista']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.avalista}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.notaPromissoria']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.notaPromissoria}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.contratoBB']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.contratoBB}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="widgetContratoDetail.hide()" />
+            <x:securityArea rolesAllowed="contrato.audit">
+                <x:audit for="#{contratoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

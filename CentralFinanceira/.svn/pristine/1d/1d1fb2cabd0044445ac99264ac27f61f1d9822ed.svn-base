@@ -1,0 +1,152 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['contrato.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuContrato.xhtml" />
+        <h:form id="formListContrato">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="contrato_export" target=":formListContrato:dataTableContrato"
+                                widgetVar="dataTableContratoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="contrato" rowIndexVar="index" id="dataTableContrato" widgetVar="dataTableContratoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{contratoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{contratoMB.dataModel.paginatorTemplate}"
+                         value="#{contratoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="Código Posto" sortBy="#{contrato.loja}"
+                          filterBy="#{contrato.loja.id}">
+                    <f:facet name="header">
+                        <h:outputText value="Código Posto" />
+                    </f:facet>
+                    <h:outputText value="#{contrato.loja.id}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Nome Posto" sortBy="#{contrato.loja}"
+                          filterBy="#{contrato.loja.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="Nome Posto" />
+                    </f:facet>
+                    <h:outputText value="#{contrato.loja.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="CNPJ Posto" sortBy="#{contrato.loja}"
+                          filterBy="#{contrato.loja.cnpj}">
+                    <f:facet name="header">
+                        <h:outputText value="CNPJ Posto" />
+                    </f:facet>
+                    <h:outputText value="#{contrato.loja.cnpj}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Nome Proprietário" sortBy="#{contrato.nomePro}"
+                          filterBy="#{contrato.nomePro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Nome Proprietário" />
+                    </f:facet>
+                    <h:outputText value="#{contrato.nomePro}"/>
+                </p:column>              
+                <p:column headerText="Cpf Proprietário" sortBy="#{contrato.cpfPro}"
+                          filterBy="#{contrato.cpfPro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="Cpf Proprietário" />
+                    </f:facet>
+                    <h:outputText value="#{contrato.cpfPro}"/>
+                </p:column>
+                <p:column headerText="#{msg['contrato.dataInstalacao']}" sortBy="#{contrato.dataInstalacao}"
+                          filterBy="#{contrato.dataInstalacao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contrato.dataInstalacao']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{contrato.dataInstalacao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contrato.dataConsulta']}" sortBy="#{contrato.dataConsulta}"
+                          filterBy="#{contrato.dataConsulta}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contrato.dataConsulta']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{contrato.dataConsulta}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contrato.vendedor']}" sortBy="#{contrato.vendedor}"
+                          filterBy="#{contrato.vendedor}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contrato.vendedor']}" />
+                    </f:facet>
+                    <h:outputText value="#{contrato.vendedor}"/>
+                </p:column>                
+
+                <p:column headerText="#{msg['contrato.ativo']}" sortBy="#{contrato.ativo}"
+                          filterBy="#{contrato.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contrato.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{contrato.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="Documentos">
+                    <x:securityArea rolesAllowed="contrato.create">
+                        <p:commandButton icon="ui-icon-document" ajax="false" 
+                                         process="@form" title="Gerar Ficha Inscricao"  action="#{contratoMB.gerarFicha(contrato)}">
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="contrato.create">
+                        <p:commandButton icon="ui-icon-document-b" ajax="false" 
+                                         process="@form" title="Gerar Contrato"  action="#{contratoMB.gerarContrato(contrato)}">
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="contrato.create">
+                        <p:commandButton icon="ui-icon-document-b" ajax="false" 
+                                         process="@form" title="Gerar Nota Promissoria"  action="#{contratoMB.gerarPromissoria(contrato)}">
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetContratoDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailContrato" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{contrato}" target="#{contratoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="contrato.create">
+                        <p:button icon="ui-icon-pencil" outcome="createContrato" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{contrato.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="contrato.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{contratoMB.delete}" >
+                            <f:setPropertyActionListener value="#{contrato.id}" target="#{contratoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{contrato}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="contrato.audit">
+                    <x:auditDelete for="#{contratoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetContratoDetail" header="#{msg['contrato.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailContrato.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

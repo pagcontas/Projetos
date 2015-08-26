@@ -1,0 +1,93 @@
+package br.com.jsoft.centralfinanceira.bo.central;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.central.FatosBoletosDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+import br.com.jsoft.centralfinanceira.vo.ConsultaFatosVO;
+import br.com.jsoft.centralfinanceira.vo.RelatorioRemunecaoVO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import com.xpert.faces.utils.FacesJasper;
+import com.xpert.persistence.query.Restrictions;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author jj
+ */
+@Stateless
+public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
+
+    @EJB
+    private FatosBoletosDAO fatosBoletosDAO;
+
+    @Override
+    public FatosBoletosDAO getDAO() {
+        return fatosBoletosDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+
+        return null;
+    }
+
+    @Override
+    public void validate(FatosBoletos fatosBoletos) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    /**
+     *
+     * @author Juniel
+     * @param fatos
+     * @see Metodo usado para gerar relatorio
+     */
+    public void gerarReport(List<RelatorioRemunecaoVO> fatos) {
+
+        FacesJasper.createJasperReport(fatos, null,
+                "/WEB-INF/report/template/FatosBoletos/relatorioRemuneracao.jasper", "Relatorio_de_Remuneração");
+
+    }
+
+    public List<RelatorioRemunecaoVO> consultaPosto(ConsultaFatosVO consultaFatosVO) {
+
+        Restrictions restrictions = new Restrictions();
+
+        if (consultaFatosVO.getMes() != null) {
+            restrictions.equals("fb.mes", consultaFatosVO.getMes());
+        }
+        if (consultaFatosVO.getAno() != null) {
+            restrictions.equals("fb.ano", consultaFatosVO.getAno());
+        }
+        if (consultaFatosVO.getPosto() != null) {
+            restrictions.equals("fb.posto", consultaFatosVO.getPosto());
+        }
+         if (consultaFatosVO.getConvenio() != null) {
+            restrictions.equals("fb.convenioboleto", consultaFatosVO.getConvenio());
+        }
+        
+        List<RelatorioRemunecaoVO> relatorioRemunecao = new ArrayList<RelatorioRemunecaoVO>();
+
+        List<FatosBoletos> fatosBoletos;
+        
+        fatosBoletos = fatosBoletosDAO.getQueryBuilder()
+                .from(FatosBoletos.class, "fb")
+                .add(restrictions)
+                .getResultList();
+        
+        for(FatosBoletos fato : fatosBoletos){
+            relatorioRemunecao.add(new RelatorioRemunecaoVO(fato));
+        }
+
+        return relatorioRemunecao;
+    }
+
+}

@@ -1,0 +1,75 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['convenioGas.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConvenioGas.xhtml" />
+        <h:form id="formListConvenioGas">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="convenioGas_export" target=":formListConvenioGas:dataTableConvenioGas"
+                                     widgetVar="dataTableConvenioGasWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="convenioGas" rowIndexVar="index" id="dataTableConvenioGas" widgetVar="dataTableConvenioGasWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{convenioGasMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{convenioGasMB.dataModel.paginatorTemplate}"
+                         value="#{convenioGasMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioGas.nome']}" sortBy="#{convenioGas.nome}"
+                    filterBy="#{convenioGas.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioGas.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioGas.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioGas.tarifa']}" sortBy="#{convenioGas.tarifa}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioGas.tarifa']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioGas.tarifa}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetConvenioGasDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailConvenioGas" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{convenioGas}" target="#{convenioGasMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="convenioGas.create">
+                        <p:button icon="ui-icon-pencil" outcome="createConvenioGas" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{convenioGas.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="convenioGas.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{convenioGasMB.delete}" >
+                            <f:setPropertyActionListener value="#{convenioGas.id}" target="#{convenioGasMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{convenioGas}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="convenioGas.audit">
+                    <x:auditDelete for="#{convenioGasMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetConvenioGasDetail" header="#{msg['convenioGas.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailConvenioGas.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,14 @@
+package br.com.jsoft.centralfinanceira.dao.central.impl;
+
+import br.com.jsoft.centralfinanceira.application.BaseDAOImpl;
+import br.com.jsoft.centralfinanceira.dao.central.ConveniopDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.Conveniop;
+import javax.ejb.Stateless;
+
+/**
+ *
+ * @author killerbee
+ */
+@Stateless
+public class ConveniopDAOImpl extends BaseDAOImpl<Conveniop> implements ConveniopDAO {
+}

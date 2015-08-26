@@ -1,0 +1,158 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['venda.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuVenda.xhtml" />
+        <h:form id="formListVenda">
+            <x:modalMessages autoUpdate="true"/>
+
+            <x:dataTableActions fileName="venda_export" target=":formListVenda:dataTableVenda"
+                                widgetVar="dataTableVendaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="venda" rowIndexVar="index" id="dataTableVenda" widgetVar="dataTableVendaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{vendaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{vendaMB.dataModel.paginatorTemplate}"
+                         value="#{vendaMB.dataModel}" lazy="true" >
+                
+                <p:column headerText="Empresa" sortBy="#{venda.loja}"
+                          filterBy="#{venda.loja.razaoSocial}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Empresa" />
+                    </f:facet>
+                    <h:outputText value="#{venda.loja}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['venda.numeroVenda']}" sortBy="#{venda.id}"
+                          filterBy="#{venda.id}"  style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['venda.numeroVenda']}" />
+                    </f:facet>
+                    <h:outputText value="#{venda.id}"/>
+                </p:column>            
+
+                <p:column headerText="#{msg['venda.cliente.cnpj']} Cliente" sortBy="#{venda.cliente.cnpj}"
+                          filterBy="#{venda.cliente.cnpj}" style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="CNPJ do Cliente" />
+                    </f:facet>
+                    <h:outputText value="#{venda.cliente.cnpj}" converter="cnpjConverter">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg['venda.cliente.razaoSocial']} Cliente" sortBy="#{venda.cliente.razaoSocial}"
+                          filterBy="#{venda.cliente.razaoSocial}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Razao Social do Cliente" />
+                    </f:facet>
+                    <h:outputText value="#{venda.cliente.razaoSocial}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg['venda.dataVenda']}" sortBy="#{venda.dataVenda}"
+                          filterBy="#{venda.dataVenda}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['venda.dataVenda']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{venda.dataVenda}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Data Entregua" sortBy="#{venda.dataEntrega}"
+                          filterBy="#{venda.dataEntrega}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data Entregua" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{venda.dataEntrega}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['venda.formaPagamento']}" sortBy="#{venda.formaPagamento.descricao}"
+                          filterBy="#{venda.formaPagamento}"  filterOptions="#{findAllBean.getSelect(classMB.formaDePagamento)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['venda.formaPagamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{venda.formaPagamento.descricao}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['venda.totalAPagar']}" sortBy="#{venda.totalAPagar}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['venda.totalAPagar']}" />
+                    </f:facet>
+                    <h:outputText value="#{venda.totalAPagar}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>                
+
+                <p:column headerText="Situação" sortBy="#{venda.ativo}"
+                          filterBy="#{venda.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Venda 
+                                      Confirmada?" />
+                    </f:facet>
+                    <h:outputText value="#{venda.ativo}" converter ="yesNoConverter" />
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetVendaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailVenda" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{venda}" target="#{vendaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="venda.create">
+                        <p:button icon="ui-icon-pencil" outcome="createVenda" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{venda.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="venda.create">
+                        <p:commandButton icon="ui-icon-copy" ajax="false" 
+                                         process="@form" title="Duplicar Venda"  action="#{vendaMB.duplicarVenda(venda.id)}" >
+                        </p:commandButton>
+                    </x:securityArea>
+
+                    <x:securityArea rolesAllowed="venda.create">
+                        <p:commandButton icon="ui-icon-document" ajax="false" 
+                                         process="@form" title="Gerar Orçamento"  action="#{vendaMB.gerarNota(venda)}">
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="venda.create">
+                        <p:commandButton icon="ui-icon-circle-check" ajax="false" 
+                                         process="@form" title="Confirmar Venda"  action="#{vendaMB.confirmaVenda(venda)}" disabled="#{venda.ativo}">
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="venda.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{vendaMB.delete}" >
+                            <f:setPropertyActionListener value="#{venda.id}" target="#{vendaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{venda}" />
+                        </p:commandButton>
+                    </x:securityArea>      
+
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="venda.audit">
+                    <x:auditDelete for="#{vendaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetVendaDetail" header="#{msg['venda.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailVenda.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

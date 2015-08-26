@@ -1,0 +1,173 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFornecedor" >
+        <x:modalMessages/>
+        <p:tabView id="tabGeral">
+            <p:tab title="#{msg['dadosGerais']}">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipo" value="* #{msg['fornecedor.tipo']}:" />
+                            <h:selectOneMenu id="tipo" value="#{fornecedorMB.entity.tipo}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoFornecedor)}" 
+                                               var="tipoFornecedor"
+                                               itemLabel="#{tipoFornecedor.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="razaoSocial" value="* #{msg['fornecedor.razaoSocial']}:" />
+                            <p:inputText id="razaoSocial" value="#{fornecedorMB.entity.razaoSocial}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeFantasia" value="#{msg['fornecedor.nomeFantasia']}:" />
+                            <p:inputText id="nomeFantasia" value="#{fornecedorMB.entity.nomeFantasia}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cnpj" value="* #{msg['fornecedor.cnpj']}:" />
+                            <x:cnpj id="cnpj" value="#{fornecedorMB.entity.cnpj}" styleClass="form-control" required="true"
+                                    requiredMessage="Cnpj é obrigatório!"/>                        
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="inscricaoEstatual" value="#{msg['fornecedor.inscricaoEstatual']}:" />
+                            <p:inputMask id="inscricaoEstatual" value="#{fornecedorMB.entity.inscricaoEstatual}" mask="99.999.999-9"  styleClass="form-control"  />
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="ativo" value="#{fornecedorMB.entity.ativo}" />
+                                    #{msg['fornecedor.ativo']}
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="observacao" value="#{msg['fornecedor.observacao']}:" />
+                            <p:inputTextarea id="observacao" value="#{fornecedorMB.entity.observacao}" maxlength="400" rows="10" styleClass="form-control"
+                                             cols="50"/>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Endereços Físicos">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="endereco" value="* #{msg['fornecedor.endereco']}:" />
+                            <p:inputText id="endereco" value="#{fornecedorMB.entity.endereco}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numero" value="#{msg['fornecedor.numero']}:" />
+                            <p:inputText id="numero" value="#{fornecedorMB.entity.numero}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="bairro" value="#{msg['fornecedor.bairro']}:" />
+                            <p:inputText id="bairro" value="#{fornecedorMB.entity.bairro}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cidade" value="* #{msg['fornecedor.cidade']}:" />
+                            <h:selectOneMenu id="cidade" value="#{fornecedorMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                               var="cidade"
+                                               itemLabel="#{cidade.nome}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cep" value="#{msg['fornecedor.cep']}:" />
+                            <p:inputMask id="cep" value="#{fornecedorMB.entity.cep}" mask="99999-999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="complemento" value="#{msg['fornecedor.complemento']}:" />
+                            <p:inputText id="complemento" value="#{fornecedorMB.entity.complemento}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoEndereco" value="#{msg['fornecedor.tipoEndereco']}:" />
+                            <h:selectOneMenu id="tipoEndereco" value="#{fornecedorMB.entity.tipoEndereco}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoEndereco)}" 
+                                               var="tipoEndereco"
+                                               itemLabel="#{tipoEndereco.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Endereços Digitais/Telefones">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="telefone" value="#{msg['fornecedor.telefone']}:" />
+                            <p:inputMask id="telefone" value="#{fornecedorMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="fax" value="#{msg['fornecedor.fax']}:" />
+                            <p:inputMask id="fax" value="#{fornecedorMB.entity.fax}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="celula1" value="#{msg['fornecedor.celula1']}:" />
+                            <p:inputMask id="celula1" value="#{fornecedorMB.entity.celula1}" mask="(99) 99999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="celular2" value="#{msg['fornecedor.celular2']}:" />
+                            <p:inputMask id="celular2" value="#{fornecedorMB.entity.celular2}" mask="(99) 99999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="whatsapp" value="#{msg['fornecedor.whatsapp']}:" />
+                            <p:inputMask id="whatsapp" value="#{fornecedorMB.entity.whatsapp}" mask="(99) 99999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="email" value="#{msg['fornecedor.email']}:" />
+                            <p:inputText id="email" value="#{fornecedorMB.entity.email}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="facebook" value="#{msg['fornecedor.facebook']}/Site:" />
+                            <p:inputText id="facebook" value="#{fornecedorMB.entity.facebook}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="contato" value="#{msg['fornecedor.contato']}:" />
+                            <p:inputText id="contato" value="#{fornecedorMB.entity.contato}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cargo" value="#{msg['fornecedor.cargo']}:" />
+                            <p:inputText id="cargo" value="#{fornecedorMB.entity.cargo}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="foneContato" value="#{msg['fornecedor.foneContato']}:" />
+                            <p:inputMask id="foneContato" value="#{fornecedorMB.entity.foneContato}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="contaNoBanco" value="#{msg['fornecedor.contaNoBanco']}:" />
+                            <p:inputText id="contaNoBanco" value="#{fornecedorMB.entity.contaNoBanco}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                    </div>
+                </div>
+            </p:tab> 
+        </p:tabView>
+
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="fornecedor.create">
+                <p:commandButton process="@form" update="@form" action="#{fornecedorMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="fornecedor.audit">
+                <x:audit for="#{fornecedorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

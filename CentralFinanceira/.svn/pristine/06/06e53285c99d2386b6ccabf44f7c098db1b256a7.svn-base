@@ -1,0 +1,149 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fatosBoletos.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFatosBoletos.xhtml" />
+        <h:form id="formListFatosBoletos">
+            <x:modalMessages/>
+
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="convenioboleto" value="#{msg['fatosBoletos.convenioboleto']}:" />
+                    <h:selectOneMenu id="convenioboleto" value="#{fatosBoletosMB.consultaFatosVO.convenio}" converter="entityConverter" styleClass="form-control" >
+                        <x:initializer/>
+                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                        <f:selectItems value="#{findAllBean.get(classMB.convenioBoleto)}" 
+                                       var="convenioBoleto"
+                                       itemLabel="#{convenioBoleto.id} - #{convenioBoleto.nome}"/>
+                    </h:selectOneMenu>
+                </div>         
+
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                    <h:outputLabel value="#{msg['fatosBoletos.posto']}:"/>
+
+                    <p:autoComplete value="#{fatosBoletosMB.consultaFatosVO.posto}" required="true" requiredMessage="O campo Posto é Obrigatório!"
+
+                                    completeMethod="#{postoMB.consultarPosto}" styleClass="uix-autocomplete" 
+
+                                    minQueryLength="3" global="false" forceSelection="true"
+
+                                    var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
+
+                        <p:column> 
+
+                            <h:outputText value="#{p.id} + - #{p.nome}"/>
+
+                        </p:column> 
+
+                    </p:autoComplete>
+
+                </div>
+
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Periodo Inicial:"/>
+                    <p:inputMask mask="99/9999" value="#{fatosBoletosMB.consultaFatosVO.periodoInicial}" styleClass="form-control" />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Periodo Final:"/>
+                    <p:inputMask mask="99/9999" value="#{fatosBoletosMB.consultaFatosVO.periodoFinal}" styleClass="form-control" />
+                </div>
+
+            </div>
+
+
+            <div class="text-center">
+                <p:commandButton value="Gerar" action="#{fatosBoletosMB.consultarFatos}" 
+                                 ajax="false" >
+                    <x:download/>
+                </p:commandButton>
+            </div>
+
+            <ui:remove>
+
+                <x:dataTableActions fileName="fatosBoletos_export" target=":formListFatosBoletos:dataTableFatosBoletos"
+                                    widgetVar="dataTableFatosBoletosWidget"  />
+
+                <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                             var="fatosBoletos" rowIndexVar="index" id="dataTableFatosBoletos"
+                             widgetVar="dataTableFatosBoletosWidget" styleClass="table-responsive"
+                             value="#{fatosBoletosMB.fatos}">
+
+
+                    <p:column styleClass="uix-datatable-index">
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['fatosBoletos.ano']}" sortBy="#{fatosBoletos.ano}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fatosBoletos.ano']}" />
+                        </f:facet>
+                        <h:outputText value="#{fatosBoletos.ano}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['fatosBoletos.mes']}" sortBy="#{fatosBoletos.mes}"  >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fatosBoletos.mes']}" />
+                        </f:facet>
+                        <h:outputText value="#{fatosBoletos.mes}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['fatosBoletos.qtd']}" sortBy="#{fatosBoletos.qtd}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fatosBoletos.qtd']}" />
+                        </f:facet>
+                        <h:outputText value="#{fatosBoletos.qtd}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['fatosBoletos.arrecadado']}" sortBy="#{fatosBoletos.arrecadado}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fatosBoletos.arrecadado']}" />
+                        </f:facet>
+                        <h:outputText value="#{fatosBoletos.arrecadado}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['fatosBoletos.unitarioconvenio']}" sortBy="#{fatosBoletos.unitarioconvenio}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fatosBoletos.unitarioconvenio']}" />
+                        </f:facet>
+                        <h:outputText value="#{fatosBoletos.unitarioconvenio}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['fatosBoletos.unitarioposto']}" sortBy="#{fatosBoletos.unitarioposto}"
+                              style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fatosBoletos.unitarioposto']}" />
+                        </f:facet>
+                        <h:outputText value="#{fatosBoletos.unitarioposto}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['fatosBoletos.posto']}" sortBy="#{fatosBoletos.posto}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fatosBoletos.posto']}" />
+                        </f:facet>
+                        <h:outputText value="#{fatosBoletos.posto}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msg['fatosBoletos.convenioboleto']}" sortBy="#{fatosBoletos.convenioboleto}"
+                              >
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['fatosBoletos.convenioboleto']}" />
+                        </f:facet>
+                        <h:outputText value="#{fatosBoletos.convenioboleto}">
+                            <x:initializer/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </ui:remove>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,590 @@
+
+business.usuarioOuSenhaInvalidos=Usu\u00e1rio ou senha inv\u00e1lidos
+business.usuarioInativo=Usu\u00e1rio Inativo
+business.usuarioNaoEncontradoComEmail=Usu\u00e1rio n\u00e3o encontrado com esse email
+business.modeloEmailNaoCadastrado=Modelo para o email "{0}" n\u00e3o cadastrado
+business.emailInvalido=Email Inv\u00e1lido
+business.senhaNaoConfere=Senha n\u00e3o Confere com a Confirma\u00e7\u00e3o
+business.nenhumParametroCadastrado=Nenhum Par\u00e2metro Cadastrado
+business.dataInicialMaiorQueFinal=Data inicial n\u00e3o pode ser maior que Data Final
+business.arquivomuitogrande=O arquivo exportado \u00e9 muito grande!
+business.existedoiscontratosativos=N\u00e3o pode existir dois contratos ativo para o mesmo Loja!
+
+required.email=Email \u00e9 Obrigat\u00f3rio
+required.usuario=Usu\u00e1rio \u00e9 Obrigat\u00f3rio
+required.password=Senha \u00e9 Obrigat\u00f3rio
+required.senha=Senha \u00e9 Obrigat\u00f3rio
+required.confirmacaoSenha=Confirma\u00e7\u00e3o da Senha \u00e9 Obrigat\u00f3rio
+required.senhaAtual=Senha Atual \u00e9 Obrigat\u00f3rio
+
+atalhos=Atalhos
+entrar=Entrar
+alterarSenha=Alterar Senha
+ultimosAcessos=\u00daltimos Acessos
+data=Data
+dataInicio=Data In\u00edcio
+dataFinal=Data Final
+periodo=Per\u00edodo
+periodoDeCadastro=Per\u00edodo de Cadastro
+periodoDeVencimento=Per\u00edodo de Vencimento
+periodoDePagamento=Per\u00edodo de Pagamento
+voltar=Voltar
+bemVindo=Bem Vindo
+paginaInicial=P\u00e1gina Inicial
+sistema=Sistema
+sair=Sair
+home=Home
+item=Item
+email=Email
+traducoes=Tradu\u00e7oes
+dadosGerais=Dados Gerais
+nenhumRegistro=Nenhum registro encontrado
+
+detalhar=Detalhar
+editar=Editar
+excluir=Excluir
+visualizar=Visualizar
+adicionar=Adicionar
+alterar=Alterar
+consultar=Consultar
+pesquisar=Pesquisar
+status=Status
+
+anexarArquivo=Anexar Arquivo
+cliqueParaAnexar=Clique para anexar
+tipoArquivoInvalido=Tipo de arquivo inv\u00e1lido
+arquivoMuitoGrande=Arquivo muito grande
+download=Download
+imprimir=Imprimir
+cliqueAnexar=Clique anexar
+cliqueNaDescricaoParaAlterar=Clique na descri\u00e7\u00e3o para alterar
+cliqueAqui=Clique aqui para inserir uma descri\u00e7\u00e3o
+erroInesperadoComProtocolo=Um erro inesperado aconteceu. Seu erro foi registrado, informe o seguinte c\u00f3digo para a equipe t\u00e9cnica: {0}.
+ate=At\u00e9
+
+cancelar=Cancelar
+enviar=Enviar
+selecionar=Selecionar
+todos=Todos
+nenhum=Nenhum
+filtros=Filtros
+fechar=Fechar
+
+informeUmaSenha=Informe uma senha
+fraca=Fraca
+boa=Boa
+muitoBoa=Muito Boa
+login=Login
+senha=Senha
+entrar=Entrar
+hora=Hora
+
+dadosGerais=Dados Gerais
+acessosDoPerfil=Acessos do Perfil
+senhaPadrao=Senha Padr\u00e3o
+
+
+
+#AcessoSistema
+acessoSistema=Acessos do Sistema
+acessoSistema.list=Consulta de Acessos do Sistema
+acessoSistema.detail=Acessos do Sistema - Detalhamento
+
+acessoSistema.id=Id
+acessoSistema.dataHora=Data hora
+acessoSistema.ip=Ip
+acessoSistema.userAgent=Navagador/Sistema Operacional
+acessoSistema.usuario=Usuario
+
+#ErroSistema
+erroSistema=Erro sistema
+erroSistema.create=Cadastro de Erro sistema
+erroSistema.list=Consulta de Erro sistema
+erroSistema.detail=Erro sistema - Detalhamento
+
+erroSistema.id=Id
+erroSistema.data=Data
+erroSistema.informacaoNavegador=Informa\u00e7\u00e3o do Navegador
+erroSistema.pilhaErro=Pilha erro
+erroSistema.funcionalidade=Funcionalidade
+erroSistema.url=Url
+erroSistema.usuario=Usu\u00e1rio
+
+#Perfil
+perfil=Perfil
+perfil.create=Cadastro de Perfil
+perfil.list=Consulta de Perfil
+perfil.detail=Perfil - Detalhamento
+
+perfil.id=Id
+perfil.descricao=Descri\u00e7\u00e3o
+perfil.ativo=Ativo
+perfil.permissoes=Permissoes
+perfil.usuarios=Usu\u00e1rios
+
+#Permissao
+permissao=Permiss\u00e3o
+permissao.create=Cadastro de Permiss\u00e3o
+permissao.list=Consulta de Permiss\u00e3o
+permissao.detail=Permiss\u00e3o - Detalhamento
+
+permissao.id=Id
+permissao.descricao=Descric\u00e3o
+permissao.key=Chave
+permissao.url=URL
+permissao.urlMenu=URL do Menu
+permissao.nomeMenu=Nome do Menu
+permissao.possuiMenu=Possui Menu
+permissao.permissaoPai=Permiss\u00e3o pai
+permissao.permissoesFilhas=Permiss\u00f5es filhas
+permissao.marcado=Marcado
+permissao.dadosMenu=Dados Menu
+permissao.urlMenuInfo=Caso seja marcado "Possui menu" e este campo n\u00e3o for informado por padr\u00e3o a URL do menu ser\u00e1 o campo "URL"
+permissao.nomeMenuInfo=Caso seja marcado "Possui menu" e este campo n\u00e3o for informado por padr\u00e3o a Nome a ser exibido do menu ser\u00e1 o campo "Descri\u00e7\u00e3o"
+permissao.global=Global
+permissao.globalInfo=Indica se esta permiss\u00e3o ser\u00e1 para todos os usu\u00e1rios
+permissao.perfis=Perfis com acesso a essa Permiss\u00e3o
+permissao.verNaTabela=Visualizar na Tabela
+permissao.verNaArvore=Visualizar Hierarquia
+permissao.icone=\u00cdcone
+perfil.permissoesMenu=Atalhos da P\u00e1gina Inicial
+
+#Usuario
+usuario=Usu\u00e1rio
+usuario.create=Cadastro de Usu\u00e1rio
+usuario.list=Consulta de Usu\u00e1rio
+usuario.detail=Usu\u00e1rio - Detalhamento
+usuario.alterarSenha=Alterar Senha
+usuario.confirmaResetarSenha=Confirma Resetar a Senha
+
+usuario.dadosAcesso=Dados Acesso
+usuario.perfisAcesso=Perfis de Acesso
+usuario.id=Id
+usuario.nome=Nome
+usuario.cpf=CPF
+usuario.userLogin=Login
+usuario.userPassword=Senha
+usuario.perfis=Perfis
+usuario.active=Ativo
+usuario.superUsuario=Super Usu\u00e1rio
+usuario.email=Email
+usuario.resetarSenha=Resetar Senha
+usuario.novaSenha=Nova Senha
+usuario.senhaAtual=Senha Atual
+usuario.senhaConfirmacao=Confirma\u00e7\u00e3o da Senha
+usuario.senhaPadrao=Senha padr\u00e3o do sistema
+usuario.matricula=Matr\u00edcula
+usuario.situacaoUsuario=Situa\u00e7\u00e3o
+usuario.rg=RG
+usuario.historicosSituacao=Hist\u00f3rico de Situa\u00e7\u00f5es
+usuario.emailCadastroEnviado=Email de Cadastro Enviado
+usuario.senhaCadastrada=Senha Cadastrada
+usuario.receberEmail=Receber Email
+
+historicoSituacaoUsuario.dataSituacao=Data da Situa\u00e7\u00e3o
+historicoSituacaoUsuario.situacaoUsuario=Situa\u00e7\u00e3o
+historicoSituacaoUsuario.usuarioAlteracao=Usu\u00e1rio que realizou
+
+situacaoUsuario.ativo=Ativo
+situacaoUsuario.inativo=Inativo
+situacaoUsuario.ferias=F\u00e9rias
+situacaoUsuario.viagem=Viagem
+
+#Endereco
+endereco=Endereco
+endereco.create=Cadastro de Endereco
+endereco.list=Consulta de Endereco
+endereco.detail=Endereco - Detalhamento
+
+endereco.id=Id
+endereco.logradouro=Logradouro
+endereco.bairro=Bairro
+endereco.cep=Cep
+endereco.telefone=Telefone
+endereco.celular=Celular
+endereco.numero=Numero
+endereco.complemento=Complemento
+endereco.municipio=Munic\u00edpio
+
+menu.home=Inicial
+menu.sair=Sair
+
+#ConfiguracaoEmail
+configuracaoEmail=Configura\u00e7\u00e3o de Email
+configuracaoEmail.create=Cadastro de Configura\u00e7\u00e3o de Email
+configuracaoEmail.list=Consulta de Configura\u00e7\u00e3o de Email
+configuracaoEmail.detail=Configura\u00e7\u00e3o de Email - Detalhamento
+
+configuracaoEmail.id=Id
+configuracaoEmail.email=Email
+configuracaoEmail.senha=Senha
+configuracaoEmail.smptPort=SMPT port
+configuracaoEmail.tls=TLS
+configuracaoEmail.ssl=SSL
+configuracaoEmail.hostName=Host Name
+configuracaoEmail.nome=Nome
+configuracaoEmail.testarEnvio=Testar Envio
+configuracaoEmail.para=Para
+configuracaoEmail.mensagem=Mensagem
+
+#ModeloEmail
+modeloEmail=Modelo de Email
+modeloEmail.create=Cadastro de Modelo de Email
+modeloEmail.list=Consulta de Modelo de Email
+modeloEmail.detail=Modelo de Email - Detalhamento
+
+modeloEmail.id=Id
+modeloEmail.layout=Layout
+modeloEmail.assunto=Assunto
+modeloEmail.tipoAssuntoEmail=Tipo Assunto Email
+modeloEmail.configuracaoEmail=Configura\u00e7\u00e3o Email
+
+#SolicitacaoRecuperacaoSenha
+solicitacaoRecuperacaoSenha=Solicitac\u00e3o de Recupera\u00e7\u00e3o de Senha
+solicitacaoRecuperacaoSenha.create=Recupera\u00e7\u00e3o de Senha
+solicitacaoRecuperacaoSenha.list=Consulta de Solicita\u00e7\u00e3o Recupera\u00e7\u00e3o de Senha
+solicitacaoRecuperacaoSenha.detail=Solicita\u00e7\u00e3o Recupera\u00e7\u00e3o de Senha - Detalhamento
+
+solicitacaoRecuperacaoSenha.id=Id
+solicitacaoRecuperacaoSenha.email=Email
+solicitacaoRecuperacaoSenha.token=Token
+solicitacaoRecuperacaoSenha.ativo=Ativo
+solicitacaoRecuperacaoSenha.dataCadastro=Data de Cadastro
+solicitacaoRecuperacaoSenha.dataValidade=Data Validade
+solicitacaoRecuperacaoSenha.dataAlteracaoSenha=Data de Altera\u00e7\u00e3o da Senha
+solicitacaoRecuperacaoSenha.usuario=Usu\u00e1rio
+solicitacaoRecuperacaoSenha.instrucoesEnviadas=As instru\u00e7\u00f5es de recupera\u00e7\u00e3o de senha foram enviadas para seu email.
+solicitacaoRecuperacaoSenha.recuperacaoSenha=Recupera\u00e7\u00e3o de Senha
+solicitacaoRecuperacaoSenha.informeSeuEmail=Informe seu Email
+solicitacaoRecuperacaoSenha.esqueciMinhaSenha=Esqueci Minha Senha
+solicitacaoRecuperacaoSenha.solicitacaoNovaSenha=Solicita\u00e7\u00e3o de Nova Senha
+solicitacaoRecuperacaoSenha.informeNovaSenha=Informe abaixo a nova senha
+solicitacaoRecuperacaoSenha.invalidaOuExpirada=Solicita\u00e7\u00e3o de recupera\u00e7\u00e3o de senha inv\u00e1lida ou expirada
+solicitacaoRecuperacaoSenha.senhaAlteradaSucesso=Senha alterada com sucesso. Fa\u00e7a login no sistema utilizando a nova senha.
+solicitacaoRecuperacaoSenha.informeAbaixoSeuEmailParaInstrucoes=Informe abaixo seu email para receber as instru\u00e7\u00f5es de recupera\u00e7\u00e3o de senha
+solicitacaoRecuperacaoSenha.cadastroComSucessoSenhaNaoEnviada=Cadastro realizado com sucesso, mas aconteceu erro ao enviar o email para {0}. Detalhe: {1}
+solicitacaoRecuperacaoSenha.enviarEmailRecuperacaoSenha=Enviar email Recupera\u00e7\u00e3o Senha
+solicitacaoRecuperacaoSenha.confirmaEnviarEmailRecuperacaoSenha=Confirma o envio de email para recupera\u00e7\u00e3o de senha?
+solicitacaoRecuperacaoSenha.emailCadastroEnviado=Um email foi enviado para {0} para a finaliza\u00e7\u00e3o do cadastro
+solicitacaoRecuperacaoSenha.tipoRecuperacaoSenha=Tipo
+
+
+
+#PessoaExemplo
+pessoaExemplo=Pessoa
+pessoaExemplo.create=Cadastro de Pessoa
+pessoaExemplo.list=Consulta de Pessoa
+pessoaExemplo.detail=Pessoa - Detalhamento
+
+pessoaExemplo.id=Id
+pessoaExemplo.nome=Nome
+pessoaExemplo.email=Email
+pessoaExemplo.salary=Sal\u00e1rio
+pessoaExemplo.dataNascimento=Data Nascimento
+pessoaExemplo.horario=Hor\u00e1rio
+pessoaExemplo.rg=Rg
+pessoaExemplo.active=Ativo
+
+#ConvenioBoleto
+convenioBoleto=Conv\u00eanio Boleto
+convenioBoleto.create=Cadastro de Conv\u00eanio Boleto
+convenioBoleto.list=Consulta de Conv\u00eanio Boleto
+convenioBoleto.detail=Conv\u00eanio Boleto - Detalhamento
+
+convenioBoleto.id=C\u00f3digo
+convenioBoleto.tipofloat=Tipo de Float
+convenioBoleto.nome=Nome
+convenioBoleto.retemcomissao=Ret\u00e9m Comissao
+convenioBoleto.tarifa=Tarifa
+convenioBoleto.diasfloat=Dias Float
+convenioBoleto.iss=Iss
+convenioBoleto.ativo=Ativo
+
+#TipoFloat
+tipoFloat=Tipo de Float
+tipoFloat.create=Cadastro de Tipo Float
+tipoFloat.list=Consulta de Tipo Float
+tipoFloat.detail=Tipo Float - Detalhamento
+
+tipoFloat.id=Id
+tipoFloat.descricao=Descri\u00e7\u00e3o
+tipoFloat.sigla=Sigla
+tipoFloat.convenioboleto=Conv\u00eanios
+
+#Loja
+loja=Loja
+loja.create=Cadastro de Loja
+loja.list=Consulta de Loja
+loja.detail=Loja - Detalhamento
+
+loja.id=C\u00f3digo
+loja.nome=Nome
+loja.razaosocial=Raz\u00e3o Social
+loja.cnpj=CNPJ
+loja.cidade=Cidade
+loja.segmento=Segmento
+loja.endereco=Endere\u00e7o
+loja.bairro=Bairro
+loja.cep=CEP
+loja.ativo=Ativo
+
+#Cidade
+cidade=Cidade
+cidade.create=Cadastro de Cidade
+cidade.list=Consulta de Cidade
+cidade.detail=Cidade - Detalhamento
+
+cidade.id=Id
+cidade.nome=Nome
+cidade.codigoibge=C\u00f3digo IBGE
+cidade.uf=UF
+cidade.loja=Loja
+
+#FatosBoletos
+fatosBoletos=Boletos
+fatosBoletos.create=Cadastro de Boletos
+fatosBoletos.list=Consulta de Boletos
+fatosBoletos.listComissaoConvenio=Comiss\u00e3o Conv\u00eanio
+fatosBoletos.listComissaoLoja=Comiss\u00e3o Loja
+fatosBoletos.listConvenio=Consulta de Boletos
+fatosBoletos.detail=Boletos - Detalhamento
+fatosBoletos.editar=Editar Conv\u00eanio
+
+fatosBoletos.id=Id
+fatosBoletos.qtd=Qtd
+fatosBoletos.periodo=Per\u00edodo
+fatosBoletos.arrecadado=Valor Arrec.
+fatosBoletos.unitarioconvenio=Unit. Conv.
+fatosBoletos.unitarioloja=Unit. Loja
+fatosBoletos.unitarioliquido=Unit. Liq.
+fatosBoletos.loja=Loja
+fatosBoletos.convenioboleto=Conv\u00eanio
+
+fatosBoletos.qtdCreate=Quantidade
+fatosBoletos.periodoCreate=Per\u00edodo
+fatosBoletos.arrecadadoCreate=Valor Arrecadado
+fatosBoletos.unitarioconvenioCreate=Unit\u00e1rio Conv\u00eanio
+fatosBoletos.unitariolojaCreate=Unit\u00e1rio Loja
+fatosBoletos.unitarioliquidoCreate=Unit\u00e1rio Liquido
+fatosBoletos.comissaoConvenio = Comiss\u00e3o Conv\u00eanio
+fatosBoletos.comissaoLoja = Comiss\u00e3o Loja
+fatosBoletos.comissaoLiquida = Comiss\u00e3o L\u00edquida
+
+#FatosBoletosSite
+fatosBoletoSite=Boletos Site
+fatosBoletoSite.create=Cadastro de Boletos Site
+fatosBoletoSite.list=Consulta de Boletos Site
+fatosBoletoSite.detail=Boletos Site - Detalhamento
+
+fatosBoletoSite.id=Id
+fatosBoletoSite.qtd=Qtd
+fatosBoletoSite.periodo=Periodo
+fatosBoletoSite.arrecadado=Arrecadado
+fatosBoletoSite.loja=Loja
+fatosBoletoSite.convenioboleto=Conv\u00eanio
+fatosBoletoSite.unitarioconvenio=Unit. Conv.
+fatosBoletoSite.unitarioloja=Unit. Loja
+fatosBoletoSite.unitarioliquido=Unit. Liq.
+fatosBoletoSite.comissaoConvenio = Comiss\u00e3o Conv\u00eanio
+fatosBoletoSite.comissaoLoja = Comiss\u00e3o Loja
+fatosBoletoSite.comissaoLiquida = Comiss\u00e3o L\u00edquida
+
+#EnviarEmailContrato
+enviarEmailContrato=Enviar Email Contrato
+enviarEmailContrato.create=Cadastro de Enviar Email Contrato
+enviarEmailContrato.list=Consulta de Enviar Email Contrato
+enviarEmailContrato.detail=Enviar Email Contrato - Detalhamento
+
+enviarEmailContrato.id=Id
+enviarEmailContrato.msm=Msm
+enviarEmailContrato.usuarios=Usuarios
+enviarEmailContrato.contratos=Contratos
+
+#ConvenioSite
+convenioSite=Convenio Site
+convenioSite.create=Cadastro de Conv\u00eanio Site
+convenioSite.list=Consulta de Conv\u00eanio Site
+convenioSite.detail=Conv\u00eanio Site - Detalhamento
+
+convenioSite.id=C\u00f3digo
+convenioSite.tipofloat=Tipofloat
+convenioSite.nome=Nome
+convenioSite.retemcomissao=Retem Comiss\u00e3o
+convenioSite.tarifa=Tarifa
+convenioSite.diasfloat=Dias
+convenioSite.iss=Iss
+convenioSite.ativo=Ativo
+convenioSite.fatosboletos=Fatos Boletos
+
+#Conveniop
+conveniop=Conv\u00eanio
+conveniop.create=Cadastro de Conv\u00eanio OP
+conveniop.list=Consulta de Conv\u00eanio OP
+conveniop.detail=Conv\u00eanio OP - Detalhamento
+
+conveniop.id=Id
+conveniop.nome=Nome
+conveniop.tarifa=Tarifa
+conveniop.iss=Iss
+conveniop.fatosops=Ordem de Pagamento
+
+
+#Fatosops
+fatosops=Ordem de Pagamento
+fatosops.create=Cadastro de Ordem de Pagamento
+fatosops.list=Consulta de Ordem de Pagamento
+fatosops.detail=Ordem de Pagamento - Detalhamento
+
+fatosops.id=Id
+fatosops.qtd=Qtd
+fatosops.periodo=Per\u00edodo
+fatosops.arrecadado=Arrecadado
+fatosops.unitariop=Unit. OP
+fatosops.unitarioloja=Unit. Loja
+fatosops.loja=Loja
+fatosops.conveniop=Conv\u00eanio OP
+fatosops.unitarioliquido=Unit. Liq.
+fatosops.comissaoConvenio = Comiss\u00e3o Conv\u00eanio
+fatosops.comissaoLoja = Comiss\u00e3o Loja
+fatosops.comissaoLiquida = Comiss\u00e3o L\u00edquida
+
+#FatosCreditos
+fatosCreditos=Cr\u00e9ditos Digitais
+fatosCreditos.create=Cadastro de Cr\u00e9ditos Digitais
+fatosCreditos.list=Consulta de Cr\u00e9ditos Digitais
+fatosCreditos.detail=Cr\u00e9ditos Digitais - Detalhamento
+
+fatosCreditos.id=Id
+fatosCreditos.qtd=Qtd
+fatosCreditos.periodo=Per\u00edodo
+fatosCreditos.arrecadado=Arrecadado
+fatosCreditos.unitarioconvenio=Unit. Conv\u00eanio
+fatosCreditos.unitarioloja=Unit. Loja
+fatosCreditos.loja=Loja
+fatosCreditos.credigivalor=Credigivalor
+
+
+#Conveniocredigi
+conveniocredigi=Conv\u00eanio Cr\u00e9dito Digitais
+conveniocredigi.create=Cadastro de Conv\u00eanio Cr\u00e9dito Digitais
+conveniocredigi.list=Consulta de Conv\u00eanio Cr\u00e9dito Digitais
+conveniocredigi.detail=Conv\u00eanio Cr\u00e9dito Digitais - Detalhamento
+
+conveniocredigi.id=Id
+conveniocredigi.nome=Nome
+conveniocredigi.credigivalor=Credigivalor
+
+
+#Credigivalor
+credigivalor=Conv\u00eanio Cr\u00e9dito Digitais Valor
+credigivalor.create=Cadastro de Conv\u00eanio Cr\u00e9dito Digitais Valor
+credigivalor.list=Consulta de Conv\u00eanio Cr\u00e9dito Digitais Valor
+credigivalor.detail=Conv\u00eanio Cr\u00e9dito Digitais Valor - Detalhamento
+
+credigivalor.id=Id
+credigivalor.conveniocredigi=Conv\u00eanio Cr\u00e9dito Digitais
+credigivalor.unitario=Unit\u00e1rio
+credigivalor.comissao=Comiss\u00e3o
+credigivalor.fatosCreditos=Cr\u00e9dito Digitais
+
+
+#FatosValeGas
+fatosValeGas=Vale G\u00e1s
+fatosValeGas.create=Cadastro de Vale G\u00e1s
+fatosValeGas.list=Consulta de Vale G\u00e1s
+fatosValeGas.detail=Vale G\u00e1s - Detalhamento
+
+fatosValeGas.id=Id
+fatosValeGas.qtd=Qtd
+fatosValeGas.periodo=Per\u00edodo
+fatosValeGas.arrecadado=Arrecadado
+fatosValeGas.unitarioconvenio=Unit. Conv\u00eanio
+fatosValeGas.unitarioloja=Unit. Loja
+fatosValeGas.loja=Loja
+fatosValeGas.conveniogas=Conv\u00eanio Vale G\u00e1s
+
+
+#ConvenioGas
+convenioGas=Conv\u00eanio Vale G\u00e1s
+convenioGas.create=Cadastro de Conv\u00eanio Vale G\u00e1s
+convenioGas.list=Consulta de Conv\u00eanio Vale G\u00e1s
+convenioGas.detail=Conv\u00eanio Vale G\u00e1s - Detalhamento
+
+convenioGas.id=Id
+convenioGas.nome=Nome
+convenioGas.tarifa=Tarifa
+convenioGas.fatosboletos=Fatosboletos
+
+
+#ConvenioRecarga
+convenioRecarga=Convenio Recarga Online
+convenioRecarga.create=Cadastro de Convenio Recarga Online
+convenioRecarga.list=Consulta de Conv\u00eanio Recarga Online
+convenioRecarga.detail=Conv\u00eanio Recarga Online - Detalhamento
+convenioRecarga.id=Id
+convenioRecarga.nome=Nome
+convenioRecarga.tarifa=Tarifa
+convenioRecarga.fatosboletos=Fatosboletos
+
+#FatosRecarga
+fatosRecarga=Recarga Online
+fatosRecarga.create=Cadastro de Recarga Online
+fatosRecarga.list=Consulta de Recarga Online
+fatosRecarga.detail=Recarga Online - Detalhamento
+fatosRecarga.id=Id
+fatosRecarga.qtd=Qtd
+fatosRecarga.periodo=Periodo
+fatosRecarga.arrecadado=Arrecadado
+fatosRecarga.unitarioconvenio=Unitarioconvenio
+fatosRecarga.unitarioloja=Unitarioloja
+fatosRecarga.loja=Loja
+fatosRecarga.conveniorecarga=Conveniorecarga
+
+
+#Fatosbb
+fatosbb=Boleto Banco do Brasil
+fatosbb.create=Cadastro do Boleto Banco do Brasil
+fatosbb.list=Consulta de Boleto Banco do Brasil
+fatosbb.detail=Boleto Banco do Brasil - Detalhamento
+fatosbb.id=Id
+fatosbb.periodo=Periodo
+fatosbb.loja=Loja
+fatosbb.convenioboleto=Convenioboleto
+fatosbb.qtd=Qtd
+fatosbb.arrecadado=Arrecadado
+fatosbb.unitarioconvenio=Unitarioconvenio
+fatosbb.unitarioloja=Unitarioloja
+fatosbb.comissao_sn_ph=Comissao Sn Ph
+
+#Conveniobb
+conveniobb=Conv\u00eanio Banco do Brasil
+conveniobb.create=Cadastro de Conv\u00eanio Banco do Brasil
+conveniobb.list=Consulta de Conv\u00eanio Banco do Brasil
+conveniobb.detail=Conv\u00eanio Banco do Brasil - Detalhamento
+conveniobb.id=Id
+conveniobb.nome=Nome
+conveniobb.fatosboletos=Fatosboletos
+
+
+#ConvenioBanPop
+convenioBanPop=Conv\u00eanio Banco Popular
+convenioBanPop.create=Cadastro de Conv\u00eanio Banco Popular
+convenioBanPop.list=Consulta de Conv\u00eanio Banco Popular
+convenioBanPop.detail=Conv\u00eanio Banco Popular - Detalhamento
+convenioBanPop.id=Id
+convenioBanPop.nome=Nome
+convenioBanPop.fatosboletos=Fatosboletos
+
+#FatosBanPop
+fatosBanPop=Banco Popular
+fatosBanPop.create=Cadastro de Banco Popular
+fatosBanPop.list=Consulta de Banco Popular
+fatosBanPop.detail=Banco Popular - Detalhamento
+fatosBanPop.id=Id
+fatosBanPop.qtd=Qtd
+fatosBanPop.periodo=Periodo
+fatosBanPop.arrecadado=Arrecadado
+fatosBanPop.unitarioconvenio=Unitarioconvenio
+fatosBanPop.unitarioloja=Unitarioloja
+fatosBanPop.loja=Loja
+fatosBanPop.conveniobanpop=Conveniobanpop

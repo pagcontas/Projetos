@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['tipoFloat.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTipoFloat.xhtml" />
+        <h:form id="formListTipoFloat">
+            <x:modalMessages/>
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="tipoFloat" rowIndexVar="index" id="dataTableTipoFloat" widgetVar="dataTableTipoFloatWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{tipoFloatMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{tipoFloatMB.dataModel.paginatorTemplate}"
+                         value="#{tipoFloatMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <p:commandButton onclick="dataTableTipoFloatWidget.filter()" type="button" icon="ui-icon-refresh" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['tipoFloat.descricao']}" sortBy="#{tipoFloat.descricao}"
+                          filterBy="#{tipoFloat.descricao}"   >
+                        <h:outputText value="#{tipoFloat.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['tipoFloat.sigla']}" sortBy="#{tipoFloat.sigla}"
+                          filterBy="#{tipoFloat.sigla}"   >
+                        <h:outputText value="#{tipoFloat.sigla}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                         <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetTipoFloatDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTipoFloat" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{tipoFloat}" target="#{tipoFloatMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="tipoFloat.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTipoFloat" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{tipoFloat.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="tipoFloat.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{tipoFloatMB.delete}" >
+                            <f:setPropertyActionListener value="#{tipoFloat.id}" target="#{tipoFloatMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{tipoFloat}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+                <f:facet name="footer">
+                    <x:securityArea rolesAllowed="tipoFloat.audit">
+                        <x:auditDelete for="#{tipoFloatMB.entityClass}"/>
+                    </x:securityArea>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog widgetVar="widgetTipoFloatDetail" header="#{msg['tipoFloat.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailTipoFloat.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

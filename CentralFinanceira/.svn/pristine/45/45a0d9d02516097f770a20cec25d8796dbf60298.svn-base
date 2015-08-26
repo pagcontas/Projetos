@@ -1,0 +1,190 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.FatosBoletosBO;
+import br.com.jsoft.centralfinanceira.modelo.central.Cidade;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+import br.com.jsoft.centralfinanceira.modelo.central.Loja;
+import br.com.jsoft.centralfinanceira.modelo.enums.CidadeOuLoja;
+import br.com.jsoft.centralfinanceira.vo.GraficoHistoricoArrecadacaoVO;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LegendPlacement;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class GraficosMB extends AbstractBaseBean<FatosBoletos> implements Serializable {
+
+    private LineChartModel dateModel;
+
+    private List<GraficoHistoricoArrecadacaoVO> lista;
+
+    List<Cidade> cidades = new ArrayList<Cidade>();
+
+    private Cidade cidade;
+
+    private Loja loja;
+
+    @EJB
+    private FatosBoletosBO fatosBoletosBO;
+
+    @Override
+    public void init() {
+        cidade = new Cidade();
+        loja = new Loja();
+        dateModel = new LineChartModel();
+    }
+
+    @Override
+    public FatosBoletosBO getBO() {
+        return fatosBoletosBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    public void gerarGrafico() {
+        dateModel = new LineChartModel();
+        lista = fatosBoletosBO.listaHistoricoArrecadacao(loja != null ? loja.getId() : null, cidade != null ? cidade.getId() : null, null, null);
+        createDateModel();
+    }
+
+    public LineChartModel getDateModel() {
+        return dateModel;
+    }
+
+    private void createDateModel() {
+
+        LineChartSeries series1 = new LineChartSeries();
+        series1.setLabel("Boletos");
+
+        LineChartSeries series2 = new LineChartSeries();
+        series2.setLabel("Boletos Site");
+
+        LineChartSeries series3 = new LineChartSeries();
+        series3.setLabel("Crédito Celular");
+
+        LineChartSeries series4 = new LineChartSeries();
+        series4.setLabel("Recarga Celular");
+
+        LineChartSeries series5 = new LineChartSeries();
+        series5.setLabel("Ordem de Pagamento");
+
+        LineChartSeries series6 = new LineChartSeries();
+        series6.setLabel("Vale Gás");
+
+        LineChartSeries series7 = new LineChartSeries();
+        series7.setLabel("Banco do Brasil");
+
+        LineChartSeries series8 = new LineChartSeries();
+        series8.setLabel("Banco Popular");
+
+        for (GraficoHistoricoArrecadacaoVO lista1 : lista) {
+            series1.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getBoletos());
+            series2.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getSite());
+            series3.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getCreditos());
+            series4.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getRecargas());
+            series5.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getOps());
+            series6.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getValegas());
+            series7.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getBb());
+            series8.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getBp());
+
+        }
+
+        dateModel.addSeries(series1);
+        dateModel.addSeries(series2);
+        dateModel.addSeries(series3);
+        dateModel.addSeries(series4);
+        dateModel.addSeries(series5);
+        dateModel.addSeries(series6);
+        dateModel.addSeries(series7);
+        dateModel.addSeries(series8);
+
+        String titulo = "Gráfico Rentabilidade de todas as Lojas";
+
+        if (loja != null) {
+            titulo = "Gráfico Rentabilidade da Loja "+ loja.getRazaosocial();
+        }
+        if (cidade != null && loja == null) {
+            titulo = "Gráfico Rentabilidade da Cidade de "+ cidade.getNome();
+        }
+
+        dateModel.setTitle(titulo);
+        dateModel.setZoom(true);
+        dateModel.setLegendPosition("e");
+        dateModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+        dateModel.setAnimate(true);
+        
+        DateAxis xAxis = new DateAxis("Período");
+        DateAxis yAxis = new DateAxis("Valores");
+        xAxis.setTickAngle(-50);
+        xAxis.setMin("2006-01-01");
+        //xAxis.setMax(convertInteiroParaData(Integer.valueOf(dataEmPeriodo(new Date()))));
+        xAxis.setTickFormat("%b, %y");
+
+        dateModel.getAxes().put(AxisType.X, xAxis);
+    }
+
+    private String convertInteiroParaData(int num) {
+        String data = String.valueOf(num);
+
+        StringBuilder stringBuilder = new StringBuilder(data);
+
+        return stringBuilder.insert(stringBuilder.length() - 2, "-").toString()+"-01";
+    }
+
+    public Cidade getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(Cidade cidade) {
+        this.cidade = cidade;
+    }
+
+    public Loja getLoja() {
+        return loja;
+    }
+
+    public void setLoja(Loja loja) {
+        this.loja = loja;
+    }
+
+    public List<Cidade> getCidades() {
+        return fatosBoletosBO.getCidadesComPosto();
+    }
+
+    private String dataEmPeriodo(Date data) {
+
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        int mes = calendar.get(GregorianCalendar.MONTH)+1;
+        int ano = calendar.get(GregorianCalendar.YEAR);
+
+        String periodo = String.valueOf(ano).concat(String.format("%02d", mes));
+
+        return periodo;
+    }
+    
+    public void cidadeLoja(){
+        if(loja!=null){
+            cidade = loja.getCidade();
+        }
+    }
+
+}

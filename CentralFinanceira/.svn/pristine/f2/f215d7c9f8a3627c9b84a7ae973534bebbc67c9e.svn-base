@@ -1,0 +1,100 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['despesaLoja.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDespesaLoja.xhtml" />
+        <h:form id="formListDespesaLoja">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="despesaLoja_export" target=":formListDespesaLoja:dataTableDespesaLoja"
+                                     widgetVar="dataTableDespesaLojaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="despesaLoja" rowIndexVar="index" id="dataTableDespesaLoja" widgetVar="dataTableDespesaLojaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{despesaLojaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{despesaLojaMB.dataModel.paginatorTemplate}"
+                         value="#{despesaLojaMB.dataModel}" lazy="true" >
+                
+                <p:column headerText="Codigo Loja" sortBy="#{despesaLoja.loja}"
+                          filterBy="#{despesaLoja.loja.id}" style="text-align: right;" width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['despesaLoja.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{despesaLoja.loja.id}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['despesaLoja.loja']}" sortBy="#{despesaLoja.loja}"
+                      filterBy="#{despesaLoja.loja.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['despesaLoja.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{despesaLoja.loja}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['despesaLoja.tipoDespesa']}" sortBy="#{despesaLoja.tipoDespesa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['despesaLoja.tipoDespesa']}" />
+                    </f:facet>
+                    <h:outputText value="#{despesaLoja.tipoDespesa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['despesaLoja.periodo']}" sortBy="#{despesaLoja.periodo}"
+                    filterBy="#{despesaLoja.periodo}"  style="text-align: right;" width="8%" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['despesaLoja.periodo']}" />
+                    </f:facet>
+                    <h:outputText value="#{despesaLoja.periodo}" converter="periodoConverterList"/>
+                </p:column>
+                <p:column headerText="#{msg['despesaLoja.total']}" sortBy="#{despesaLoja.total}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['despesaLoja.total']}" />
+                    </f:facet>
+                    <h:outputText value="#{despesaLoja.total}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDespesaLojaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDespesaLoja" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{despesaLoja}" target="#{despesaLojaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="despesaLoja.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDespesaLoja" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{despesaLoja.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="despesaLoja.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{despesaLojaMB.delete}" >
+                            <f:setPropertyActionListener value="#{despesaLoja.id}" target="#{despesaLojaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{despesaLoja}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="despesaLoja.audit">
+                    <x:auditDelete for="#{despesaLojaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDespesaLojaDetail" header="#{msg['despesaLoja.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDespesaLoja.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

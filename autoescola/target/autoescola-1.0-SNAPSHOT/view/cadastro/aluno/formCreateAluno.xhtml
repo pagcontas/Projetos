@@ -1,0 +1,258 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateAluno" >        
+        <x:modalMessages/>
+        <p:tabView>
+            <p:tab title="#{msg['dadosGerais']}">
+
+                <div class="container-fluid">
+                    <div class="row">                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="* #{msg['aluno.nome']}:" />
+                            <p:inputText id="nome" value="#{alunoMB.entity.nome}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataNascimento" value="* #{msg['aluno.dataNascimento']}:" />
+                            <p:calendar id="dataNascimento" value="#{alunoMB.entity.dataNascimento}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="naturalidade" value="#{msg['aluno.naturalidade']}:" />
+                            <h:selectOneMenu id="naturalidade" value="#{alunoMB.entity.naturalidade}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                               var="cidade"
+                                               itemLabel="#{cidade.nome}-#{cidade.estado.sigla}"/>
+                            </h:selectOneMenu>
+                        </div>            
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="rg" value="* #{msg['aluno.rg']}:" />
+                            <p:inputText id="rg" value="#{alunoMB.entity.rg}" maxlength="30"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="OrgaoRg" value="* #{msg['aluno.OrgaoRg']}:" />
+                            <p:inputText id="OrgaoRg" value="#{alunoMB.entity.orgaoRg}" maxlength="10"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataEmissaoRg" value="* #{msg['aluno.dataEmissaoRg']} do Rg:" />
+                            <p:calendar id="dataEmissaoRg" value="#{alunoMB.entity.dataEmissaoRg}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div> 
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="sexo" value="#{msg['aluno.sexo']}:" />
+                            <h:selectOneMenu id="sexo" value="#{alunoMB.entity.sexo}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.sexo)}" 
+                                               var="sexo"
+                                               itemLabel="#{sexo.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="* #{msg['aluno.cpf']}:" />
+                            <x:cpf value="#{alunoMB.entity.cpf}" styleClass="form-control" />
+
+                        </div>                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="titulo" value="#{msg['aluno.titulo']}:" />
+                            <p:inputText id="titulo" value="#{alunoMB.entity.titulo}" maxlength="20"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="Zona" value="#{msg['aluno.Zona']}:" />
+                            <p:inputText id="Zona" value="#{alunoMB.entity.zona}" maxlength="20"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="secao" value="#{msg['aluno.secao']}:" />
+                            <p:inputText id="secao" value="#{alunoMB.entity.secao}" maxlength="20"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="grauDeEscolaridade" value="#{msg['aluno.grauDeEscolaridade']}:" />
+                            <h:selectOneMenu id="grauDeEscolaridade" value="#{alunoMB.entity.grauDeEscolaridade}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.escolaridade)}" 
+                                               var="escolaridade"
+                                               itemLabel="#{escolaridade.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="mae" value="#{msg['aluno.mae']}:" />
+                            <p:inputText id="mae" value="#{alunoMB.entity.mae}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="pai" value="#{msg['aluno.pai']}:" />
+                            <p:inputText id="pai" value="#{alunoMB.entity.pai}" maxlength="200"  styleClass="form-control"  />
+                        </div>                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="estadoCivil" value="#{msg['aluno.estadoCivil']}:" />
+                            <h:selectOneMenu id="estadoCivil" value="#{alunoMB.entity.estadoCivil}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
+                                               var="estadoCivil"
+                                               itemLabel="#{estadoCivil.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="active" value="#{alunoMB.entity.active}" />
+                                    #{msg['aluno.active']}
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Dados AutoEscola">
+                <div class="container-fluid">
+                    <div class="row">  
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numeroRenach" value="#{msg['aluno.numeroRenach']}:" />
+                            <p:inputText id="numeroRenach" value="#{alunoMB.entity.numeroRenach}" maxlength="30"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataDaMatricula" value="* #{msg['aluno.dataDaMatricula']}:" />
+                            <p:calendar id="dataDaMatricula" value="#{alunoMB.entity.dataDaMatricula}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataDoProcesso" value="Data do Processo:" />
+                            <p:calendar id="dataDoProcesso" value="#{alunoMB.entity.dataDoProcesso}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="categoria" value="#{msg['aluno.categoria']}:" />
+                            <h:selectOneMenu id="categoria" value="#{alunoMB.entity.categoria}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.categoria)}" 
+                                               var="categoria"
+                                               itemLabel="#{categoria.descricao}"/>                                
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoCNH" value="#{msg['aluno.tipoCNH']}:" />
+                            <h:selectOneMenu id="tipoCNH" value="#{alunoMB.entity.tipoCNH}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoCNH)}" 
+                                               var="tipoCNH"
+                                               itemLabel="#{tipoCNH.descricao}"/>
+
+                                               <p:ajax update="panelCampo" /> 
+                            </h:selectOneMenu>
+                        </div>
+                        <h:panelGroup id="panelCampo">
+
+
+                            <p:outputPanel rendered="#{alunoMB.entity.tipoCNH.numero !=0}">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="numeroCNH" value="#{msg['aluno.numeroCNH']}:"/>
+                                    <p:inputText id="numeroCNH" value="#{alunoMB.entity.numeroCNH}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+
+
+
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="validadeCNH" value="#{msg['aluno.validadeCNH']}:" />
+                                    <p:calendar id="validadeCNH" value="#{alunoMB.entity.validadeCNH}" 
+                                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                        <x:mask/>
+                                    </p:calendar>
+                                </div>
+                            </p:outputPanel> 
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </p:tab> 
+            <p:tab title="Endereço Físico">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="endereco" value="* Avenida/Rua:" />
+                            <p:inputText id="endereco" value="#{alunoMB.entity.endereco}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numeroEndereco" value="#{msg['endereco.numero']}:" />
+                            <p:inputText id="numeroEndereco" value="#{alunoMB.entity.numero}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="bairro" value="#{msg['endereco.bairro']}:" />
+                            <p:inputText id="bairro" value="#{alunoMB.entity.bairro}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cidade" value="* #{msg['cidade']}:" />
+                            <h:selectOneMenu id="cidade" value="#{alunoMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                               var="cidade"
+                                               itemLabel="#{cidade.nome}-#{cidade.estado.sigla}"/>                                   
+
+                            </h:selectOneMenu>
+                        </div>                      
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cep" value="#{msg['endereco.cep']}:" />
+                            <p:inputMask id="cep" value="#{alunoMB.entity.cep}" styleClass="form-control" mask="99999-999"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" />
+                            <p:inputText id="complemento" value="#{alunoMB.entity.complemento}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+
+                    </div>
+                </div>
+            </p:tab> 
+            <p:tab title="Endereços Digitais/Telefones">
+                <div class="container-fluid">
+                    <div class="row">                        
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="email" value="#{msg['aluno.email']}:" />
+                            <p:inputText id="email" value="#{alunoMB.entity.email}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="facebook" value="#{msg['aluno.facebook']}:" />
+                            <p:inputText id="facebook" value="#{alunoMB.entity.facebook}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="residencial" value="#{msg['aluno.residencial']}:" />
+                            <p:inputMask id="residencial" value="#{alunoMB.entity.residencial}" styleClass="form-control" mask="(99) 9999-9999"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="celular" value="#{msg['aluno.celular']}:" />
+                            <p:inputMask id="celular" value="#{alunoMB.entity.celular}" styleClass="form-control" mask="(99) 9999-9999"/>
+
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="whatsapp" value="#{msg['aluno.whatsapp']}:" />
+                            <p:inputMask id="whatsapp" value="#{alunoMB.entity.whatsapp}" styleClass="form-control" mask="(99) 9999-9999"/>
+                        </div>
+                    </div>
+
+                </div>
+            </p:tab> 
+        </p:tabView>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="aluno.create">
+                <p:commandButton process="@form" update="@form" action="#{alunoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="aluno.audit">
+                <x:audit for="#{alunoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

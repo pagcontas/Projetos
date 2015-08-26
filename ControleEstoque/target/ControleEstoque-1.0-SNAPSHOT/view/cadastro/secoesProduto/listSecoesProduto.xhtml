@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['secoesProduto.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSecoesProduto.xhtml" />
+        <h:form id="formListSecoesProduto">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="secoesProduto_export" target=":formListSecoesProduto:dataTableSecoesProduto"
+                                     widgetVar="dataTableSecoesProdutoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="secoesProduto" rowIndexVar="index" id="dataTableSecoesProduto" widgetVar="dataTableSecoesProdutoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{secoesProdutoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{secoesProdutoMB.dataModel.paginatorTemplate}"
+                         value="#{secoesProdutoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['secoesProduto.codigo']}" sortBy="#{secoesProduto.codigo}"
+                    filterBy="#{secoesProduto.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['secoesProduto.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{secoesProduto.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['secoesProduto.descricao']}" sortBy="#{secoesProduto.descricao}"
+                    filterBy="#{secoesProduto.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['secoesProduto.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{secoesProduto.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSecoesProdutoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSecoesProduto" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{secoesProduto}" target="#{secoesProdutoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="secoesProduto.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSecoesProduto" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{secoesProduto.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="secoesProduto.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{secoesProdutoMB.delete}" >
+                            <f:setPropertyActionListener value="#{secoesProduto.id}" target="#{secoesProdutoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{secoesProduto}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="secoesProduto.audit">
+                    <x:auditDelete for="#{secoesProdutoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSecoesProdutoDetail" header="#{msg['secoesProduto.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailSecoesProduto.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

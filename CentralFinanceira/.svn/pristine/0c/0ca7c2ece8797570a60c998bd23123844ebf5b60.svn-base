@@ -1,0 +1,21 @@
+package br.com.jsoft.centralfinanceira.dao.central;
+
+import com.xpert.persistence.dao.BaseDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosValeGas;
+import br.com.jsoft.centralfinanceira.vo.ComissaoConvenioGasVO;
+import br.com.jsoft.centralfinanceira.vo.ComissaoLojaGasVO;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.ejb.Local;
+
+/**
+ *
+ * @author Juniel
+ */
+@Local
+public interface FatosValeGasDAO extends BaseDAO<FatosValeGas> {
+    public void updateUnitarioConvenio(Long id, BigDecimal valor, Integer periodo);
+    public void updateUnitarioLoja(Long id, BigDecimal valor, Integer periodo);
+    public List<ComissaoConvenioGasVO> listBoletoConvenio();
+    public List<ComissaoLojaGasVO> listBoletoLoja();  
+}

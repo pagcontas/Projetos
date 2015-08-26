@@ -1,0 +1,1433 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.FatosBoletosBO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+import br.com.jsoft.centralfinanceira.vo.ConvenioCampConsultVO;
+import br.com.jsoft.centralfinanceira.vo.RentabilidadeVO;
+import com.xpert.core.exception.BusinessException;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class RentabilidadeMB extends AbstractBaseBean<FatosBoletos> implements Serializable {
+
+    @EJB
+    private FatosBoletosBO fatosBoletosBO;
+
+    private List<RentabilidadeVO> boletos; //1
+
+    private List<RentabilidadeVO> boletosSite; //2
+
+    private List<RentabilidadeVO> boletosCreditos; //3
+
+    private List<RentabilidadeVO> boletosRecargas; //4
+
+    private List<RentabilidadeVO> boletosValeGas; //5
+
+    private List<RentabilidadeVO> boletosOps; //6
+
+    private List<RentabilidadeVO> boletosFiltrados;
+
+    private List<RentabilidadeVO> boletosSiteFiltrados;
+
+    private List<RentabilidadeVO> boletosCreditosFiltrados;
+
+    private List<RentabilidadeVO> boletosRecargasFiltrados;
+
+    private List<RentabilidadeVO> boletosValeGasFiltrados;
+
+    private List<RentabilidadeVO> boletosOpsFiltrados;
+
+    private ConvenioCampConsultVO camposConsulta;
+
+    @Override
+    public void init() {
+        camposConsulta = new ConvenioCampConsultVO();
+        boletosOps = new ArrayList<RentabilidadeVO>();
+        boletosValeGas = new ArrayList<RentabilidadeVO>();
+        boletosRecargas = new ArrayList<RentabilidadeVO>();
+        boletosCreditos = new ArrayList<RentabilidadeVO>();
+        boletosSite = new ArrayList<RentabilidadeVO>();
+        boletos = new ArrayList<RentabilidadeVO>();
+    }
+
+    public void getListasConvenioLoja() throws BusinessException {
+
+        if (validarDataFinalMenorInicial(convertPeriodDate(camposConsulta.getDataInicial()), convertPeriodDate(camposConsulta.getDataFinal()))
+                && validarDataInicialMaiorAtual(convertPeriodDate(camposConsulta.getDataInicial()))) {
+
+            boletos = fatosBoletosBO.listRentabilidade(camposConsulta.getLoja() != null ? camposConsulta.getLoja().getId() : null, convertPeriodDate(camposConsulta.getDataInicial()), convertPeriodDate(camposConsulta.getDataFinal()), 1);
+            boletosSite = fatosBoletosBO.listRentabilidade(camposConsulta.getLoja() != null ? camposConsulta.getLoja().getId() : null, convertPeriodDate(camposConsulta.getDataInicial()), convertPeriodDate(camposConsulta.getDataFinal()), 2);
+            boletosCreditos = fatosBoletosBO.listRentabilidade(camposConsulta.getLoja() != null ? camposConsulta.getLoja().getId() : null, convertPeriodDate(camposConsulta.getDataInicial()), convertPeriodDate(camposConsulta.getDataFinal()), 3);
+            boletosRecargas = fatosBoletosBO.listRentabilidade(camposConsulta.getLoja() != null ? camposConsulta.getLoja().getId() : null, convertPeriodDate(camposConsulta.getDataInicial()), convertPeriodDate(camposConsulta.getDataFinal()), 1);
+            boletosValeGas = fatosBoletosBO.listRentabilidade(camposConsulta.getLoja() != null ? camposConsulta.getLoja().getId() : null, convertPeriodDate(camposConsulta.getDataInicial()), convertPeriodDate(camposConsulta.getDataFinal()), 1);
+            boletosOps = fatosBoletosBO.listRentabilidade(camposConsulta.getLoja() != null ? camposConsulta.getLoja().getId() : null, convertPeriodDate(camposConsulta.getDataInicial()), convertPeriodDate(camposConsulta.getDataFinal()), 1);
+        }
+
+    }
+
+    private boolean validarDataFinalMenorInicial(Date data1, Date data2) throws BusinessException {
+        if (data1 != null && data2 != null) {
+            if (data1.after(data2)) {
+                FacesMessageUtils.error("O Periodo Inicial não pode ser maior que o Periodo Final!");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean validarDataInicialMaiorAtual(Date data1) throws BusinessException {
+        if (data1 != null) {
+            if (data1.after(new Date())) {
+                FacesMessageUtils.error("O Periodo Inicial não pode ser maior que o Periodo Atual!");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private Date convertPeriodDate(String data) {
+        Calendar agora = Calendar.getInstance();
+        if (!"".equals(data)) {
+            String[] temp = data.split("/");
+            Integer periodoTemp = Integer.valueOf(temp[1] + temp[0]);
+            agora.set(Integer.valueOf(temp[1]), Integer.valueOf(temp[0]) - 1, 1);
+
+            return agora.getTime();
+        }
+        return null;
+    }
+
+    public Integer totalGuiasBoletos() {
+
+        Integer valor = 0;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getGuias() != null) {
+                valor += boleto.getGuias();
+            }
+        }
+        return valor;
+    }
+
+    public Integer totalGuiasBoletosSite() {
+
+        Integer valor = 0;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getGuias() != null) {
+                valor += boleto.getGuias();
+            }
+        }
+        return valor;
+    }
+
+    public Integer totalGuiasBoletosCreditos() {
+
+        Integer valor = 0;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getGuias() != null) {
+                valor += boleto.getGuias();
+            }
+        }
+        return valor;
+    }
+
+    public Integer totalGuiasBoletosRecargas() {
+
+        Integer valor = 0;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getGuias() != null) {
+                valor += boleto.getGuias();
+            }
+        }
+        return valor;
+    }
+
+    public Integer totalGuiasBoletosValeGas() {
+
+        Integer valor = 0;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getGuias() != null) {
+                valor += boleto.getGuias();
+            }
+        }
+        return valor;
+    }
+
+    public Integer totalGuiasBoletosOps() {
+
+        Integer valor = 0;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getGuias() != null) {
+                valor += boleto.getGuias();
+            }
+        }
+        return valor;
+    }
+
+    public Integer totalGuias() {
+
+        return totalGuiasBoletos() + totalGuiasBoletosSite() + totalGuiasBoletosCreditos()
+                + totalGuiasBoletosRecargas() + totalGuiasBoletosValeGas() + totalGuiasBoletosOps();
+    }
+
+    public BigDecimal totalValorBoletos() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getValor() != null) {
+                valor = valor.add(boleto.getValor());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalValorBoletosSite() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getValor() != null) {
+                valor = valor.add(boleto.getValor());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalValorBoletosCreditos() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getValor() != null) {
+                valor = valor.add(boleto.getValor());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalValorBoletosRecargas() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getValor() != null) {
+                valor = valor.add(boleto.getValor());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalValorBoletosValeGas() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getValor() != null) {
+                valor = valor.add(boleto.getValor());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalValorBoletosOps() {
+
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getValor() != null) {
+                valor = valor.add(boleto.getValor());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalValor() {
+        return totalValorBoletos().add(totalValorBoletosSite()).add(totalValorBoletosCreditos()).add(totalValorBoletosRecargas())
+                .add(totalValorBoletosValeGas()).add(totalValorBoletosOps());
+    }
+
+    public BigDecimal totalTarifaConvenioBoletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaConvenio() != null) {
+                valor = valor.add(boleto.getTarifaConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaConvenioBoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaConvenio() != null) {
+                valor = valor.add(boleto.getTarifaConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaConvenioBoletosCreditos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaConvenio() != null) {
+                valor = valor.add(boleto.getTarifaConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaConvenioBoletosRecargas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaConvenio() != null) {
+                valor = valor.add(boleto.getTarifaConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaConvenioBoletosValeGas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaConvenio() != null) {
+                valor = valor.add(boleto.getTarifaConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaConvenioBoletosOps() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaConvenio() != null) {
+                valor = valor.add(boleto.getTarifaConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaConvenio() {
+        return totalTarifaConvenioBoletos().add(totalTarifaConvenioBoletosSite()).add(totalTarifaConvenioBoletosCreditos())
+                .add(totalTarifaConvenioBoletosRecargas()).add(totalTarifaConvenioBoletosValeGas()).add(totalTarifaConvenioBoletosOps());
+    }
+
+    public BigDecimal totalComissaoConvenioBoletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoConvenio() != null) {
+                valor = valor.add(boleto.getComissaoConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoConvenioBoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoConvenio() != null) {
+                valor = valor.add(boleto.getComissaoConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoConvenioBoletosCreditos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoConvenio() != null) {
+                valor = valor.add(boleto.getComissaoConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoConvenioBoletosRecargas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoConvenio() != null) {
+                valor = valor.add(boleto.getComissaoConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoConvenioBoletosValeGas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoConvenio() != null) {
+                valor = valor.add(boleto.getComissaoConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoConvenioBoletosOps() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoConvenio() != null) {
+                valor = valor.add(boleto.getComissaoConvenio());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoConvenio() {
+        return totalComissaoConvenioBoletos().add(totalComissaoConvenioBoletosSite()).add(totalComissaoConvenioBoletosCreditos())
+                .add(totalComissaoConvenioBoletosRecargas()).add(totalComissaoConvenioBoletosValeGas()).add(totalComissaoConvenioBoletosOps());
+    }
+
+    public BigDecimal totalTarifaLojaBoletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaLoja() != null) {
+                valor = valor.add(boleto.getTarifaLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaLojaBoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaLoja() != null) {
+                valor = valor.add(boleto.getTarifaLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaLojaBoletosCreditos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaLoja() != null) {
+                valor = valor.add(boleto.getTarifaLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaLojaBoletosRecargas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaLoja() != null) {
+                valor = valor.add(boleto.getTarifaLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaLojaBoletosValeGas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaLoja() != null) {
+                valor = valor.add(boleto.getTarifaLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaLojaBoletosOps() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getTarifaLoja() != null) {
+                valor = valor.add(boleto.getTarifaLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalTarifaLoja() {
+        return totalTarifaLojaBoletos().add(totalTarifaLojaBoletosSite()).add(totalTarifaLojaBoletosCreditos()).add(totalTarifaLojaBoletosRecargas())
+                .add(totalTarifaLojaBoletosValeGas()).add(totalTarifaLojaBoletosOps());
+
+    }
+
+    public BigDecimal totalComissaoLojaBoletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoLoja() != null) {
+                valor = valor.add(boleto.getComissaoLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoLojaBoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoLoja() != null) {
+                valor = valor.add(boleto.getComissaoLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoLojaBoletosCreditos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoLoja() != null) {
+                valor = valor.add(boleto.getComissaoLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoLojaBoletosRecargas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoLoja() != null) {
+                valor = valor.add(boleto.getComissaoLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoLojaBoletosValeGas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoLoja() != null) {
+                valor = valor.add(boleto.getComissaoLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoLojaBoletosOps() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoLoja() != null) {
+                valor = valor.add(boleto.getComissaoLoja());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoLoja() {
+        return totalComissaoLojaBoletos().add(totalComissaoLojaBoletosSite()).add(totalComissaoLojaBoletosCreditos()).
+                add(totalComissaoLojaBoletosRecargas()).add(totalComissaoLojaBoletosValeGas()).add(totalComissaoLojaBoletosOps());
+    }
+
+    public BigDecimal totalComissaoW7Boletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoW7() != null) {
+                valor = valor.add(boleto.getComissaoW7());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoW7BoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoW7() != null) {
+                valor = valor.add(boleto.getComissaoW7());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoW7BoletosCreditos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoW7() != null) {
+                valor = valor.add(boleto.getComissaoW7());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoW7BoletosRecargas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoW7() != null) {
+                valor = valor.add(boleto.getComissaoW7());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoW7BoletosValeGas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoW7() != null) {
+                valor = valor.add(boleto.getComissaoW7());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoW7BoletosOps() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissaoW7() != null) {
+                valor = valor.add(boleto.getComissaoW7());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoW7() {
+        return totalComissaoW7Boletos().add(totalComissaoW7BoletosSite()).add(totalComissaoW7BoletosCreditos()).add(totalComissaoW7BoletosRecargas())
+                .add(totalComissaoW7BoletosValeGas()).add(totalComissaoW7BoletosOps());
+    }
+
+    public BigDecimal totalComissaoSistemaBoletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissao() != null) {
+                valor = valor.add(boleto.getComissao());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoSistemaBoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissao() != null) {
+                valor = valor.add(boleto.getComissao());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoSistemaBoletosCreditos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissao() != null) {
+                valor = valor.add(boleto.getComissao());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoSistemaBoletosRecargas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissao() != null) {
+                valor = valor.add(boleto.getComissao());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoSistemaBoletosValeGas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissao() != null) {
+                valor = valor.add(boleto.getComissao());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoSistemaBoletosOps() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissao() != null) {
+                valor = valor.add(boleto.getComissao());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalComissaoSistema() {
+        return totalComissaoSistemaBoletos().add(totalComissaoSistemaBoletosSite()).add(totalComissaoSistemaBoletosCreditos())
+                .add(totalComissaoSistemaBoletosRecargas()).add(totalComissaoSistemaBoletosValeGas()).add(totalComissaoSistemaBoletosOps());
+    }
+
+    public BigDecimal totalDescontosBoletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissao() != null) {
+                valor = valor.add(boleto.getComissao());
+            }
+            if (boleto.getComissaoLoja() != null) {
+                valor = valor.add(boleto.getComissaoLoja());
+            }
+            if (boleto.getTarifaLoja() != null) {
+                valor = valor.add(boleto.getTarifaLoja());
+            }
+            
+            if (boleto.getComissaoW7()!= null) {
+                valor = valor.add(boleto.getComissaoW7());
+            }
+        }
+        return valor;
+    }
+    
+    public BigDecimal totalDescontosBoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getComissao() != null) {
+                valor = valor.add(boleto.getComissao());
+            }
+            if (boleto.getComissaoLoja() != null) {
+                valor = valor.add(boleto.getComissaoLoja());
+            }
+            if (boleto.getTarifaLoja() != null) {
+                valor = valor.add(boleto.getTarifaLoja());
+            }
+            
+            if (boleto.getComissaoW7()!= null) {
+                valor = valor.add(boleto.getComissaoW7());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalImpostoBoletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getImposto() != null) {
+                valor = valor.add(boleto.getImposto());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalImpostoBoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getImposto() != null) {
+                valor = valor.add(boleto.getImposto());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalImpostoBoletosCreditos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getImposto() != null) {
+                valor = valor.add(boleto.getImposto());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalImpostoBoletosRecargas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getImposto() != null) {
+                valor = valor.add(boleto.getImposto());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalImpostoBoletosValeGas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getImposto() != null) {
+                valor = valor.add(boleto.getImposto());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalImpostoBoletosOps() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getImposto() != null) {
+                valor = valor.add(boleto.getImposto());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalImposto() {
+        return totalImpostoBoletos().add(totalImpostoBoletosSite()).add(totalImpostoBoletosCreditos()).add(totalImpostoBoletosRecargas())
+                .add(totalImpostoBoletosValeGas()).add(totalImpostoBoletosOps());
+    }
+
+    public BigDecimal totalLiquidoBoletos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getLiquido() != null) {
+                valor = valor.add(boleto.getLiquido());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalLiquidoBoletosSite() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosSiteFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosSiteFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosSite;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getLiquido() != null) {
+                valor = valor.add(boleto.getLiquido());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalLiquidoBoletosCreditos() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosCreditosFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditosFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosCreditos;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getLiquido() != null) {
+                valor = valor.add(boleto.getLiquido());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalLiquidoBoletosRecargas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosRecargasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosRecargas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getLiquido() != null) {
+                valor = valor.add(boleto.getLiquido());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalLiquidoBoletosValeGas() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosValeGasFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGasFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosValeGas;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getLiquido() != null) {
+                valor = valor.add(boleto.getLiquido());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalLiquidoBoletosOps() {
+        BigDecimal valor = BigDecimal.ZERO;
+
+        List<RentabilidadeVO> boletosTemp;
+
+        if (boletosOpsFiltrados != null) {
+            boletosTemp = (List<RentabilidadeVO>) boletosOpsFiltrados;
+        } else {
+            boletosTemp = (List<RentabilidadeVO>) boletosOps;
+        }
+        for (RentabilidadeVO boleto : boletosTemp) {
+            if (boleto.getLiquido() != null) {
+                valor = valor.add(boleto.getLiquido());
+            }
+        }
+        return valor;
+    }
+
+    public BigDecimal totalLiquido() {
+        return totalLiquidoBoletos().add(totalLiquidoBoletosSite()).add(totalLiquidoBoletosCreditos()).add(totalLiquidoBoletosRecargas())
+                .add(totalLiquidoBoletosValeGas()).add(totalLiquidoBoletosOps());
+    }
+
+    @Override
+    public FatosBoletosBO getBO() {
+        return fatosBoletosBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    public List<RentabilidadeVO> getBoletos() {
+        return boletos;
+    }
+
+    public List<RentabilidadeVO> getBoletosSite() {
+        return boletosSite;
+    }
+
+    public List<RentabilidadeVO> getBoletosCreditos() {
+        return boletosCreditos;
+    }
+
+    public List<RentabilidadeVO> getBoletosRecargas() {
+        return boletosRecargas;
+    }
+
+    public List<RentabilidadeVO> getBoletosValeGas() {
+        return boletosValeGas;
+    }
+
+    public List<RentabilidadeVO> getBoletosOps() {
+        return boletosOps;
+    }
+
+    public ConvenioCampConsultVO getCamposConsulta() {
+        return camposConsulta;
+    }
+
+    public void setCamposConsulta(ConvenioCampConsultVO camposConsulta) {
+        this.camposConsulta = camposConsulta;
+    }
+
+    public List<RentabilidadeVO> getBoletosFiltrados() {
+        return boletosFiltrados;
+    }
+
+    public void setBoletosFiltrados(List<RentabilidadeVO> boletosFiltrados) {
+        this.boletosFiltrados = boletosFiltrados;
+    }
+
+    public List<RentabilidadeVO> getBoletosSiteFiltrados() {
+        return boletosSiteFiltrados;
+    }
+
+    public void setBoletosSiteFiltrados(List<RentabilidadeVO> boletosSiteFiltrados) {
+        this.boletosSiteFiltrados = boletosSiteFiltrados;
+    }
+
+    public List<RentabilidadeVO> getBoletosCreditosFiltrados() {
+        return boletosCreditosFiltrados;
+    }
+
+    public void setBoletosCreditosFiltrados(List<RentabilidadeVO> boletosCreditosFiltrados) {
+        this.boletosCreditosFiltrados = boletosCreditosFiltrados;
+    }
+
+    public List<RentabilidadeVO> getBoletosRecargasFiltrados() {
+        return boletosRecargasFiltrados;
+    }
+
+    public void setBoletosRecargasFiltrados(List<RentabilidadeVO> boletosRecargasFiltrados) {
+        this.boletosRecargasFiltrados = boletosRecargasFiltrados;
+    }
+
+    public List<RentabilidadeVO> getBoletosValeGasFiltrados() {
+        return boletosValeGasFiltrados;
+    }
+
+    public void setBoletosValeGasFiltrados(List<RentabilidadeVO> boletosValeGasFiltrados) {
+        this.boletosValeGasFiltrados = boletosValeGasFiltrados;
+    }
+
+    public List<RentabilidadeVO> getBoletosOpsFiltrados() {
+        return boletosOpsFiltrados;
+    }
+
+    public void setBoletosOpsFiltrados(List<RentabilidadeVO> boletosOpsFiltrados) {
+        this.boletosOpsFiltrados = boletosOpsFiltrados;
+    }
+
+    public BigDecimal porcentagemComissao(BigDecimal total, BigDecimal totalPorcentagem) {
+        if (totalPorcentagem != BigDecimal.ZERO) {
+            return totalPorcentagem.multiply(BigDecimal.valueOf(100)).divide(total, 2, RoundingMode.HALF_UP);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    public BigDecimal porcentagemLiquida(BigDecimal total, BigDecimal totalPorcentagem) {
+        if (totalPorcentagem != BigDecimal.ZERO) {
+            return totalPorcentagem.multiply(BigDecimal.valueOf(100)).divide(total, 2, RoundingMode.HALF_UP);
+        }
+        return BigDecimal.ZERO;
+    }
+}

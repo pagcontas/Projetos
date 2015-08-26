@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateContrato" styleClass="form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+               <div class="container-fluid">
+                    <div class="row">
+                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="* #{msg['contrato.nome']}:" />
+                            <p:inputText id="nome" value="#{contratoMB.entity.nome}" maxlength="255"  styleClass="form-control"  />
+                        </div>
+                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="rg" value="#{msg['contrato.rg']}:" />
+                            <p:inputText id="rg" value="#{contratoMB.entity.rg}" maxlength="230"  styleClass="form-control" />
+                        </div>
+                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cpf" value="* #{msg['contrato.cpf']}:" />
+                            <x:cpf value="#{contratoMB.entity.cpf}" styleClass="form-control" />                        
+                         </div>
+                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataInicial" value="#{msg['contrato.dataInicial']}:" />
+                            <p:calendar id="dataInicial" value="#{contratoMB.entity.dataInicial}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataFinal" value="#{msg['contrato.dataFinal']}:" />
+                            <p:calendar id="dataFinal" value="#{contratoMB.entity.dataFinal}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                         <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="ativo" value="#{contratoMB.entity.ativo}"/>
+                                    #{msg['contrato.ativo']}
+                                </label>
+                            </div>
+                        </div>
+                           <div class="row">                       
+                    </div>
+
+                    </div>
+                </div>
+          </p:fieldset>
+          <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+          <div class="uix-center">
+              <x:securityArea rolesAllowed="contrato.create">
+                   <p:commandButton process="@form" update="@form" action="#{contratoMB.save}" value="#{xmsg['save']}" />
+              </x:securityArea>
+              <x:securityArea rolesAllowed="contrato.audit">
+                   <x:audit for="#{contratoMB.entity}"/>
+              </x:securityArea>
+          </div>
+       </h:form>
+
+</ui:composition>

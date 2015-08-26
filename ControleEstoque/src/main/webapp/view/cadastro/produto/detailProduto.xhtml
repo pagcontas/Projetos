@@ -1,0 +1,164 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailProduto" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.codigoDeBarra']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.codigoDeBarra}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.descricao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.fabricante']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.fabricante}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.marca']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.marca}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="ncm" value="* Código NCM:" styleClass="control-label"/><br/>
+                    <h:outputText id="ncm" value="#{produtoMB.entity.codigoNCM}" styleClass="uix-content-detail"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="cfop" value="* CFOP:"  styleClass="control-label"/><br/>
+                    <h:outputText id="cfop" value="#{produtoMB.entity.cfop}" styleClass="uix-content-detail"  />
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="cst" value="* Código CST:" styleClass="control-label"/><br/>
+                    <h:outputText id="cst" value="#{produtoMB.entity.cfop}" styleClass="uix-content-detail"  />
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.produtoFracionado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.produtoFracionado}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.unidadeDeFracao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.unidadeDeFracao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.unidadeDeVenda']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.unidadeDeVenda}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.qtdFracoes']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.qtdFracoes}" styleClass="uix-content-detail"/>
+                </div>
+                
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.grupo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.grupo}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.valorDaCompra']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.valorDaCompra}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.icmsPreco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.icmsPreco}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.icmsCompra']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.icmsCompra}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.situacaoTributaria']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.situacaoTributaria}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.ipi']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.ipi}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.frete']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.frete}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.lucroBruto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.lucroBruto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.lucroLiquido']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.lucroLiquido}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.precoDeCusto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.precoDeCusto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.valorDeVenda']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.valorDeVenda}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.valorFracionado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.valorFracionado}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['produto.grupoDeLojas']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.grupoDeLojas}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Seção:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.secao.descricao}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Grupo de Seção:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{produtoMB.entity.grupo}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+            </div>
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetProdutoDetail').hide()" />
+            <x:securityArea rolesAllowed="produto.audit">
+                <x:audit for="#{produtoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

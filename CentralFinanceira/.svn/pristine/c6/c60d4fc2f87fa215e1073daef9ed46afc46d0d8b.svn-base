@@ -1,0 +1,14 @@
+package br.com.jsoft.centralfinanceira.dao.controle.impl;
+
+import br.com.jsoft.centralfinanceira.application.BaseDAOImpl;
+import br.com.jsoft.centralfinanceira.dao.controle.ContratoDAO;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Contrato;
+import javax.ejb.Stateless;
+
+/**
+ *
+ * @author killerbee
+ */
+@Stateless
+public class ContratoDAOImpl extends BaseDAOImpl<Contrato> implements ContratoDAO {
+}

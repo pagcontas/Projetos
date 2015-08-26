@@ -1,0 +1,40 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailAlternativa" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['alternativa.letra']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alternativaMB.entity.letra}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['alternativa.descricao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alternativaMB.entity.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['alternativa.caminhoIMG']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alternativaMB.entity.caminhoIMG}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['alternativa.correta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alternativaMB.entity.correta}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['alternativa.questao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alternativaMB.entity.questao}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="widgetAlternativaDetail.hide()" />
+            <x:securityArea rolesAllowed="alternativa.audit">
+                <x:audit for="#{alternativaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

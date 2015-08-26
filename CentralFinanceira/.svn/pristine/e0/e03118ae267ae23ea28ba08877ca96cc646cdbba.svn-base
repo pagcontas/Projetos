@@ -1,0 +1,114 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['convenioSite.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConvenioSite.xhtml" />
+        <h:form id="formListConvenioSite">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="convenioSite_export" target=":formListConvenioSite:dataTableConvenioSite"
+                                     widgetVar="dataTableConvenioSiteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="convenioSite" rowIndexVar="index" id="dataTableConvenioSite" widgetVar="dataTableConvenioSiteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{convenioSiteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{convenioSiteMB.dataModel.paginatorTemplate}"
+                         value="#{convenioSiteMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioSite.tipofloat']}" sortBy="#{convenioSite.tipofloat}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioSite.tipofloat']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioSite.tipofloat}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['convenioSite.nome']}" sortBy="#{convenioSite.nome}"
+                    filterBy="#{convenioSite.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioSite.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioSite.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioSite.retemcomissao']}" sortBy="#{convenioSite.retemcomissao}"
+                    filterBy="#{convenioSite.retemcomissao}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioSite.retemcomissao']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioSite.retemcomissao}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['convenioSite.tarifa']}" sortBy="#{convenioSite.tarifa}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioSite.tarifa']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioSite.tarifa}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['convenioSite.diasfloat']}" sortBy="#{convenioSite.diasfloat}"
+                    filterBy="#{convenioSite.diasfloat}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioSite.diasfloat']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioSite.diasfloat}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioSite.iss']}" sortBy="#{convenioSite.iss}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioSite.iss']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioSite.iss}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['convenioSite.ativo']}" sortBy="#{convenioSite.ativo}"
+                    filterBy="#{convenioSite.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioSite.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioSite.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetConvenioSiteDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailConvenioSite" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{convenioSite}" target="#{convenioSiteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="convenioSite.create">
+                        <p:button icon="ui-icon-pencil" outcome="createConvenioSite" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{convenioSite.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="convenioSite.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{convenioSiteMB.delete}" >
+                            <f:setPropertyActionListener value="#{convenioSite.id}" target="#{convenioSiteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{convenioSite}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="convenioSite.audit">
+                    <x:auditDelete for="#{convenioSiteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetConvenioSiteDetail" header="#{msg['convenioSite.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailConvenioSite.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,41 @@
+package br.com.jsoft.centralfinanceira.bo.central;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.central.ConvenioBanPopDAO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.jsoft.centralfinanceira.modelo.central.ConvenioBanPop;
+
+/**
+ *
+ * @author ti05
+ */
+@Stateless
+public class ConvenioBanPopBO extends AbstractBusinessObject<ConvenioBanPop> {
+
+    @EJB
+    private ConvenioBanPopDAO convenioBanPopDAO;
+    
+    @Override
+    public ConvenioBanPopDAO getDAO() {
+        return convenioBanPopDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return null;
+    }
+
+    @Override
+    public void validate(ConvenioBanPop convenioBanPop) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+}

@@ -1,0 +1,335 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateCliente" >
+        <x:modalMessages/>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="tipoDePessoa1" value="* #{msg['cliente.tipoDePessoa']}:" />
+                    <h:selectOneMenu id="tipoDePessoa1" value="#{clienteMB.entity.tipoDePessoa}"  styleClass="form-control" required="true" requiredMessage="Tipo de Pessoa requerido!">
+                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                        <f:selectItems value="#{findAllBean.get(classMB.tipoDePessoa)}" 
+                                       var="tipoDePessoa"
+                                       itemLabel="#{tipoDePessoa.descricao}"/>
+
+                        <p:ajax update="panelGeral tabGeral:panelDadosBasicos tabGeral:panelTrabalho" />
+                    </h:selectOneMenu>
+                </div>
+            </div>
+        </div>
+        <h:panelGroup id="panelGeral">
+            <p:outputPanel rendered="#{clienteMB.entity.tipoDePessoa.num !=null}">
+
+                <p:tabView id="tabGeral">
+                    <p:tab title="#{msg['dadosGerais']}">
+                        <div class="container-fluid">
+                            <div class="row">                        
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="tipo" value="* #{msg['cliente.tipo']}:" />
+                                    <h:selectOneMenu id="tipo" value="#{clienteMB.entity.tipo}"  styleClass="form-control" required="true" requiredMessage="Tipo de Cliente é requerido!">
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.tipoCliente)}" 
+                                                       var="tipoCliente"
+                                                       itemLabel="#{tipoCliente.descricao}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <h:panelGroup id="panelDadosBasicos">
+
+                                    <p:outputPanel rendered="#{clienteMB.entity.tipoDePessoa.num ==1}">
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="nome" value="* #{msg['cliente.nome']}:" />
+                                            <p:inputText id="nome" value="#{clienteMB.entity.nome}" maxlength="200"  
+                                                         styleClass="form-control" required="true" requiredMessage="Nome é obrigatório!"/>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="cpf" value="* #{msg['cliente.cpf']}:" />
+                                            <x:cpf id="cpf" value="#{clienteMB.entity.cpf}" styleClass="form-control" required="true"
+                                                   requiredMessage="Cpf é obrigatório!"/>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="dataNascimento" value="#{msg['cliente.dataNascimento']}:" />
+                                            <p:calendar id="dataNascimento" value="#{clienteMB.entity.dataNascimento}" 
+                                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                                <x:mask/>
+                                            </p:calendar>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="estadoCivil" value="#{msg['cliente.estadoCivil']}:" />
+                                            <h:selectOneMenu id="estadoCivil" value="#{clienteMB.entity.estadoCivil}"  styleClass="form-control" >
+                                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                                <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
+                                                               var="estadoCivil"
+                                                               itemLabel="#{estadoCivil.descricao}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="sexo" value="#{msg['cliente.sexo']}:" />
+                                            <h:selectOneMenu id="sexo" value="#{clienteMB.entity.sexo}"  styleClass="form-control" >
+                                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                                <f:selectItems value="#{findAllBean.get(classMB.sexo)}" 
+                                                               var="sexo"
+                                                               itemLabel="#{sexo.descricao}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="nomeDaMae" value="#{msg['cliente.nomeDaMae']}:" />
+                                            <p:inputText id="nomeDaMae" value="#{clienteMB.entity.nomeDaMae}" maxlength="200"  styleClass="form-control"  />
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="nomeDoPai" value="#{msg['cliente.nomeDoPai']}:" />
+                                            <p:inputText id="nomeDoPai" value="#{clienteMB.entity.nomeDoPai}" maxlength="200"  styleClass="form-control"  />
+                                        </div>
+                                    </p:outputPanel>
+                                    <p:outputPanel rendered="#{clienteMB.entity.tipoDePessoa.num ==2}">
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="razaoSocial" value="* #{msg['cliente.razaoSocial']}:" />
+                                            <p:inputText id="razaoSocial" value="#{clienteMB.entity.razaoSocial}" maxlength="200"  
+                                                         styleClass="form-control" required="true" requiredMessage="Razão social é obrigatória!"/>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="nomeFantasia" value="#{msg['cliente.nomeFantasia']}:" />
+                                            <p:inputText id="nomeFantasia" value="#{clienteMB.entity.nomeFantasia}" maxlength="200"  styleClass="form-control"  />
+                                        </div>
+
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="cnpj" value="* #{msg['cliente.cnpj']}:" />
+                                            <x:cnpj id="cnpj" value="#{clienteMB.entity.cnpj}" styleClass="form-control" required="true"
+                                                    requiredMessage="Cnpj é obrigatório!"/>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="tipoIsencao" value="* Tipo Isenção:" />
+                                            <h:selectOneMenu id="tipoIsencao" value="#{clienteMB.entity.tipoIsencao}"  styleClass="form-control" required="true" requiredMessage="Tipo de Isenção requerido!">
+                                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                                <f:selectItems value="#{findAllBean.get(classMB.tipoInsencaoCliente)}" 
+                                                               var="tipoIsencao"
+                                                               itemLabel="#{tipoIsencao.descricao}"/>
+                                                <p:ajax update="tabGeral:panelIEAtivar" />
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <h:panelGroup id="panelIEAtivar">
+                                            <p:outputPanel rendered="#{clienteMB.entity.tipoIsencao.num ==1}">
+                                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                                    <h:outputLabel for="inscricaoEstatual" value="#{msg['cliente.inscricaoEstatual']}:" />
+                                                    <p:inputMask id="inscricaoEstatual" value="#{clienteMB.entity.inscricaoEstatual}" mask="99.999.999-9"  styleClass="form-control"  />
+                                                </div>
+                                            </p:outputPanel>
+                                        </h:panelGroup>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="renda:input" value="#{msg['cliente.renda']}:" />
+                                            <x:inputNumber id="renda" value="#{clienteMB.entity.renda}" styleClass="form-control"/>
+                                        </div>
+
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="fatura" value="#{msg['cliente.fatura']}:" />
+                                            <h:selectOneMenu id="fatura" value="#{clienteMB.entity.fatura}" converter="entityConverter" styleClass="form-control" >
+                                                <x:initializer/>
+                                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                                <f:selectItems value="#{findAllBean.get(classMB.convenio)}" 
+                                                               var="convenio"
+                                                               itemLabel="#{convenio.nome}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="recebimento" value="#{msg['cliente.recebimento']}:" />
+                                            <h:selectOneMenu id="recebimento" value="#{clienteMB.entity.recebimento}" converter="entityConverter" styleClass="form-control" >
+                                                <x:initializer/>
+                                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                                <f:selectItems value="#{findAllBean.get(classMB.convenio)}" 
+                                                               var="convenio"
+                                                               itemLabel="#{convenio.nome}"/>
+                                            </h:selectOneMenu>
+                                        </div>  
+                                    </p:outputPanel>                                      
+
+
+
+
+                                </h:panelGroup>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="observacao" value="#{msg['cliente.observacao']}:" />
+                                    <p:inputTextarea id="observacao" value="#{clienteMB.entity.observacao}" maxlength="400" rows="10" styleClass="form-control"
+                                                     cols="50"/>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="ativo" value="#{clienteMB.entity.ativo}" />
+                                        #{msg['cliente.ativo']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>    
+
+                    </p:tab>
+                    <p:tab title="Endereço Físico">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="endereco" value="* #{msg['cliente.endereco']}:" />
+                                    <p:inputText id="endereco" value="#{clienteMB.entity.endereco}" maxlength="200"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="numero" value="#{msg['cliente.numero']}:" />
+                                    <p:inputText id="numero" value="#{clienteMB.entity.numero}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="bairro" value="#{msg['cliente.bairro']}:" />
+                                    <p:inputText id="bairro" value="#{clienteMB.entity.bairro}" maxlength="50"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="cidadeEndereco" value="* #{msg['cliente.cidadeEndereco']}:" />
+                                    <h:selectOneMenu id="cidadeEndereco" value="#{clienteMB.entity.cidadeEndereco}" converter="entityConverter" styleClass="form-control" >
+                                        <x:initializer/>
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                                       var="cidade"
+                                                       itemLabel="#{cidade.nome}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="cep" value="#{msg['cliente.cep']}:" />
+                                    <p:inputMask id="cep" value="#{clienteMB.entity.cep}" mask="99999-999"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="complemento" value="#{msg['cliente.complemento']}:" />
+                                    <p:inputText id="complemento" value="#{clienteMB.entity.complemento}" maxlength="100"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="tipoEndereco" value="#{msg['cliente.tipoEndereco']}:" />
+                                    <h:selectOneMenu id="tipoEndereco" value="#{clienteMB.entity.tipoEndereco}"  styleClass="form-control" >
+                                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                                        <f:selectItems value="#{findAllBean.get(classMB.tipoEndereco)}" 
+                                                       var="tipoEndereco"
+                                                       itemLabel="#{tipoEndereco.descricao}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>  
+                    </p:tab>
+                    <p:tab title="Endereços Digitais/Telefones">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="telefone" value="#{msg['cliente.telefone']}:" />
+                                    <p:inputMask  id="telefone" value="#{clienteMB.entity.telefone}" styleClass="form-control"  mask="(99) 9999-9999"/>
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="fax" value="#{msg['cliente.fax']}:" />
+                                    <p:inputMask id="fax" value="#{clienteMB.entity.fax}" styleClass="form-control" mask="(99) 9999-9999" />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="celula1" value="#{msg['cliente.celula1']}:" />
+                                    <p:inputMask id="celula1" value="#{clienteMB.entity.celula1}" mask="(99) 99999-9999" styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="celular2" value="#{msg['cliente.celular2']}:" />
+                                    <p:inputMask id="celular2" value="#{clienteMB.entity.celular2}" mask="(99) 99999-9999" styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="whatsapp" value="#{msg['cliente.whatsapp']}:" />
+                                    <p:inputMask id="whatsapp" value="#{clienteMB.entity.whatsapp}" mask="(99) 99999-9999"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="email" value="#{msg['cliente.email']}:" />
+                                    <p:inputText id="email" value="#{clienteMB.entity.email}" maxlength="100"  styleClass="form-control"  />
+                                </div>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="facebook" value="#{msg['cliente.facebook']} ou Site:" />
+                                    <p:inputText id="facebook" value="#{clienteMB.entity.facebook}" maxlength="100"  styleClass="form-control"  />
+                                </div>
+                            </div>
+                        </div>  
+                    </p:tab>
+
+
+
+
+                    <p:tab title="Local de Trabalho">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <h:panelGroup id="panelTrabalho">
+                                    <p:outputPanel rendered="#{clienteMB.entity.tipoDePessoa.num ==1}">
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="nomeEmpresaTrabalho" value="Nome Empresa:" />
+                                            <p:inputText id="nomeEmpresaTrabalho" value="#{clienteMB.entity.nomeEmpresaTrabalho}" maxlength="200"  styleClass="form-control"  />
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="endEmpresaTrabalho" value="Endereço Empresa:" />
+                                            <p:inputText id="endEmpresaTrabalho" value="#{clienteMB.entity.endEmpresaTrabalho}" maxlength="200"  styleClass="form-control"  />
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="numEndEmpTrabalho" value="Número:" />
+                                            <p:inputText id="numEndEmpTrabalho" value="#{clienteMB.entity.numEndEmpTrabalho}" maxlength="50"  styleClass="form-control"  />
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="bairroEmpresaTrabalho" value="Bairro:" />
+                                            <p:inputText id="bairroEmpresaTrabalho" value="#{clienteMB.entity.bairroEmpresaTrabalho}" maxlength="255"  styleClass="form-control"  />
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="cidEndEmpresaTrabalho" value="Cidade:" />
+                                            <h:selectOneMenu id="cidEndEmpresaTrabalho" value="#{clienteMB.entity.cidEndEmpresaTrabalho}" converter="entityConverter" styleClass="form-control" >
+                                                <x:initializer/>
+                                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                                <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                                               var="cidade"
+                                                               itemLabel="#{cidade.nome}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="cepEndEmpresaTrabalho" value="Cep:" />
+                                            <p:inputMask id="cepEndEmpresaTrabalho" value="#{clienteMB.entity.cepEndEmpresaTrabalho}" mask="99999-999"  styleClass="form-control"  />
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="telefoneEmprTrabalho" value="Telefone:" />
+                                            <p:inputText id="telefoneEmprTrabalho" value="#{clienteMB.entity.telefoneEmprTrabalho}" maxlength="20"  styleClass="form-control"  />
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="dataAdmissao" value="#{msg['cliente.dataAdmissao']}:" />
+                                            <p:calendar id="dataAdmissao" value="#{clienteMB.entity.dataAdmissao}" 
+                                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                                <x:mask/>
+                                            </p:calendar>
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="funcao" value="#{msg['cliente.funcao']}:" />
+                                            <p:inputText id="funcao" value="#{clienteMB.entity.funcao}" maxlength="200"  styleClass="form-control"  />
+                                        </div>
+                                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                            <h:outputLabel for="rendaTrabalho:input" value="Renda:" />
+                                            <x:inputNumber id="rendaTrabalho" value="#{clienteMB.entity.rendaTrabalho}" styleClass="form-control"/>
+                                        </div>
+                                    </p:outputPanel>
+                                </h:panelGroup>
+                            </div>
+                        </div> 
+                    </p:tab>    
+
+
+
+
+
+
+                </p:tabView>
+            </p:outputPanel>
+        </h:panelGroup>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="cliente.create">
+                <p:commandButton process="@form" update="@form" action="#{clienteMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="cliente.audit">
+                <x:audit for="#{clienteMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

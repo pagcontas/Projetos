@@ -1,0 +1,76 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formEditarConvenio" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="periodo" value="* #{msg['fatosBoletos.periodoCreate']}(mês/ano):" />
+                    <p:inputMask id="periodo" mask="99/9999" placeHolder="" value="#{comissaoBoleto.periodo}" 
+                                 styleClass="form-control" converter="periodoConverterUpdate" disabled="true"/>
+                </div>             
+
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['convenioBoleto.id']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosConvenioMB.comissaoConvenio.id}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.convenioboleto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosConvenioMB.comissaoConvenio.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.qtd']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosConvenioMB.comissaoConvenio.qtd}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.arrecadado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosConvenioMB.comissaoConvenio.arrecadado}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="unitarioconvenio:input" value="#{msg['fatosBoletos.unitarioconvenioCreate']}:" />
+                    <x:inputNumber id="unitarioconvenio" value="#{boletosConvenioMB.comissaoConvenio.unitarioconvenio}" styleClass="form-control"/>
+                </div>   
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.comissaoConvenio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosConvenioMB.comissaoConvenio.comissaoconvenio}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.comissaoLoja']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosConvenioMB.comissaoConvenio.comissaoloja}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.comissaoLiquida']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosConvenioMB.comissaoConvenio.comissaoliquida}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+
+            </div>
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+
+            <p:commandButton oncomplete="widgetEditarConvenio.hide();" process="@form" 
+                             update=":formEditarConvenio :formListFatosBoletosConvenio" title="Salvar" value="Salvar"
+                             action="#{boletosConvenioMB.updateUnitarioConvenio}">               
+            </p:commandButton>
+
+        </div>
+    </h:form>
+</ui:composition>

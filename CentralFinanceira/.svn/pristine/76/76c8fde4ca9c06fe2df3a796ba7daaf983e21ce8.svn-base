@@ -1,0 +1,214 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Consulta de Recarga Online" />
+    <ui:define name="body">
+        <ui:include src="menuFatosRecarga.xhtml" />
+        <h:form id="formListFatosRecarga">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="fatosRecarga_export" target=":formListFatosRecarga:dataTableFatosRecarga"
+                                     widgetVar="dataTableFatosRecargaWidget"  />
+
+            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fatosRecarga" rowIndexVar="index" id="dataTableFatosRecarga" widgetVar="dataTableFatosRecargaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fatosRecargaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fatosRecargaMB.dataModel.paginatorTemplate}"
+                         value="#{fatosRecargaMB.dataModel}" lazy="true" >                
+                <p:ajax event="page" oncomplete="updateSum()"/>
+                <p:ajax event="filter" oncomplete="updateSum()"/>
+                <p:ajax event="sort" oncomplete="updateSum()"/>
+                
+                <p:column headerText="Cód." sortBy="#{fatosRecarga.loja}"
+                          filterBy="#{fatosRecarga.loja.id}" width="5%" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosRecarga.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.loja.id}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosRecarga.loja']}" sortBy="#{fatosRecarga.loja}"
+                          filterBy="#{fatosRecarga.loja.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosRecarga.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.loja}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosRecarga.conveniorecarga']}" sortBy="#{fatosRecarga.conveniorecarga}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosRecarga.conveniorecarga']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.conveniorecarga}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="#{msg['fatosRecarga.periodo']}" sortBy="#{fatosRecarga.periodo}"
+                    filterBy="#{fatosRecarga.periodo}" style="text-align: right;" width="8%" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosRecarga.periodo']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.periodo}" converter="periodoConverterList"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['fatosRecarga.qtd']}" sortBy="#{fatosRecarga.qtd}"
+                    filterBy="#{fatosRecarga.qtd}" width="5%" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosRecarga.qtd']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.qtd}"/>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosRecargaMB.totalQtdPaginaAtual()}" id="somaQdt" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                
+                <p:column headerText="#{msg['fatosRecarga.arrecadado']}" sortBy="#{fatosRecarga.arrecadado}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosRecarga.arrecadado']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.arrecadado}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                     <f:facet name="footer">
+                        <h:outputText value="#{fatosRecargaMB.totalArrecadadoPaginaAtual()}" id="somaArrecadado" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="Unit. Convênio" sortBy="#{fatosRecarga.unitarioconvenio}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Unit. Convênio" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.unitarioconvenio}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosRecargaMB.totalUniConvenioPaginaAtual()}" id="somaUniConv" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="Unit. Loja" sortBy="#{fatosRecarga.unitarioloja}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="Unit. Loja" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.unitarioloja}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosRecargaMB.totalUniLojaPaginaAtual()}" id="somaUniLoja" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.unitarioliquido']}" sortBy="#{fatosRecarga.unitarioLiquido}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.unitarioliquido']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.unitarioLiquido}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosRecargaMB.totalUniLiquidoPaginaAtual()}" id="somaUniLiq" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.comissaoLoja']}" sortBy="#{fatosRecarga.comissaoLoja}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.comissaoLoja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.comissaoLoja}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosRecargaMB.totalComLojaPaginaAtual()}" id="somaComLoja" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.comissaoConvenio']}" sortBy="#{fatosRecarga.comissaoConvenio}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.comissaoConvenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.comissaoConvenio}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosRecargaMB.totalComConvenioPaginaAtual()}" id="somaComConv" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.comissaoLiquida']}" sortBy="#{fatosRecarga.comissaoLiquida}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.comissaoLiquida']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosRecarga.comissaoLiquida}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosRecargaMB.totalComLiquidaPaginaAtual()}" id="somaComLiq" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFatosRecargaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFatosRecarga" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fatosRecarga}" target="#{fatosRecargaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fatosRecarga.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFatosRecarga" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fatosRecarga.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fatosRecarga.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fatosRecargaMB.delete}" >
+                            <f:setPropertyActionListener value="#{fatosRecarga.id}" target="#{fatosRecargaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fatosRecarga}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            
+            <p:remoteCommand name="updateSum" update=":formListFatosRecarga:dataTableFatosRecarga:somaQdt :formListFatosRecarga:dataTableFatosRecarga:somaArrecadado
+                             :formListFatosRecarga:dataTableFatosRecarga:somaUniConv :formListFatosRecarga:dataTableFatosRecarga:somaUniLoja 
+                             :formListFatosRecarga:dataTableFatosRecarga:somaUniLiq :formListFatosRecarga:dataTableFatosRecarga:somaComLoja 
+                             :formListFatosRecarga:dataTableFatosRecarga:somaComConv :formListFatosRecarga:dataTableFatosRecarga:somaComLiq" process="@this" />
+            
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fatosRecarga.audit">
+                    <x:auditDelete for="#{fatosRecargaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFatosRecargaDetail" header="#{msg['fatosRecarga.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFatosRecarga.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

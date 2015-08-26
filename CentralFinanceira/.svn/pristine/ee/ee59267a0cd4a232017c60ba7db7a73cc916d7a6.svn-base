@@ -1,0 +1,13 @@
+
+<xpert-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <auditing>
+        <auditing-impl>br.com.jsoft.centralfinanceira.modelo.audit.Auditing</auditing-impl>
+        <metadata-impl>br.com.jsoft.centralfinanceira.modelo.audit.Metadata</metadata-impl>
+        <auditing-listener>br.com.jsoft.centralfinanceira.application.AuditingListenerImpl</auditing-listener>
+    </auditing>
+    
+    <entity-manager-factory>br.com.jsoft.centralfinanceira.application.EntityManagerFactoryImpl</entity-manager-factory>
+    <resource-bundle>bundles.messages</resource-bundle>
+
+</xpert-config>

@@ -1,0 +1,140 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['pagContas.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPagContas.xhtml" />
+        <h:form id="formListPagContas">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pagContas_export" target=":formListPagContas:dataTablePagContas"
+                                     widgetVar="dataTablePagContasWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pagContas" rowIndexVar="index" id="dataTablePagContas" widgetVar="dataTablePagContasWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{pagContasMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{pagContasMB.dataModel.paginatorTemplate}"
+                         value="#{pagContasMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.razaoSocial']}" sortBy="#{pagContas.razaoSocial}"
+                    filterBy="#{pagContas.razaoSocial}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.razaoSocial']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.razaoSocial}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.nomeFantasia']}" sortBy="#{pagContas.nomeFantasia}"
+                    filterBy="#{pagContas.nomeFantasia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.nomeFantasia']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.nomeFantasia}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.cnpj']}" sortBy="#{pagContas.cnpj}"
+                    filterBy="#{pagContas.cnpj}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.cnpj']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.cnpj}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.inscricaoEstadual']}" sortBy="#{pagContas.inscricaoEstadual}"
+                    filterBy="#{pagContas.inscricaoEstadual}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.inscricaoEstadual']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.inscricaoEstadual}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['pagContas.nomeProc1']}" sortBy="#{pagContas.nomeProc1}"
+                    filterBy="#{pagContas.nomeProc1}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.nomeProc1']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.nomeProc1}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['pagContas.rgProc1']}" sortBy="#{pagContas.rgProc1}"
+                    filterBy="#{pagContas.rgProc1}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.rgProc1']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.rgProc1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.orgaoExpeditorPro1']}" sortBy="#{pagContas.orgaoExpeditorPro1}"
+                    filterBy="#{pagContas.orgaoExpeditorPro1}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.orgaoExpeditorPro1']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.orgaoExpeditorPro1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.cpfProc1']}" sortBy="#{pagContas.cpfProc1}"
+                    filterBy="#{pagContas.cpfProc1}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.cpfProc1']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.cpfProc1}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.nomeProc2']}" sortBy="#{pagContas.nomeProc2}"
+                    filterBy="#{pagContas.nomeProc2}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.nomeProc2']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.nomeProc2}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['pagContas.rgProc2']}" sortBy="#{pagContas.rgProc2}"
+                    filterBy="#{pagContas.rgProc2}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.rgProc2']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.rgProc2}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.orgaoExpeditorPro2']}" sortBy="#{pagContas.orgaoExpeditorPro2}"
+                    filterBy="#{pagContas.orgaoExpeditorPro2}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.orgaoExpeditorPro2']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.orgaoExpeditorPro2}"/>
+                </p:column>
+                <p:column headerText="#{msg['pagContas.cpfProc2']}" sortBy="#{pagContas.cpfProc2}"
+                    filterBy="#{pagContas.cpfProc2}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagContas.cpfProc2']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagContas.cpfProc2}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetPagContasDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPagContas" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{pagContas}" target="#{pagContasMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="pagContas.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPagContas" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{pagContas.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="pagContas.audit">
+                    <x:auditDelete for="#{pagContasMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPagContasDetail" header="#{msg['pagContas.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailPagContas.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

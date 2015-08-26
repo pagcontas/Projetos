@@ -1,0 +1,89 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.FatosBoletosBO;
+import br.com.jsoft.centralfinanceira.dao.central.FatosBoletosDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+import br.com.jsoft.centralfinanceira.vo.ComissaoConvenioVO;
+import java.util.List;
+
+/**
+ *
+ * @author jj
+ */
+@ManagedBean
+@ViewScoped
+public class BoletosConvenioMB extends AbstractBaseBean<FatosBoletos> implements Serializable {
+
+    @EJB
+    private FatosBoletosBO fatosBoletosBO;
+
+    @EJB
+    private FatosBoletosDAO fatosBoletosDAO;
+
+    private List<FatosBoletos> fatos;
+
+    private List<ComissaoConvenioVO> comissaoBoletos;
+
+    private ComissaoConvenioVO comissaoConvenio;
+
+    public ComissaoConvenioVO getComissaoConvenio() {
+        return comissaoConvenio;
+    }
+
+    public void setComissaoConvenio(ComissaoConvenioVO comissaoConvenio) {
+        this.comissaoConvenio = comissaoConvenio;
+    }
+
+    @Override
+    public FatosBoletosBO getBO() {
+        return fatosBoletosBO;
+    }
+
+    public void updateUnitarioConvenio() {
+        fatosBoletosBO.updateUniConvenio(comissaoConvenio);
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    public void setFatos(List<FatosBoletos> fatos) {
+        this.fatos = fatos;
+    }
+
+    public List<ComissaoConvenioVO> getComissaoBoletos() {
+        return comissaoBoletos;
+    }
+
+    public void setComissaoBoletos(List<ComissaoConvenioVO> comissaoBoletos) {
+        this.comissaoBoletos = comissaoBoletos;
+    }
+
+    public FatosBoletosBO getFatosBoletosBO() {
+        return fatosBoletosBO;
+    }
+
+    public void setFatosBoletosBO(FatosBoletosBO fatosBoletosBO) {
+        this.fatosBoletosBO = fatosBoletosBO;
+    }
+
+    public FatosBoletosDAO getFatosBoletosDAO() {
+        return fatosBoletosDAO;
+    }
+ 
+    public void setFatosBoletosDAO(FatosBoletosDAO fatosBoletosDAO) {
+        this.fatosBoletosDAO = fatosBoletosDAO;
+    }
+
+    @Override
+    public void init() {
+        comissaoBoletos = fatosBoletosDAO.listBoletoConvenio();
+    }
+
+}

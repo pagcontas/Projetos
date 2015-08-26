@@ -1,0 +1,18 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:define name="body">
+        <script src="http://maps.google.com/maps/api/js?sensor=true|false"
+        type="text/javascript"></script>
+        <h:form>
+
+            <p:gmap center="-5.0937396,-42.7410782" zoom="12" type="hybrid"
+                    style="width:1200px;height:800px" model="#{addMarkersMB.model}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

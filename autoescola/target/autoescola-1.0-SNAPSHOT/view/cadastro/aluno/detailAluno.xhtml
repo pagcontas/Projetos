@@ -1,0 +1,167 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailAluno" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.numeroRenach']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.numeroRenach}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.dataDaMatricula']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.dataDaMatricula}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.categoria']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.categoria.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.tipoCNH']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.tipoCNH.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.numeroCNH']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.numeroCNH}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.validadeCNH']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.validadeCNH}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.rg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.rg}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.OrgaoRg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.orgaoRg}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.dataEmissaoRg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.dataEmissaoRg}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.naturalidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.naturalidade.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.endereco}" styleClass="uix-content-detail"/>
+                        
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['endereco.numero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.numero}" styleClass="uix-content-detail" />
+                        
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['endereco.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.bairro}" styleClass="uix-content-detail"/>
+                        
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['endereco.complemento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.complemento}" styleClass="uix-content-detail"/>
+                        
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="Cidade:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.cidade.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                        
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.cpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.cpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.titulo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.titulo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.Zona']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.zona}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.secao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.secao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.grauDeEscolaridade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.grauDeEscolaridade.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.mae']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.mae}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.pai']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.pai}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.dataNascimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.dataNascimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.estadoCivil']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.estadoCivil.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.sexo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.sexo.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.celular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.celular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.residencial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.residencial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.whatsapp']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.whatsapp}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.email}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['aluno.facebook']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{alunoMB.entity.facebook}" styleClass="uix-content-detail"/>
+                </div>
+                
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="widgetAlunoDetail.hide()" />
+            <x:securityArea rolesAllowed="aluno.audit">
+                <x:audit for="#{alunoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

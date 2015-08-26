@@ -1,0 +1,82 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['gruposDeSecoes.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuGruposDeSecoes.xhtml" />
+        <h:form id="formListGruposDeSecoes">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="gruposDeSecoes_export" target=":formListGruposDeSecoes:dataTableGruposDeSecoes"
+                                     widgetVar="dataTableGruposDeSecoesWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="gruposDeSecoes" rowIndexVar="index" id="dataTableGruposDeSecoes" widgetVar="dataTableGruposDeSecoesWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{gruposDeSecoesMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{gruposDeSecoesMB.dataModel.paginatorTemplate}"
+                         value="#{gruposDeSecoesMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['gruposDeSecoes.secao']}" sortBy="#{gruposDeSecoes.secao}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['gruposDeSecoes.secao']}" />
+                    </f:facet>
+                    <h:outputText value="#{gruposDeSecoes.secao.descricao}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['gruposDeSecoes.codigo']}" sortBy="#{gruposDeSecoes.codigo}"
+                    filterBy="#{gruposDeSecoes.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['gruposDeSecoes.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{gruposDeSecoes.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['gruposDeSecoes.descricao']}" sortBy="#{gruposDeSecoes.descricao}"
+                    filterBy="#{gruposDeSecoes.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['gruposDeSecoes.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{gruposDeSecoes.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetGruposDeSecoesDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailGruposDeSecoes" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{gruposDeSecoes}" target="#{gruposDeSecoesMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="gruposDeSecoes.create">
+                        <p:button icon="ui-icon-pencil" outcome="createGruposDeSecoes" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{gruposDeSecoes.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="gruposDeSecoes.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{gruposDeSecoesMB.delete}" >
+                            <f:setPropertyActionListener value="#{gruposDeSecoes.id}" target="#{gruposDeSecoesMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{gruposDeSecoes}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="gruposDeSecoes.audit">
+                    <x:auditDelete for="#{gruposDeSecoesMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetGruposDeSecoesDetail" header="#{msg['gruposDeSecoes.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailGruposDeSecoes.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

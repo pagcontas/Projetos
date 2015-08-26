@@ -1,0 +1,14 @@
+package br.com.jsoft.centralfinanceira.dao.central.impl;
+
+import br.com.jsoft.centralfinanceira.application.BaseDAOImpl;
+import br.com.jsoft.centralfinanceira.dao.central.FatosRecargaDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosRecarga;
+import javax.ejb.Stateless;
+
+/**
+ *
+ * @author killerbee
+ */
+@Stateless
+public class FatosRecargaDAOImpl extends BaseDAOImpl<FatosRecarga> implements FatosRecargaDAO {
+}

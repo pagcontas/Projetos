@@ -1,0 +1,81 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateItemVenda" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="venda" value="* #{msg['itemVenda.venda']}:" />
+                         <h:selectOneMenu id="venda" value="#{itemVendaMB.entity.venda}" converter="entityConverter" styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.venda)}" 
+                                            var="venda"
+                                            itemLabel="#{venda}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="produto" value="* #{msg['itemVenda.produto']}:" />
+                         <h:selectOneMenu id="produto" value="#{itemVendaMB.entity.produto}" converter="entityConverter" styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.produto)}" 
+                                            var="produto"
+                                            itemLabel="#{produto}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="qtd:input" value="#{msg['itemVenda.qtd']}:" />
+                         <x:inputNumber id="qtd" value="#{itemVendaMB.entity.qtd}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="valorUnitario:input" value="#{msg['itemVenda.valorUnitario']}:" />
+                         <x:inputNumber id="valorUnitario" value="#{itemVendaMB.entity.valorUnitario}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="unidadeDeVenda" value="#{msg['itemVenda.unidadeDeVenda']}:" />
+                         <h:selectOneMenu id="unidadeDeVenda" value="#{itemVendaMB.entity.unidadeDeVenda}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.unidadeDeMedida)}" 
+                                            var="unidadeDeMedida"
+                                            itemLabel="#{unidadeDeMedida}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="icmsCompra:input" value="#{msg['itemVenda.icmsCompra']}:" />
+                         <x:inputNumber id="icmsCompra" value="#{itemVendaMB.entity.icmsCompra}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="ipi:input" value="#{msg['itemVenda.ipi']}:" />
+                         <x:inputNumber id="ipi" value="#{itemVendaMB.entity.ipi}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="ativo" value="#{itemVendaMB.entity.ativo}" />
+                                 #{msg['itemVenda.ativo']}
+                             </label>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="itemVenda.create">
+                <p:commandButton process="@form" update="@form" action="#{itemVendaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="itemVenda.audit">
+                <x:audit for="#{itemVendaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

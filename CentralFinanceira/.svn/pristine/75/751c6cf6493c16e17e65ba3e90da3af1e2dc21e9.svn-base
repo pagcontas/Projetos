@@ -1,0 +1,902 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailContrato" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.loja']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.loja}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.ramoAtividades']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.ramoAtividades}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeFantasia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeFantasia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.inicioAtividades']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.inicioAtividades}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.depositoSeg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.depositoSeg}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.depositoTer']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.depositoTer}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.depositoQuar']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.depositoQuar}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.depositoQuin']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.depositoQuin}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.depositoSex']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.depositoSex}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.celular']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.celular}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.fax']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.fax}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.whatsApp']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.whatsApp}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.orelhaoProximo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.orelhaoProximo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.skype']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.skype}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.facebook']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.facebook}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.site']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.site}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.funcSegASextAbert']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.funcSegASextAbert}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.funcSegASextFechar']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.funcSegASextFechar}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.funcSabadoAbert']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.funcSabadoAbert}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.funcSabadoFechar']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.funcSabadoFechar}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.opArrecContas']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.opArrecContas}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.opVendCD']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.opVendCD}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.opServicos']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.opServicos}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.opBB']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.opBB}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.horaFechCaixa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.horaFechCaixa}" styleClass="uix-content-detail">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.diaAutOpSeg']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.diaAutOpSeg}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.diaAutOpTerc']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.diaAutOpTerc}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.diaAutOpQuar']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.diaAutOpQuar}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.diaAutOpQui']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.diaAutOpQui}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.diaAutOpSex']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.diaAutOpSex}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.diaAutOpSab']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.diaAutOpSab}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.diaAutOpDom']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.diaAutOpDom}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.diaAutOpFeriados']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.diaAutOpFeriados}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeGuerraPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeGuerraPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cpfPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cpfPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.rgPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.rgPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.dataNascimentoPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.dataNascimentoPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.enderecoPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.enderecoPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.bairroPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.bairroPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cidadePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cidadePro}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.estadoPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.estadoPro}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cepPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cepPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefonePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefonePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.celularPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.celularPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.faxPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.faxPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.profissaoPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.profissaoPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.rendaPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.rendaPro}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.estadoCivilPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.estadoCivilPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.escolaridadePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.escolaridadePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomePaiPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomePaiPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeMaePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeMaePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefoneMaePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefoneMaePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefonePaiPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefonePaiPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascPaiPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascPaiPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascMaePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascMaePro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailPaiPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailPaiPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailMaePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailMaePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.participaNegocioMaePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.participaNegocioMaePro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.participaNegocioPaiPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.participaNegocioPaiPro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.religiaoPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.religiaoPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.lazerPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.lazerPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.prefMusicalPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.prefMusicalPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.prefLeituraPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.prefLeituraPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.esportePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.esportePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.timePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.timePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.conjugePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.conjugePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.conjugeNomeGuerraPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.conjugeNomeGuerraPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cpfConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cpfConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.rgConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.rgConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.celularConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.celularConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascConjPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomePaiConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomePaiConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeMaeConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeMaeConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefoneMaeConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefoneMaeConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefonePaiConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefonePaiConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascPaiConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascPaiConjPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascMaeConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascMaeConjPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailPaiConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailPaiConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailMaeConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailMaeConjPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.participaNegocioMaeConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.participaNegocioMaeConjPro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.participaNegocioPaiConjPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.participaNegocioPaiConjPro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1NomePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1NomePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1TelefonePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1TelefonePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1NasciPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1NasciPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1PartNegocioPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1PartNegocioPro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1EmailPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1EmailPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2NomePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2NomePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2TelefonePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2TelefonePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2NasciPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2NasciPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2PartNegocioPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2PartNegocioPro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2EmailPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2EmailPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3NomePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3NomePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3TelefonePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3TelefonePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3NasciPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3NasciPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3PartNegocioPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3PartNegocioPro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3EmailPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3EmailPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4NomePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4NomePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4TelefonePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4TelefonePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4NasciPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4NasciPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4PartNegocioPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4PartNegocioPro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4EmailPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4EmailPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5NomePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5NomePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5TelefonePro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5TelefonePro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5NasciPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5NasciPro}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5PartNegocioPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5PartNegocioPro}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5EmailPro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5EmailPro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeGuerraSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeGuerraSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cpfSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cpfSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.rgSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.rgSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.dataNascimentoSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.dataNascimentoSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.enderecoSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.enderecoSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.bairroSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.bairroSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cidadeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cidadeSocio}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.estadoSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.estadoSocio}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cepSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cepSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefoneSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefoneSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.celularSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.celularSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.faxSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.faxSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.profissaoSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.profissaoSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.rendaSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.rendaSocio}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.estadoCivilSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.estadoCivilSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.escolaridadeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.escolaridadeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomePaiSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomePaiSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeMaeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeMaeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefoneMaeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefoneMaeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefonePaiSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefonePaiSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascPaiSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascPaiSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascMaeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascMaeSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailPaiSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailPaiSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailMaeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailMaeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.participaNegocioMaeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.participaNegocioMaeSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.participaNegocioPaiSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.participaNegocioPaiSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.religiaoSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.religiaoSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.lazerSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.lazerSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.prefMusicalSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.prefMusicalSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.prefLeituraSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.prefLeituraSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.esporteSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.esporteSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.timeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.timeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.conjugeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.conjugeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.conjugeNomeGuerraSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.conjugeNomeGuerraSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.cpfConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.cpfConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.rgConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.rgConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.celularConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.celularConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascConjSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomePaiConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomePaiConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeMaeConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeMaeConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefoneMaeConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefoneMaeConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.telefonePaiConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.telefonePaiConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascPaiConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascPaiConjSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nascMaeConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nascMaeConjSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailPaiConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailPaiConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.emailMaeConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.emailMaeConjSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.participaNegocioMaeConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.participaNegocioMaeConjSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.participaNegocioPaiConjSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.participaNegocioPaiConjSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1NomeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1NomeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1TelefoneSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1TelefoneSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1NasciSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1NasciSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1PartNegocioSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1PartNegocioSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho1EmailSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho1EmailSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2NomeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2NomeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2TelefoneSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2TelefoneSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2NasciSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2NasciSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2PartNegocioSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2PartNegocioSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho2EmailSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho2EmailSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3NomeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3NomeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3TelefoneSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3TelefoneSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3NasciSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3NasciSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3PartNegocioSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3PartNegocioSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho3EmailSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho3EmailSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4NomeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4NomeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4TelefoneSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4TelefoneSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4NasciSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4NasciSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4PartNegocioSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4PartNegocioSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho4EmailSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho4EmailSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5NomeSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5NomeSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5TelefoneSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5TelefoneSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5NasciSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5NasciSocio}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5PartNegocioSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5PartNegocioSocio}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.filho5EmailSocio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.filho5EmailSocio}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomeTitularConta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomeTitularConta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.banco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.banco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.agencia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.agencia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.tipoConta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.tipoConta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.numeroConta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.numeroConta}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.nomePropag']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.nomePropag}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.enderecoPropag']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.enderecoPropag}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.pontoRefereciaPropag']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.pontoRefereciaPropag}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.slogan']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.slogan}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.dataInstalacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.dataInstalacao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.dataConsulta']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.dataConsulta}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.vendedor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.vendedor}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.metaDeGuias']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.metaDeGuias}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.metaCreditosDigitais']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.metaCreditosDigitais}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.valorDaPromissoria']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.valorDaPromissoria}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['contrato.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{contratoMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="widgetContratoDetail.hide()" />
+            <x:securityArea rolesAllowed="contrato.audit">
+                <x:audit for="#{contratoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

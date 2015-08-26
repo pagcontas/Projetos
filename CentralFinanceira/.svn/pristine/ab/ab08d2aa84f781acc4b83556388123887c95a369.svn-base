@@ -1,0 +1,289 @@
+package br.com.jsoft.centralfinanceira;
+
+import br.com.jsoft.centralfinanceira.dao.controleacesso.PermissaoDAO;
+import br.com.jsoft.centralfinanceira.modelo.controleacesso.Permissao;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+/**
+ * Classe para geracao das permissoes iniciais do sistema
+ *
+ * @author Ayslan
+ */
+@Stateless
+public class GeracaoPermissao {
+
+    private static final Logger logger = Logger.getLogger(GeracaoPermissao.class.getName());
+    @EJB
+    private PermissaoDAO permissaoDAO;
+
+    public void generate() {
+
+        /**
+         * Administracao Sistema
+         */
+        create(new Permissao("administracaoSistema", "Sistema", true), null);
+
+        /*
+         * Controle de Acesso
+         */
+        create(new Permissao("controleAcesso", "Controle de Acesso", true), "administracaoSistema");
+
+        //Permissao
+        create(new Permissao("permissao", "Permissão", true), "controleAcesso");
+        create(new Permissao("permissao.create", "Cadastro de Permissão", "/view/controleAcesso/permissao/createPermissao.jsf", true), "permissao");
+        create(new Permissao("permissao.list", "Consulta de Permissão", "/view/controleAcesso/permissao/listPermissao.jsf", true), "permissao");
+        create(new Permissao("permissao.audit", "Auditoria de Permissão"), "permissao");
+        create(new Permissao("permissao.delete", "Exclusão de Permissão"), "permissao");
+
+        //Usuario
+        create(new Permissao("usuario", "Usuário", true), "controleAcesso");
+        create(new Permissao("usuario.create", "Cadastro de Usuário", "/view/controleAcesso/usuario/createUsuario.jsf", true), "usuario");
+        create(new Permissao("usuario.list", "Consulta de Usuário", "/view/controleAcesso/usuario/listUsuario.jsf", true), "usuario");
+        create(new Permissao("usuario.audit", "Auditoria de Usuário"), "usuario");
+        create(new Permissao("usuario.delete", "Exclusão de Usuário"), "usuario");
+
+        //Perfil
+        create(new Permissao("perfil", "Perfil", true), "controleAcesso");
+        create(new Permissao("perfil.create", "Cadastro de Perfil", "/view/controleAcesso/perfil/createPerfil.jsf", true), "perfil");
+        create(new Permissao("perfil.list", "Consulta de Perfil", "/view/controleAcesso/perfil/listPerfil.jsf", true), "perfil");
+        create(new Permissao("perfil.audit", "Auditoria de Perfil"), "perfil");
+        create(new Permissao("perfil.delete", "Exclusão de Perfil"), "perfil");
+
+        //Acessos do Sistema
+        create(new Permissao("acessoSistema.list", "Relatório de Acessos", "/view/controleAcesso/acessoSistema/listAcessoSistema.jsf", true), "controleAcesso");
+
+        //Solicitacao recuperacao senha
+        create(new Permissao("solicitacaoRecuperacaoSenha", "Recuperação de Senha", true), "controleAcesso");
+        create(new Permissao("solicitacaoRecuperacaoSenha.list", "Consulta Recuperação de Senha", "/view/controleAcesso/solicitacaoRecuperacaoSenha/listSolicitacaoRecuperacaoSenha.jsf", true), "solicitacaoRecuperacaoSenha");
+        create(new Permissao("solicitacaoRecuperacaoSenha.audit", "Auditoria de Recuperação de Senha"), "solicitacaoRecuperacaoSenha");
+
+        /*
+         * Email
+         */
+        create(new Permissao("email", "Email", true), "administracaoSistema");
+
+        //Modelo email
+        create(new Permissao("modeloEmail", "Modelo de Email", true), "email");
+        create(new Permissao("modeloEmail.create", "Cadastro de Modelo de Email", "/view/email/modeloEmail/createModeloEmail.jsf", true), "modeloEmail");
+        create(new Permissao("modeloEmail.list", "Consulta de Modelo de Email", "/view/email/modeloEmail/listModeloEmail.jsf", true), "modeloEmail");
+        create(new Permissao("modeloEmail.audit", "Auditoria de Modelo de Email"), "modeloEmail");
+        create(new Permissao("modeloEmail.delete", "Exclusão de Modelo de Email"), "modeloEmail");
+
+        //Configuracao email
+        create(new Permissao("configuracaoEmail", "Configuração de Email", true), "email");
+        create(new Permissao("configuracaoEmail.create", "Cadastro de Configuração de Email", "/view/email/configuracaoEmail/createConfiguracaoEmail.jsf", true), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail.list", "Consulta de Configuração de Email", "/view/email/configuracaoEmail/listConfiguracaoEmail.jsf", true), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail.audit", "Auditoria de Configuração de Email"), "configuracaoEmail");
+        create(new Permissao("configuracaoEmail.delete", "Exclusão de Configuração de Email"), "configuracaoEmail");
+
+        /*
+         * Configuracao
+         */
+        create(new Permissao("configuracaoSistema", "Configuração", true), "administracaoSistema");
+
+        //Erro sistema
+        create(new Permissao("erroSistema.list", "Relatório de Erros", "/view/configuracao/erroSistema/listErroSistema.jsf", true), "configuracaoSistema");
+
+        /**
+         * Permissoes Globais
+         */
+        //Alterar Senha
+        createGlobal(new Permissao("usuario.alterarSenha", "Alterar Senha", "/view/controleAcesso/password/alterPassword.jsf", true), "controleAcesso");
+        createGlobal(new Permissao("usuario.ultimosAcessos", "Últimos Acessos", "/view/controleAcesso/acessoSistema/ultimosAcessoSistema.jsf", true), "controleAcesso");
+
+        // Modificado por Juniel em 24/Dez/2014
+        //Cadastros Básicos
+        create(new Permissao("cadastrosbasicos", "Cadastros Básicos", true), null);
+
+        //Convenio Boleto
+        create(new Permissao("convenioBoleto", "Convênio Boleto", true), "cadastrosbasicos");
+        //create(new Permissao("convenioBoleto.create", "Cadastro de Convenio Boleto", "/view/central/cadastrosbasicos/convenioBoleto/createConvenioBoleto.jsf", true), "convenioBoleto");
+        create(new Permissao("convenioBoleto.list", "Consulta de Convenio Boleto", "/view/central/cadastrosbasicos/convenioBoleto/listConvenioBoleto.jsf", true), "convenioBoleto");
+        //create(new Permissao("convenioBoleto.audit", "Auditoria de Convenio Boleto"), "convenioBoleto");
+        //create(new Permissao("convenioBoleto.delete", "Exclusão de Convenio Boleto"), "convenioBoleto");
+
+        //Convenio Site
+        create(new Permissao("convenioSite", "Convênio Site", true), "cadastrosbasicos");
+        //create(new Permissao("convenioSite.create", "Cadastro de Convenio Site", "/view/central/cadastrosbasicos/convenioSite/convenioSite/createConvenioSite.jsf", true), "convenioSite");
+        create(new Permissao("convenioSite.list", "Consulta de Convênio Site", "/view/central/cadastrosbasicos/convenioSite/convenioSite/listConvenioSite.jsf", true), "convenioSite");
+        //create(new Permissao("convenioSite.audit", "Auditoria de Convenio Site"), "convenioSite");
+        //create(new Permissao("convenioSite.delete", "Exclusão de Convenio Site"), "convenioSite");
+
+        //Tipo Float
+        //create(new Permissao("tipoFloat", "Tipo Float", true), "cadastrosbasicos");
+        //create(new Permissao("tipoFloat.create", "Cadastro de Tipo de Float", "/view/central/cadastrosbasicos/tipoFloat/createTipoFloat.jsf", true), "tipoFloat");
+        //create(new Permissao("tipoFloat.list", "Consulta de Tipo de Float", "/view/central/cadastrosbasicos/tipoFloat/listTipoFloat.jsf", true), "tipoFloat");
+        //create(new Permissao("tipoFloat.audit", "Auditoria de Tipo de Float"), "tipoFloat");
+        //create(new Permissao("tipoFloat.delete", "Exclusão de Tipo de Float"), "tipoFloat");
+        //Loja
+        create(new Permissao("loja", "Loja", true), "cadastrosbasicos");
+        //create(new Permissao("loja.create", "Cadastro de Loja", "/view/central/cadastrosbasicos/loja/createLoja.jsf", true), "loja");
+        create(new Permissao("loja.list", "Consulta de Loja", "/view/central/cadastrosbasicos/loja/listLoja.jsf", true), "loja");
+        //create(new Permissao("loja.audit", "Auditoria de Loja"), "loja");
+        //create(new Permissao("loja.delete", "Exclusão de Loja"), "loja");
+
+        //Cidade
+        create(new Permissao("cidade", "Cidade", true), "cadastrosbasicos");
+        //create(new Permissao("cidade.create", "Cadastro de Cidade", "/view/central/cadastrosbasicos/cidade/createCidade.jsf", true), "cidade");
+        create(new Permissao("cidade.list", "Consulta de Cidade", "/view/central/cadastrosbasicos/cidade/listCidade.jsf", true), "cidade");
+        //create(new Permissao("cidade.audit", "Auditoria de Cidade"), "cidade");
+        //create(new Permissao("cidade.delete", "Exclusão de Cidade"), "cidade");
+
+        //Menu Fatos - Creditos e Debitos
+        create(new Permissao("fatos", "Créditos e Débitos", true), null);
+        //Fatos Boletos
+        create(new Permissao("fatosBoletos", "Boletos", true), "fatos");
+//        create(new Permissao("fatosBoletos.create", "Cadastro de Boletos", "/view/central/fatos/fatosBoletos/createFatosBoletos.jsf", true), "fatosBoletos");
+        create(new Permissao("fatosBoletos.list", "Consulta de Boletos", "/view/central/fatos/fatosBoletos/listFatosBoletos.jsf", true), "fatosBoletos");
+        create(new Permissao("fatosBoletos.relatorio", "Relatório de remuneração", "/view/central/fatos/fatosBoletos/consultaFatoBoletos.jsf", true), "fatosBoletos");
+        create(new Permissao("fatosBoletos.audit", "Auditoria de Boletos"), "fatosBoletos");
+//        create(new Permissao("fatosBoletos.delete", "Exclusão de Boletos"), "fatosBoletos");
+        create(new Permissao("fatosBoletos.listConvenio", "Comissão Convênio", "/view/central/fatos/fatosBoletos/listFatosBoletosConvenio.jsf", true), "fatosBoletos");
+        create(new Permissao("fatosBoletos.listLoja", "Comissão Loja", "/view/central/fatos/fatosBoletos/listFatosBoletosLoja.jsf", true), "fatosBoletos");
+
+        //Fatos Boletos Site
+        create(new Permissao("fatosBoletosSite", "Boletos Site", true), "fatos");
+//        create(new Permissao("fatosBoletoSite.create", "Cadastro de Boletos Site", "/view/central/fatos/fatosBoletoSite/fatosBoletoSite/createFatosBoletoSite.jsf", true), "fatosBoletosSite");
+        create(new Permissao("fatosBoletoSite.list", "Consulta de Boletos Site", "/view/central/fatos/fatosBoletoSite/fatosBoletoSite/listFatosBoletoSite.jsf", true), "fatosBoletosSite");
+        create(new Permissao("fatosBoletoSite.audit", "Auditoria de Boletos Site"), "fatosBoletosSite");
+//        create(new Permissao("fatosBoletoSite.delete", "Exclusão de Boletos Site"), "fatosBoletosSite");
+        create(new Permissao("fatosBoletoSite.listConvenio", "Comissão Convênio Site", "/view/central/fatos/fatosBoletoSite/fatosBoletoSite/listFatosBoletosConvenio.jsf", true), "fatosBoletosSite");
+        create(new Permissao("fatosBoletoSite.listLoja", "Comissão Loja Site", "/view/central/fatos/fatosBoletoSite/fatosBoletoSite/listFatosBoletosLoja.jsf", true), "fatosBoletosSite");
+
+        //Conveniop
+        create(new Permissao("conveniop", "Convênio de OP", true), "cadastrosbasicos");
+        //create(new Permissao("conveniop.create", "Cadastro de Convenio Ordem de Pagamento", "/view/central/fatos/conveniop/createConveniop.jsf", true), "conveniop");
+        create(new Permissao("conveniop.list", "Consulta de Convenio OP", "/view/central/fatos/conveniop/listConveniop.jsf", true), "conveniop");
+        //create(new Permissao("conveniop.audit", "Auditoria de Convenio Ordem de Pagamento"), "conveniop");
+        //create(new Permissao("conveniop.delete", "Exclusão de Convenio Ordem de Pagamento"), "conveniop");
+
+        //Fatosops
+        create(new Permissao("fatosops", "Ordem de Pagamento", true), "fatos");
+//        create(new Permissao("fatosops.create", "Cadastro de Ordem de Pagamento", "/view/central/fatos/fatosops/createFatosops.jsf", true), "fatosops");
+        create(new Permissao("fatosops.list", "Consulta de OP", "/view/central/fatos/fatosops/listFatosops.jsf", true), "fatosops");
+        create(new Permissao("fatosops.audit", "Auditoria de OP"), "fatosops");
+//        create(new Permissao("fatosops.delete", "Exclusão de Ordem de Pagamento"), "fatosops");
+        create(new Permissao("fatosops.listConvenio", "Comissão Convênio de OP", "/view/central/fatos/fatosops/listFatosBoletosConvenio.jsf", true), "fatosops");
+        create(new Permissao("fatosops.listLoja", "Comissão Loja de OP", "/view/central/fatos/fatosops/listFatosBoletosLoja.jsf", true), "fatosops");
+
+        //Conveniocredigi
+        create(new Permissao("conveniocredigi", "Convênio de Créd. Digitais", true), "cadastrosbasicos");
+//        create(new Permissao("conveniocredigi.create", "Cadastro de Convênio Créditos Digitais", "/view/central/fatos/conveniocredigi/createConveniocredigi.jsf", true), "conveniocredigi");
+        create(new Permissao("conveniocredigi.list", "Consulta de Conv. Créd. Digitais", "/view/central/fatos/conveniocredigi/listConveniocredigi.jsf", true), "conveniocredigi");
+//        create(new Permissao("conveniocredigi.audit", "Auditoria de Convênio Créditos Digitais"), "conveniocredigi");
+//        create(new Permissao("conveniocredigi.delete", "Exclusão de Convênio Créditos Digitais"), "conveniocredigi");
+
+        //Fatos Creditos
+        create(new Permissao("fatosCreditos", "Créditos Digitais", true), "fatos");
+//        create(new Permissao("fatosCreditos.create", "Cadastro de Créditos Digitais", "/view/central/fatos/fatosCreditos/createFatosCreditos.jsf", true), "fatosCreditos");
+        create(new Permissao("fatosCreditos.list", "Consulta de Créd. Digitais", "/view/central/fatos/fatosCreditos/listFatosCreditos.jsf", true), "fatosCreditos");
+        create(new Permissao("fatosCreditos.audit", "Auditoria de Créd. Digitais"), "fatosCreditos");
+//        create(new Permissao("fatosCreditos.delete", "Exclusão de Crédito Digitais"), "fatosCreditos");
+        create(new Permissao("fatosCreditos.listConvenio", "Comissão Convênio Créd. Digitais", "/view/central/fatos/fatosCreditos/listFatosBoletosConvenio.jsf", true), "fatosCreditos");
+        create(new Permissao("fatosCreditos.listLoja", "Comissão Loja Créd. Digitais", "/view/central/fatos/fatosCreditos/listFatosBoletosLoja.jsf", true), "fatosCreditos");
+
+        //Fatos Vale Gas
+        create(new Permissao("fatosValeGas", "Vale Gás", true), "fatos");
+//        create(new Permissao("fatosValeGas.create", "Cadastro de Vale Gás", "/view/central/fatos/fatosValeGas/createFatosValeGas.jsf", true), "fatosValeGas");
+        create(new Permissao("fatosValeGas.list", "Consulta de Vale Gás", "/view/central/fatos/fatosValeGas/listFatosValeGas.jsf", true), "fatosValeGas");
+        create(new Permissao("fatosValeGas.audit", "Auditoria de Vale Gás"), "fatosValeGas");
+//        create(new Permissao("fatosValeGas.delete", "Exclusão de Vale Gás"), "fatosValeGas");
+        create(new Permissao("fatosValeGas.listConvenio", "Comissão Convênio Vale Gás", "/view/central/fatos/fatosValeGas/listFatosBoletosConvenio.jsf", true), "fatosValeGas");
+        create(new Permissao("fatosValeGas.listLoja", "Comissão Loja Vale Gás", "/view/central/fatos/fatosValeGas/listFatosBoletosLoja.jsf", true), "fatosValeGas");
+
+        //Convenio Gas
+        create(new Permissao("convenioGas", "Convênio Gás", true), "cadastrosbasicos");
+        //create(new Permissao("convenioGas.create", "Cadastro de Convenio Gas", "/view/central/fatos/convenioGas/createConvenioGas.jsf", true), "convenioGas");
+        create(new Permissao("convenioGas.list", "Consulta de Convenio Gás", "/view/central/fatos/convenioGas/listConvenioGas.jsf", true), "convenioGas");
+        //create(new Permissao("convenioGas.audit", "Auditoria de Convenio Gas"), "convenioGas");
+        //create(new Permissao("convenioGas.delete", "Exclusão de Convenio Gas"), "convenioGas");
+
+        //Convenio Recarga
+        create(new Permissao("convenioRecarga", "Convenio Recarga", true), "cadastrosbasicos");
+//        create(new Permissao("convenioRecarga.create", "Cadastro de Convenio Recarga", "/view/central/fatos/convenioRecarga/createConvenioRecarga.jsf", true), "convenioRecarga");
+        create(new Permissao("convenioRecarga.list", "Consulta de Convenio Recarga", "/view/central/fatos/convenioRecarga/listConvenioRecarga.jsf", true), "convenioRecarga");
+//        create(new Permissao("convenioRecarga.audit", "Auditoria de Convenio Recarga"), "convenioRecarga");
+//        create(new Permissao("convenioRecarga.delete", "Exclusão de Convenio Recarga"), "convenioRecarga");
+
+        //Fatos Recarga
+        create(new Permissao("fatosRecarga", "Recarga", true), "fatos");
+//        create(new Permissao("fatosRecarga.create", "Cadastro de Recarga", "/view/central/fatos/fatosRecarga/createFatosRecarga.jsf", true), "fatosRecarga");
+        create(new Permissao("fatosRecarga.list", "Consulta de Recarga", "/view/central/fatos/fatosRecarga/listFatosRecarga.jsf", true), "fatosRecarga");
+        create(new Permissao("fatosRecarga.audit", "Auditoria de Recarga"), "fatosRecarga");
+//        create(new Permissao("fatosRecarga.delete", "Exclusão de Recarga"), "fatosRecarga");
+        create(new Permissao("fatosRecarga.listConvenio", "Comissão Convênio Recarga", "/view/central/fatos/fatosRecarga/listFatosBoletosConvenio.jsf", true), "fatosRecarga");
+        create(new Permissao("fatosRecarga.listLoja", "Comissão Loja Recarga", "/view/central/fatos/fatosRecarga/listFatosBoletosLoja.jsf", true), "fatosRecarga");
+
+        //Retabilidades
+        create(new Permissao("retabilidades", "Rentabilidades", true), "fatos");
+        create(new Permissao("retabilidades.listRentabilidadesLoja", "Rentabilidade Loja", "/view/central/fatos/fatosBoletos/listRentabilidadeLoja.jsf", true), "retabilidades");
+
+        //Fatosbb
+        create(new Permissao("fatosbb", "Banco do Brasil", true), "fatos");
+//        create(new Permissao("fatosbb.create", "Cadastro de Fatosbb", "/view/central/fatos/fatosbb/createFatosbb.jsf", true), "fatosbb");
+        create(new Permissao("fatosbb.list", "Consulta de Boletos BB", "/view/central/fatos/fatosbb/listFatosbb.jsf", true), "fatosbb");
+        create(new Permissao("fatosbb.audit", "Auditoria de Boletos BB"), "fatosbb");
+//        create(new Permissao("fatosbb.delete", "Exclusão de Fatosbb"), "fatosbb");
+        create(new Permissao("fatosbb.listConvenios", "Comissão Convênio BB", "/view/central/fatos/fatosbb/listFatosBoletosConvenio.jsf", true), "fatosbb");
+        create(new Permissao("fatosbb.listLojas", "Comissão Loja BB", "/view/central/fatos/fatosbb/listFatosBoletosLoja.jsf", true), "fatosbb");
+
+//Conveniobb
+        create(new Permissao("conveniobb", "Convenio BB", true), "cadastrosbasicos");
+//        create(new Permissao("conveniobb.create", "Cadastro de Conveniobb", "/view/central/fatos/conveniobb/createConveniobb.jsf", true), "conveniobb");
+        create(new Permissao("conveniobb.list", "Consulta de Convenio BB", "/view/central/fatos/conveniobb/listConveniobb.jsf", true), "conveniobb");
+//        create(new Permissao("conveniobb.audit", "Auditoria de Conveniobb"), "conveniobb");
+//        create(new Permissao("conveniobb.delete", "Exclusão de Conveniobb"), "conveniobb");
+
+        //Convenio Ban Pop
+        create(new Permissao("convenioBanPop", "Convênio Banco Popular", true), "cadastrosbasicos");
+//        create(new Permissao("convenioBanPop.create", "Cadastro de Convênio Banco Popular", "/view/central/fatos/convenioBanPop/createConvenioBanPop.jsf", true), "convenioBanPop");
+        create(new Permissao("convenioBanPop.list", "Consulta de Convênio BP", "/view/central/fatos/convenioBanPop/listConvenioBanPop.jsf", true), "convenioBanPop");
+        create(new Permissao("convenioBanPop.audit", "Auditoria de Convênio Banco Popular"), "convenioBanPop");
+//        create(new Permissao("convenioBanPop.delete", "Exclusão de Convênio Banco Popular"), "convenioBanPop");
+
+//Fatos Ban Pop
+        create(new Permissao("fatosBanPop", "Banco Popular", true), "fatos");
+//        create(new Permissao("fatosBanPop.create", "Cadastro de Banco Popular", "/view/central/fatos/fatosBanPop/createFatosBanPop.jsf", true), "fatosBanPop");
+        create(new Permissao("fatosBanPop.list", "Consulta de Banco Popular", "/view/central/fatos/fatosBanPop/listFatosBanPop.jsf", true), "fatosBanPop");
+//        create(new Permissao("fatosBanPop.audit", "Auditoria de Banco Popular"), "fatosBanPop");
+//        create(new Permissao("fatosBanPop.delete", "Exclusão de Banco Popular"), "fatosBanPop");
+        create(new Permissao("fatosBanPop.listConvenios", "Comissão Convênio", "/view/central/fatos/fatosBanPop/listFatosBoletosConvenio.jsf", true), "fatosBanPop");
+        create(new Permissao("fatosBanPop.listLojas", "Comissão Loja", "/view/central/fatos/fatosBanPop/listFatosBoletosLoja.jsf", true), "fatosBanPop");
+
+
+    }
+
+    private void createGlobal(Permissao permissao, String pai) {
+        permissao.setGlobal(true);
+        create(permissao, pai);
+    }
+
+    private void create(Permissao permissao, String pai) {
+
+        if (pai != null && pai.equals(permissao.getKey())) {
+            logger.log(Level.WARNING, "Permissao ''{0}'' pai dela mesmo. Esta permissao nao sera salva.", permissao.getKey());
+            return;
+        }
+
+        Permissao permissaoDB = permissaoDAO.unique("key", permissao.getKey());
+
+        if (pai != null && !pai.isEmpty()) {
+            Permissao permissaoPai = permissaoDAO.unique("key", pai);
+            permissao.setPermissaoPai(permissaoPai);
+        }
+
+        if (permissaoDB != null) {
+            permissaoDB.setUrl(permissao.getUrl());
+            permissaoDB.setDescricao(permissao.getDescricao());
+            permissaoDB.setPermissaoPai(permissao.getPermissaoPai());
+            permissaoDB.setPossuiMenu(permissao.isPossuiMenu());
+            permissaoDB.setGlobal(permissao.isGlobal());
+            permissao = permissaoDB;
+        }
+
+        permissaoDAO.merge(permissao, false);
+    }
+}

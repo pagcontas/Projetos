@@ -1,0 +1,76 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateConvenioBoleto" styleClass="form-detail">
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+               <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <h:outputLabel for="id" value="* #{msg['convenioBoleto.id']}:" />
+                            <p:inputText id="id" value="#{convenioBoletoMB.entity.id}" styleClass="form-control"  />
+                        </div>
+                         <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipofloat" value="#{msg['convenioBoleto.tipofloat']}:" />
+                            <h:selectOneMenu id="tipofloat" value="#{convenioBoletoMB.entity.tipofloat}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoFloat)}" 
+                                               var="tipoFloat"
+                                               itemLabel="#{tipoFloat}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nome" value="* #{msg['convenioBoleto.nome']}:" />
+                            <p:inputText id="nome" value="#{convenioBoletoMB.entity.nome}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tarifa:input" value="#{msg['convenioBoleto.tarifa']}:" />
+                            <x:inputNumber id="tarifa" value="#{convenioBoletoMB.entity.tarifa}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <h:outputLabel for="diasfloat" value="#{msg['convenioBoleto.diasfloat']}:" />
+                            <p:inputMask id="diasfloat" mask="9?999999999" placeHolder="" value="#{convenioBoletoMB.entity.diasfloat}" styleClass="form-control" />
+                        </div>
+                        <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <h:outputLabel for="iss:input" value="#{msg['convenioBoleto.iss']}:" />
+                            <x:inputNumber id="iss" value="#{convenioBoletoMB.entity.iss}" styleClass="form-control"/>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="retemcomissao" value="#{convenioBoletoMB.entity.retemcomissao}" />
+                                    #{msg['convenioBoleto.retemcomissao']}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-2 col-md-3 col-sm-3 col-xs-6">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="ativo" value="#{convenioBoletoMB.entity.ativo}" />
+                                    #{msg['convenioBoleto.ativo']}
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+          </p:fieldset>
+          <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+          <div class="uix-center">
+              <x:securityArea rolesAllowed="convenioBoleto.create">
+                   <p:commandButton process="@form" update="@form" action="#{convenioBoletoMB.save}" value="#{xmsg['save']}" />
+              </x:securityArea>
+              <x:securityArea rolesAllowed="convenioBoleto.audit">
+                   <x:audit for="#{convenioBoletoMB.entity}"/>
+              </x:securityArea>
+          </div>
+       </h:form>
+
+</ui:composition>

@@ -1,0 +1,14 @@
+package br.com.jsoft.centralfinanceira.dao.central.impl;
+
+import br.com.jsoft.centralfinanceira.application.BaseDAOImpl;
+import br.com.jsoft.centralfinanceira.dao.central.PostoDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.Posto;
+import javax.ejb.Stateless;
+
+/**
+ *
+ * @author jj
+ */
+@Stateless
+public class PostoDAOImpl extends BaseDAOImpl<Posto> implements PostoDAO {
+}

@@ -1,0 +1,2262 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.modelo.contrato;
+
+import br.com.jsoft.centralfinanceira.modelo.central.Cidade;
+import br.com.jsoft.centralfinanceira.modelo.central.Loja;
+import br.com.jsoft.centralfinanceira.modelo.enums.Bancos;
+import br.com.jsoft.centralfinanceira.modelo.enums.Escolaridade;
+import br.com.jsoft.centralfinanceira.modelo.enums.EstadoCivil;
+import br.com.jsoft.centralfinanceira.modelo.enums.TipoContaBanco;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+/**
+ *
+ * @author ti05
+ */
+@Entity
+@Table(schema = "contrato")
+public class Contrato implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    private Loja loja;
+
+    @Size(max = 50)
+    @NotBlank
+    private String ramoAtividades;
+
+    @Temporal(TemporalType.DATE)
+    private Date inicioAtividades;
+
+    private boolean depositoSeg;
+
+    private boolean depositoTer;
+
+    private boolean depositoQuar;
+
+    private boolean depositoQuin;
+
+    private boolean depositoSex;
+
+    @Size(max = 16)
+    private String telefone;
+
+    @Size(max = 16)
+    private String celular;
+
+    @Size(max = 16)
+    private String fax;
+
+    @Size(max = 16)
+    private String whatsApp;
+
+    @Size(max = 16)
+    private String orelhaoProximo;
+
+    @Size(max = 150)
+    @Email
+    private String email;
+
+    @Size(max = 60)
+    private String skype;
+
+    @Size(max = 60)
+    private String facebook;
+
+    @Size(max = 60)
+    private String site;
+
+    @Temporal(TemporalType.TIME)
+    private Date funcSegASextAbert;
+
+    @Temporal(TemporalType.TIME)
+    private Date funcSegASextFechar;
+
+    @Temporal(TemporalType.TIME)
+    private Date funcSabadoAbert;
+
+    @Temporal(TemporalType.TIME)
+    private Date funcSabadoFechar;
+
+    private boolean opArrecContas;
+
+    private boolean opVendCD;
+
+    private boolean opServicos;
+
+    private boolean opBB;
+
+    @Temporal(TemporalType.TIME)
+    private Date horaFechCaixa;
+
+    private boolean diaAutOpSeg;
+
+    private boolean diaAutOpTerc;
+
+    private boolean diaAutOpQuar;
+
+    private boolean diaAutOpQui;
+
+    private boolean diaAutOpSex;
+
+    private boolean diaAutOpSab;
+
+    private boolean diaAutOpDom;
+
+    private boolean diaAutOpFeriados;
+
+    @Size(max = 60)
+    @NotBlank
+    private String nomePro;
+
+    @Size(max = 60)
+    private String nomeGuerraPro;
+
+    @Size(max = 50)
+    @NotBlank
+    private String cpfPro;
+
+    @Size(max = 50)
+    @NotBlank
+    private String rgPro;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataNascimentoPro;
+
+    @Size(max = 60)
+    private String enderecoPro;
+
+    @Size(max = 60)
+    private String bairroPro;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cidade cidadePro;
+
+    @Size(max = 15)
+    private String cepPro;
+
+    @Size(max = 16)
+    private String telefonePro;
+
+    @Size(max = 16)
+    private String celularPro;
+
+    @Size(max = 16)
+    private String faxPro;
+
+    @Size(max = 150)
+    @Email
+    private String emailPro;
+
+    @Size(max = 60)
+    private String profissaoPro;
+
+    private BigDecimal rendaPro;
+
+    private EstadoCivil estadoCivilPro;
+
+    private Escolaridade escolaridadePro;
+
+    @Size(max = 80)
+    private String nomePaiPro;
+
+    @Size(max = 80)
+    private String nomeMaePro;
+
+    @Size(max = 16)
+    private String telefoneMaePro;
+
+    @Size(max = 16)
+    private String telefonePaiPro;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascPaiPro;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascMaePro;
+
+    @Size(max = 60)
+    private String emailPaiPro;
+
+    @Size(max = 150)
+    @Email
+    private String emailMaePro;
+
+    private Boolean participaNegocioMaePro = null;
+
+    private Boolean participaNegocioPaiPro = null;
+
+    @Size(max = 60)
+    private String religiaoPro;
+
+    @Size(max = 60)
+    private String lazerPro;
+
+    @Size(max = 60)
+    private String prefMusicalPro;
+
+    @Size(max = 60)
+    private String prefLeituraPro;
+
+    @Size(max = 60)
+    private String esportePro;
+
+    @Size(max = 60)
+    private String timePro;
+
+    @Size(max = 60)
+    private String conjugePro;
+
+    @Size(max = 60)
+    private String conjugeNomeGuerraPro;
+
+    @Size(max = 15)
+    private String cpfConjPro;
+
+    @Size(max = 20)
+    private String rgConjPro;
+
+    @Size(max = 15)
+    private String celularConjPro;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascConjPro;
+
+    @Size(max = 60)
+    private String nomePaiConjPro;
+
+    @Size(max = 60)
+    private String nomeMaeConjPro;
+
+    @Size(max = 15)
+    private String telefoneMaeConjPro;
+
+    @Size(max = 15)
+    private String telefonePaiConjPro;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascPaiConjPro;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascMaeConjPro;
+
+    @Size(max = 150)
+    @Email
+    private String emailPaiConjPro;
+
+    @Size(max = 150)
+    @Email
+    private String emailMaeConjPro;
+
+    private Boolean participaNegocioMaeConjPro = null;
+
+    private Boolean participaNegocioPaiConjPro = null;
+
+    @Size(max = 50)
+    private String filho1NomePro;
+
+    @Size(max = 15)
+    private String filho1TelefonePro;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho1NasciPro;
+
+    private Boolean filho1PartNegocioPro = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho1EmailPro;
+
+    @Size(max = 50)
+    private String filho2NomePro;
+
+    @Size(max = 15)
+    private String filho2TelefonePro;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho2NasciPro;
+
+    private Boolean filho2PartNegocioPro = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho2EmailPro;
+
+    @Size(max = 50)
+    private String filho3NomePro;
+
+    @Size(max = 15)
+    private String filho3TelefonePro;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho3NasciPro;
+
+    private Boolean filho3PartNegocioPro = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho3EmailPro;
+
+    @Size(max = 50)
+    private String filho4NomePro;
+
+    @Size(max = 15)
+    private String filho4TelefonePro;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho4NasciPro;
+
+    private Boolean filho4PartNegocioPro = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho4EmailPro;
+
+    @Size(max = 50)
+    private String filho5NomePro;
+
+    @Size(max = 15)
+    private String filho5TelefonePro;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho5NasciPro;
+
+    private Boolean filho5PartNegocioPro = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho5EmailPro;
+
+    @Size(max = 50)
+    private String nomeSocio;
+
+    @Size(max = 50)
+    private String nomeGuerraSocio;
+
+    @Size(max = 16)
+    private String cpfSocio;
+
+    @Size(max = 20)
+    private String rgSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataNascimentoSocio;
+
+    @Size(max = 50)
+    private String enderecoSocio;
+
+    @Size(max = 20)
+    private String bairroSocio;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cidade cidadeSocio;
+
+    @Size(max = 15)
+    private String cepSocio;
+
+    @Size(max = 15)
+    private String telefoneSocio;
+
+    @Size(max = 15)
+    private String celularSocio;
+
+    @Size(max = 15)
+    private String faxSocio;
+
+    @Size(max = 150)
+    @Email
+    private String emailSocio;
+
+    @Size(max = 50)
+    private String profissaoSocio;
+
+    private BigDecimal rendaSocio;
+
+    private EstadoCivil estadoCivilSocio;
+
+    private Escolaridade escolaridadeSocio;
+
+    @Size(max = 50)
+    private String nomePaiSocio;
+
+    @Size(max = 50)
+    private String nomeMaeSocio;
+
+    @Size(max = 15)
+    private String telefoneMaeSocio;
+
+    @Size(max = 15)
+    private String telefonePaiSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascPaiSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascMaeSocio;
+
+    @Size(max = 150)
+    @Email
+    private String emailPaiSocio;
+
+    @Size(max = 150)
+    @Email
+    private String emailMaeSocio;
+
+    private Boolean participaNegocioMaeSocio = null;
+
+    private Boolean participaNegocioPaiSocio = null;
+
+    @Size(max = 20)
+    private String religiaoSocio;
+
+    @Size(max = 20)
+    private String lazerSocio;
+
+    @Size(max = 20)
+    private String prefMusicalSocio;
+
+    @Size(max = 20)
+    private String prefLeituraSocio;
+
+    @Size(max = 20)
+    private String esporteSocio;
+
+    @Size(max = 20)
+    private String timeSocio;
+
+    @Size(max = 50)
+    private String conjugeSocio;
+
+    @Size(max = 15)
+    private String conjugeNomeGuerraSocio;
+
+    @Size(max = 16)
+    private String cpfConjSocio;
+
+    @Size(max = 20)
+    private String rgConjSocio;
+
+    @Size(max = 15)
+    private String celularConjSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascConjSocio;
+
+    @Size(max = 50)
+    private String nomePaiConjSocio;
+
+    @Size(max = 50)
+    private String nomeMaeConjSocio;
+
+    @Size(max = 15)
+    private String telefoneMaeConjSocio;
+
+    @Size(max = 15)
+    private String telefonePaiConjSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascPaiConjSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date nascMaeConjSocio;
+
+    @Size(max = 150)
+    @Email
+    private String emailPaiConjSocio;
+
+    @Size(max = 150)
+    @Email
+    private String emailMaeConjSocio;
+
+    private Boolean participaNegocioMaeConjSocio = null;
+
+    private Boolean participaNegocioPaiConjSocio = null;
+
+    @Size(max = 50)
+    private String filho1NomeSocio;
+
+    @Size(max = 15)
+    private String filho1TelefoneSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho1NasciSocio;
+
+    private Boolean filho1PartNegocioSocio = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho1EmailSocio;
+
+    @Size(max = 50)
+    private String filho2NomeSocio;
+
+    @Size(max = 15)
+    private String filho2TelefoneSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho2NasciSocio;
+
+    private Boolean filho2PartNegocioSocio = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho2EmailSocio;
+
+    @Size(max = 50)
+    private String filho3NomeSocio;
+
+    @Size(max = 15)
+    private String filho3TelefoneSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho3NasciSocio;
+
+    private Boolean filho3PartNegocioSocio = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho3EmailSocio;
+
+    @Size(max = 50)
+    private String filho4NomeSocio;
+
+    @Size(max = 15)
+    private String filho4TelefoneSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho4NasciSocio;
+
+    private Boolean filho4PartNegocioSocio = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho4EmailSocio;
+
+    @Size(max = 50)
+    private String filho5NomeSocio;
+
+    @Size(max = 15)
+    private String filho5TelefoneSocio;
+
+    @Temporal(TemporalType.DATE)
+    private Date filho5NasciSocio;
+
+    private Boolean filho5PartNegocioSocio = null;
+
+    @Size(max = 150)
+    @Email
+    private String filho5EmailSocio;
+
+    @Size(max = 50)
+    private String nomeTitularConta;
+
+    private Bancos banco;
+
+    @Size(max = 20)
+    private String agencia;
+
+    private TipoContaBanco tipoConta;
+
+    @Size(max = 20)
+    private String numeroConta;
+
+    @Size(max = 50)
+    private String nomePropag;
+
+    @Size(max = 50)
+    private String enderecoPropag;
+
+    @Size(max = 50)
+    private String pontoRefereciaPropag;
+
+    @Size(max = 50)
+    private String slogan;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataInstalacao;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataAssinatura;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataConsulta;
+
+    @Size(max = 80)
+    private String vendedor;
+
+    @NotNull
+    private Integer metaDeGuias;
+
+    @NotNull
+    private BigDecimal metaCreditosDigitais;
+
+    @NotNull
+    private BigDecimal valorDaPromissoria;
+
+    @NotNull
+    @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL)
+    private List<ItensEquipe> itensEquipe = new ArrayList<ItensEquipe>();
+
+    private boolean ativo = true;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<ItensEquipe> getItensEquipe() {
+        return itensEquipe;
+    }
+
+    public void setItensEquipe(List<ItensEquipe> itensEquipe) {
+        this.itensEquipe = itensEquipe;
+    }
+
+    public Loja getLoja() {
+        return loja;
+    }
+
+    public void setLoja(Loja loja) {
+        this.loja = loja;
+    }
+
+    public String getRamoAtividades() {
+        return ramoAtividades;
+    }
+
+    public void setRamoAtividades(String ramoAtividades) {
+        this.ramoAtividades = ramoAtividades;
+    }
+
+    public Date getInicioAtividades() {
+        return inicioAtividades;
+    }
+
+    public void setInicioAtividades(Date inicioAtividades) {
+        this.inicioAtividades = inicioAtividades;
+    }
+
+    public boolean isDepositoSeg() {
+        return depositoSeg;
+    }
+
+    public void setDepositoSeg(boolean depositoSeg) {
+        this.depositoSeg = depositoSeg;
+    }
+
+    public boolean isDepositoTer() {
+        return depositoTer;
+    }
+
+    public void setDepositoTer(boolean depositoTer) {
+        this.depositoTer = depositoTer;
+    }
+
+    public boolean isDepositoQuar() {
+        return depositoQuar;
+    }
+
+    public void setDepositoQuar(boolean depositoQuar) {
+        this.depositoQuar = depositoQuar;
+    }
+
+    public boolean isDepositoQuin() {
+        return depositoQuin;
+    }
+
+    public void setDepositoQuin(boolean depositoQuin) {
+        this.depositoQuin = depositoQuin;
+    }
+
+    public boolean isDepositoSex() {
+        return depositoSex;
+    }
+
+    public void setDepositoSex(boolean depositoSex) {
+        this.depositoSex = depositoSex;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getWhatsApp() {
+        return whatsApp;
+    }
+
+    public void setWhatsApp(String whatsApp) {
+        this.whatsApp = whatsApp;
+    }
+
+    public String getOrelhaoProximo() {
+        return orelhaoProximo;
+    }
+
+    public void setOrelhaoProximo(String orelhaoProximo) {
+        this.orelhaoProximo = orelhaoProximo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSkype() {
+        return skype;
+    }
+
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public Date getFuncSegASextAbert() {
+        return funcSegASextAbert;
+    }
+
+    public void setFuncSegASextAbert(Date funcSegASextAbert) {
+        this.funcSegASextAbert = funcSegASextAbert;
+    }
+
+    public Date getFuncSegASextFechar() {
+        return funcSegASextFechar;
+    }
+
+    public void setFuncSegASextFechar(Date funcSegASextFechar) {
+        this.funcSegASextFechar = funcSegASextFechar;
+    }
+
+    public Date getFuncSabadoAbert() {
+        return funcSabadoAbert;
+    }
+
+    public void setFuncSabadoAbert(Date funcSabadoAbert) {
+        this.funcSabadoAbert = funcSabadoAbert;
+    }
+
+    public Date getFuncSabadoFechar() {
+        return funcSabadoFechar;
+    }
+
+    public void setFuncSabadoFechar(Date funcSabadoFechar) {
+        this.funcSabadoFechar = funcSabadoFechar;
+    }
+
+    public boolean isOpArrecContas() {
+        return opArrecContas;
+    }
+
+    public void setOpArrecContas(boolean opArrecContas) {
+        this.opArrecContas = opArrecContas;
+    }
+
+    public boolean isOpVendCD() {
+        return opVendCD;
+    }
+
+    public void setOpVendCD(boolean opVendCD) {
+        this.opVendCD = opVendCD;
+    }
+
+    public boolean isOpServicos() {
+        return opServicos;
+    }
+
+    public void setOpServicos(boolean opServicos) {
+        this.opServicos = opServicos;
+    }
+
+    public boolean isOpBB() {
+        return opBB;
+    }
+
+    public void setOpBB(boolean opBB) {
+        this.opBB = opBB;
+    }
+
+    public Date getHoraFechCaixa() {
+        return horaFechCaixa;
+    }
+
+    public void setHoraFechCaixa(Date horaFechCaixa) {
+        this.horaFechCaixa = horaFechCaixa;
+    }
+
+    public boolean isDiaAutOpSeg() {
+        return diaAutOpSeg;
+    }
+
+    public void setDiaAutOpSeg(boolean diaAutOpSeg) {
+        this.diaAutOpSeg = diaAutOpSeg;
+    }
+
+    public boolean isDiaAutOpTerc() {
+        return diaAutOpTerc;
+    }
+
+    public void setDiaAutOpTerc(boolean diaAutOpTerc) {
+        this.diaAutOpTerc = diaAutOpTerc;
+    }
+
+    public boolean isDiaAutOpQuar() {
+        return diaAutOpQuar;
+    }
+
+    public void setDiaAutOpQuar(boolean diaAutOpQuar) {
+        this.diaAutOpQuar = diaAutOpQuar;
+    }
+
+    public boolean isDiaAutOpQui() {
+        return diaAutOpQui;
+    }
+
+    public void setDiaAutOpQui(boolean diaAutOpQui) {
+        this.diaAutOpQui = diaAutOpQui;
+    }
+
+    public boolean isDiaAutOpSex() {
+        return diaAutOpSex;
+    }
+
+    public void setDiaAutOpSex(boolean diaAutOpSex) {
+        this.diaAutOpSex = diaAutOpSex;
+    }
+
+    public boolean isDiaAutOpSab() {
+        return diaAutOpSab;
+    }
+
+    public void setDiaAutOpSab(boolean diaAutOpSab) {
+        this.diaAutOpSab = diaAutOpSab;
+    }
+
+    public boolean isDiaAutOpDom() {
+        return diaAutOpDom;
+    }
+
+    public void setDiaAutOpDom(boolean diaAutOpDom) {
+        this.diaAutOpDom = diaAutOpDom;
+    }
+
+    public boolean isDiaAutOpFeriados() {
+        return diaAutOpFeriados;
+    }
+
+    public void setDiaAutOpFeriados(boolean diaAutOpFeriados) {
+        this.diaAutOpFeriados = diaAutOpFeriados;
+    }
+
+    public String getNomePro() {
+        return nomePro;
+    }
+
+    public void setNomePro(String nomePro) {
+        this.nomePro = nomePro;
+    }
+
+    public String getNomeGuerraPro() {
+        return nomeGuerraPro;
+    }
+
+    public void setNomeGuerraPro(String nomeGuerraPro) {
+        this.nomeGuerraPro = nomeGuerraPro;
+    }
+
+    public String getCpfPro() {
+        return cpfPro;
+    }
+
+    public void setCpfPro(String cpfPro) {
+        this.cpfPro = cpfPro;
+    }
+
+    public String getRgPro() {
+        return rgPro;
+    }
+
+    public void setRgPro(String rgPro) {
+        this.rgPro = rgPro;
+    }
+
+    public Date getDataNascimentoPro() {
+        return dataNascimentoPro;
+    }
+
+    public void setDataNascimentoPro(Date dataNascimentoPro) {
+        this.dataNascimentoPro = dataNascimentoPro;
+    }
+
+    public String getEnderecoPro() {
+        return enderecoPro;
+    }
+
+    public void setEnderecoPro(String enderecoPro) {
+        this.enderecoPro = enderecoPro;
+    }
+
+    public String getBairroPro() {
+        return bairroPro;
+    }
+
+    public void setBairroPro(String bairroPro) {
+        this.bairroPro = bairroPro;
+    }
+
+    public Cidade getCidadePro() {
+        return cidadePro;
+    }
+
+    public void setCidadePro(Cidade cidadePro) {
+        this.cidadePro = cidadePro;
+    }
+
+    public String getCepPro() {
+        return cepPro;
+    }
+
+    public void setCepPro(String cepPro) {
+        this.cepPro = cepPro;
+    }
+
+    public String getTelefonePro() {
+        return telefonePro;
+    }
+
+    public void setTelefonePro(String telefonePro) {
+        this.telefonePro = telefonePro;
+    }
+
+    public String getCelularPro() {
+        return celularPro;
+    }
+
+    public void setCelularPro(String celularPro) {
+        this.celularPro = celularPro;
+    }
+
+    public String getFaxPro() {
+        return faxPro;
+    }
+
+    public void setFaxPro(String faxPro) {
+        this.faxPro = faxPro;
+    }
+
+    public String getEmailPro() {
+        return emailPro;
+    }
+
+    public void setEmailPro(String emailPro) {
+        this.emailPro = emailPro;
+    }
+
+    public String getProfissaoPro() {
+        return profissaoPro;
+    }
+
+    public void setProfissaoPro(String profissaoPro) {
+        this.profissaoPro = profissaoPro;
+    }
+
+    public BigDecimal getRendaPro() {
+        return rendaPro;
+    }
+
+    public void setRendaPro(BigDecimal rendaPro) {
+        this.rendaPro = rendaPro;
+    }
+
+    public EstadoCivil getEstadoCivilPro() {
+        return estadoCivilPro;
+    }
+
+    public void setEstadoCivilPro(EstadoCivil estadoCivilPro) {
+        this.estadoCivilPro = estadoCivilPro;
+    }
+
+    public Escolaridade getEscolaridadePro() {
+        return escolaridadePro;
+    }
+
+    public void setEscolaridadePro(Escolaridade escolaridadePro) {
+        this.escolaridadePro = escolaridadePro;
+    }
+
+    public String getNomePaiPro() {
+        return nomePaiPro;
+    }
+
+    public void setNomePaiPro(String nomePaiPro) {
+        this.nomePaiPro = nomePaiPro;
+    }
+
+    public String getNomeMaePro() {
+        return nomeMaePro;
+    }
+
+    public void setNomeMaePro(String nomeMaePro) {
+        this.nomeMaePro = nomeMaePro;
+    }
+
+    public String getTelefoneMaePro() {
+        return telefoneMaePro;
+    }
+
+    public void setTelefoneMaePro(String telefoneMaePro) {
+        this.telefoneMaePro = telefoneMaePro;
+    }
+
+    public String getTelefonePaiPro() {
+        return telefonePaiPro;
+    }
+
+    public void setTelefonePaiPro(String telefonePaiPro) {
+        this.telefonePaiPro = telefonePaiPro;
+    }
+
+    public Date getNascPaiPro() {
+        return nascPaiPro;
+    }
+
+    public void setNascPaiPro(Date nascPaiPro) {
+        this.nascPaiPro = nascPaiPro;
+    }
+
+    public Date getNascMaePro() {
+        return nascMaePro;
+    }
+
+    public void setNascMaePro(Date nascMaePro) {
+        this.nascMaePro = nascMaePro;
+    }
+
+    public String getEmailPaiPro() {
+        return emailPaiPro;
+    }
+
+    public void setEmailPaiPro(String emailPaiPro) {
+        this.emailPaiPro = emailPaiPro;
+    }
+
+    public String getEmailMaePro() {
+        return emailMaePro;
+    }
+
+    public void setEmailMaePro(String emailMaePro) {
+        this.emailMaePro = emailMaePro;
+    }
+
+    public Boolean getParticipaNegocioMaePro() {
+        return participaNegocioMaePro;
+    }
+
+    public void setParticipaNegocioMaePro(Boolean participaNegocioMaePro) {
+        this.participaNegocioMaePro = participaNegocioMaePro;
+    }
+
+    public Boolean getParticipaNegocioPaiPro() {
+        return participaNegocioPaiPro;
+    }
+
+    public void setParticipaNegocioPaiPro(Boolean participaNegocioPaiPro) {
+        this.participaNegocioPaiPro = participaNegocioPaiPro;
+    }
+
+    public String getReligiaoPro() {
+        return religiaoPro;
+    }
+
+    public void setReligiaoPro(String religiaoPro) {
+        this.religiaoPro = religiaoPro;
+    }
+
+    public String getLazerPro() {
+        return lazerPro;
+    }
+
+    public void setLazerPro(String lazerPro) {
+        this.lazerPro = lazerPro;
+    }
+
+    public String getPrefMusicalPro() {
+        return prefMusicalPro;
+    }
+
+    public void setPrefMusicalPro(String prefMusicalPro) {
+        this.prefMusicalPro = prefMusicalPro;
+    }
+
+    public String getPrefLeituraPro() {
+        return prefLeituraPro;
+    }
+
+    public void setPrefLeituraPro(String prefLeituraPro) {
+        this.prefLeituraPro = prefLeituraPro;
+    }
+
+    public String getEsportePro() {
+        return esportePro;
+    }
+
+    public void setEsportePro(String esportePro) {
+        this.esportePro = esportePro;
+    }
+
+    public String getTimePro() {
+        return timePro;
+    }
+
+    public void setTimePro(String timePro) {
+        this.timePro = timePro;
+    }
+
+    public String getConjugePro() {
+        return conjugePro;
+    }
+
+    public void setConjugePro(String conjugePro) {
+        this.conjugePro = conjugePro;
+    }
+
+    public String getConjugeNomeGuerraPro() {
+        return conjugeNomeGuerraPro;
+    }
+
+    public void setConjugeNomeGuerraPro(String conjugeNomeGuerraPro) {
+        this.conjugeNomeGuerraPro = conjugeNomeGuerraPro;
+    }
+
+    public String getCpfConjPro() {
+        return cpfConjPro;
+    }
+
+    public void setCpfConjPro(String cpfConjPro) {
+        this.cpfConjPro = cpfConjPro;
+    }
+
+    public String getRgConjPro() {
+        return rgConjPro;
+    }
+
+    public void setRgConjPro(String rgConjPro) {
+        this.rgConjPro = rgConjPro;
+    }
+
+    public String getCelularConjPro() {
+        return celularConjPro;
+    }
+
+    public void setCelularConjPro(String celularConjPro) {
+        this.celularConjPro = celularConjPro;
+    }
+
+    public Date getNascConjPro() {
+        return nascConjPro;
+    }
+
+    public void setNascConjPro(Date nascConjPro) {
+        this.nascConjPro = nascConjPro;
+    }
+
+    public String getNomePaiConjPro() {
+        return nomePaiConjPro;
+    }
+
+    public void setNomePaiConjPro(String nomePaiConjPro) {
+        this.nomePaiConjPro = nomePaiConjPro;
+    }
+
+    public String getNomeMaeConjPro() {
+        return nomeMaeConjPro;
+    }
+
+    public void setNomeMaeConjPro(String nomeMaeConjPro) {
+        this.nomeMaeConjPro = nomeMaeConjPro;
+    }
+
+    public String getTelefoneMaeConjPro() {
+        return telefoneMaeConjPro;
+    }
+
+    public void setTelefoneMaeConjPro(String telefoneMaeConjPro) {
+        this.telefoneMaeConjPro = telefoneMaeConjPro;
+    }
+
+    public String getTelefonePaiConjPro() {
+        return telefonePaiConjPro;
+    }
+
+    public void setTelefonePaiConjPro(String telefonePaiConjPro) {
+        this.telefonePaiConjPro = telefonePaiConjPro;
+    }
+
+    public Date getNascPaiConjPro() {
+        return nascPaiConjPro;
+    }
+
+    public void setNascPaiConjPro(Date nascPaiConjPro) {
+        this.nascPaiConjPro = nascPaiConjPro;
+    }
+
+    public Date getNascMaeConjPro() {
+        return nascMaeConjPro;
+    }
+
+    public void setNascMaeConjPro(Date nascMaeConjPro) {
+        this.nascMaeConjPro = nascMaeConjPro;
+    }
+
+    public String getEmailPaiConjPro() {
+        return emailPaiConjPro;
+    }
+
+    public void setEmailPaiConjPro(String emailPaiConjPro) {
+        this.emailPaiConjPro = emailPaiConjPro;
+    }
+
+    public String getEmailMaeConjPro() {
+        return emailMaeConjPro;
+    }
+
+    public void setEmailMaeConjPro(String emailMaeConjPro) {
+        this.emailMaeConjPro = emailMaeConjPro;
+    }
+
+    public Boolean getParticipaNegocioMaeConjPro() {
+        return participaNegocioMaeConjPro;
+    }
+
+    public void setParticipaNegocioMaeConjPro(Boolean participaNegocioMaeConjPro) {
+        this.participaNegocioMaeConjPro = participaNegocioMaeConjPro;
+    }
+
+    public Boolean getParticipaNegocioPaiConjPro() {
+        return participaNegocioPaiConjPro;
+    }
+
+    public void setParticipaNegocioPaiConjPro(Boolean participaNegocioPaiConjPro) {
+        this.participaNegocioPaiConjPro = participaNegocioPaiConjPro;
+    }
+
+    public String getFilho1NomePro() {
+        return filho1NomePro;
+    }
+
+    public void setFilho1NomePro(String filho1NomePro) {
+        this.filho1NomePro = filho1NomePro;
+    }
+
+    public String getFilho1TelefonePro() {
+        return filho1TelefonePro;
+    }
+
+    public void setFilho1TelefonePro(String filho1TelefonePro) {
+        this.filho1TelefonePro = filho1TelefonePro;
+    }
+
+    public Date getFilho1NasciPro() {
+        return filho1NasciPro;
+    }
+
+    public void setFilho1NasciPro(Date filho1NasciPro) {
+        this.filho1NasciPro = filho1NasciPro;
+    }
+
+    public Boolean getFilho1PartNegocioPro() {
+        return filho1PartNegocioPro;
+    }
+
+    public void setFilho1PartNegocioPro(Boolean filho1PartNegocioPro) {
+        this.filho1PartNegocioPro = filho1PartNegocioPro;
+    }
+
+    public String getFilho1EmailPro() {
+        return filho1EmailPro;
+    }
+
+    public void setFilho1EmailPro(String filho1EmailPro) {
+        this.filho1EmailPro = filho1EmailPro;
+    }
+
+    public String getFilho2NomePro() {
+        return filho2NomePro;
+    }
+
+    public void setFilho2NomePro(String filho2NomePro) {
+        this.filho2NomePro = filho2NomePro;
+    }
+
+    public String getFilho2TelefonePro() {
+        return filho2TelefonePro;
+    }
+
+    public void setFilho2TelefonePro(String filho2TelefonePro) {
+        this.filho2TelefonePro = filho2TelefonePro;
+    }
+
+    public Date getFilho2NasciPro() {
+        return filho2NasciPro;
+    }
+
+    public void setFilho2NasciPro(Date filho2NasciPro) {
+        this.filho2NasciPro = filho2NasciPro;
+    }
+
+    public Boolean getFilho2PartNegocioPro() {
+        return filho2PartNegocioPro;
+    }
+
+    public void setFilho2PartNegocioPro(Boolean filho2PartNegocioPro) {
+        this.filho2PartNegocioPro = filho2PartNegocioPro;
+    }
+
+    public String getFilho2EmailPro() {
+        return filho2EmailPro;
+    }
+
+    public void setFilho2EmailPro(String filho2EmailPro) {
+        this.filho2EmailPro = filho2EmailPro;
+    }
+
+    public String getFilho3NomePro() {
+        return filho3NomePro;
+    }
+
+    public void setFilho3NomePro(String filho3NomePro) {
+        this.filho3NomePro = filho3NomePro;
+    }
+
+    public String getFilho3TelefonePro() {
+        return filho3TelefonePro;
+    }
+
+    public void setFilho3TelefonePro(String filho3TelefonePro) {
+        this.filho3TelefonePro = filho3TelefonePro;
+    }
+
+    public Date getFilho3NasciPro() {
+        return filho3NasciPro;
+    }
+
+    public void setFilho3NasciPro(Date filho3NasciPro) {
+        this.filho3NasciPro = filho3NasciPro;
+    }
+
+    public Boolean getFilho3PartNegocioPro() {
+        return filho3PartNegocioPro;
+    }
+
+    public void setFilho3PartNegocioPro(Boolean filho3PartNegocioPro) {
+        this.filho3PartNegocioPro = filho3PartNegocioPro;
+    }
+
+    public String getFilho3EmailPro() {
+        return filho3EmailPro;
+    }
+
+    public void setFilho3EmailPro(String filho3EmailPro) {
+        this.filho3EmailPro = filho3EmailPro;
+    }
+
+    public String getFilho4NomePro() {
+        return filho4NomePro;
+    }
+
+    public void setFilho4NomePro(String filho4NomePro) {
+        this.filho4NomePro = filho4NomePro;
+    }
+
+    public String getFilho4TelefonePro() {
+        return filho4TelefonePro;
+    }
+
+    public void setFilho4TelefonePro(String filho4TelefonePro) {
+        this.filho4TelefonePro = filho4TelefonePro;
+    }
+
+    public Date getFilho4NasciPro() {
+        return filho4NasciPro;
+    }
+
+    public void setFilho4NasciPro(Date filho4NasciPro) {
+        this.filho4NasciPro = filho4NasciPro;
+    }
+
+    public Boolean getFilho4PartNegocioPro() {
+        return filho4PartNegocioPro;
+    }
+
+    public void setFilho4PartNegocioPro(Boolean filho4PartNegocioPro) {
+        this.filho4PartNegocioPro = filho4PartNegocioPro;
+    }
+
+    public String getFilho4EmailPro() {
+        return filho4EmailPro;
+    }
+
+    public void setFilho4EmailPro(String filho4EmailPro) {
+        this.filho4EmailPro = filho4EmailPro;
+    }
+
+    public String getFilho5NomePro() {
+        return filho5NomePro;
+    }
+
+    public void setFilho5NomePro(String filho5NomePro) {
+        this.filho5NomePro = filho5NomePro;
+    }
+
+    public String getFilho5TelefonePro() {
+        return filho5TelefonePro;
+    }
+
+    public void setFilho5TelefonePro(String filho5TelefonePro) {
+        this.filho5TelefonePro = filho5TelefonePro;
+    }
+
+    public Date getFilho5NasciPro() {
+        return filho5NasciPro;
+    }
+
+    public void setFilho5NasciPro(Date filho5NasciPro) {
+        this.filho5NasciPro = filho5NasciPro;
+    }
+
+    public Boolean getFilho5PartNegocioPro() {
+        return filho5PartNegocioPro;
+    }
+
+    public void setFilho5PartNegocioPro(Boolean filho5PartNegocioPro) {
+        this.filho5PartNegocioPro = filho5PartNegocioPro;
+    }
+
+    public String getFilho5EmailPro() {
+        return filho5EmailPro;
+    }
+
+    public void setFilho5EmailPro(String filho5EmailPro) {
+        this.filho5EmailPro = filho5EmailPro;
+    }
+
+    public String getNomeSocio() {
+        return nomeSocio;
+    }
+
+    public void setNomeSocio(String nomeSocio) {
+        this.nomeSocio = nomeSocio;
+    }
+
+    public String getNomeGuerraSocio() {
+        return nomeGuerraSocio;
+    }
+
+    public void setNomeGuerraSocio(String nomeGuerraSocio) {
+        this.nomeGuerraSocio = nomeGuerraSocio;
+    }
+
+    public String getCpfSocio() {
+        return cpfSocio;
+    }
+
+    public void setCpfSocio(String cpfSocio) {
+        this.cpfSocio = cpfSocio;
+    }
+
+    public String getRgSocio() {
+        return rgSocio;
+    }
+
+    public void setRgSocio(String rgSocio) {
+        this.rgSocio = rgSocio;
+    }
+
+    public Date getDataNascimentoSocio() {
+        return dataNascimentoSocio;
+    }
+
+    public void setDataNascimentoSocio(Date dataNascimentoSocio) {
+        this.dataNascimentoSocio = dataNascimentoSocio;
+    }
+
+    public String getEnderecoSocio() {
+        return enderecoSocio;
+    }
+
+    public void setEnderecoSocio(String enderecoSocio) {
+        this.enderecoSocio = enderecoSocio;
+    }
+
+    public String getBairroSocio() {
+        return bairroSocio;
+    }
+
+    public void setBairroSocio(String bairroSocio) {
+        this.bairroSocio = bairroSocio;
+    }
+
+    public Cidade getCidadeSocio() {
+        return cidadeSocio;
+    }
+
+    public void setCidadeSocio(Cidade cidadeSocio) {
+        this.cidadeSocio = cidadeSocio;
+    }
+
+    public String getCepSocio() {
+        return cepSocio;
+    }
+
+    public void setCepSocio(String cepSocio) {
+        this.cepSocio = cepSocio;
+    }
+
+    public String getTelefoneSocio() {
+        return telefoneSocio;
+    }
+
+    public void setTelefoneSocio(String telefoneSocio) {
+        this.telefoneSocio = telefoneSocio;
+    }
+
+    public String getCelularSocio() {
+        return celularSocio;
+    }
+
+    public void setCelularSocio(String celularSocio) {
+        this.celularSocio = celularSocio;
+    }
+
+    public String getFaxSocio() {
+        return faxSocio;
+    }
+
+    public void setFaxSocio(String faxSocio) {
+        this.faxSocio = faxSocio;
+    }
+
+    public String getEmailSocio() {
+        return emailSocio;
+    }
+
+    public void setEmailSocio(String emailSocio) {
+        this.emailSocio = emailSocio;
+    }
+
+    public String getProfissaoSocio() {
+        return profissaoSocio;
+    }
+
+    public void setProfissaoSocio(String profissaoSocio) {
+        this.profissaoSocio = profissaoSocio;
+    }
+
+    public BigDecimal getRendaSocio() {
+        return rendaSocio;
+    }
+
+    public void setRendaSocio(BigDecimal rendaSocio) {
+        this.rendaSocio = rendaSocio;
+    }
+
+    public EstadoCivil getEstadoCivilSocio() {
+        return estadoCivilSocio;
+    }
+
+    public void setEstadoCivilSocio(EstadoCivil estadoCivilSocio) {
+        this.estadoCivilSocio = estadoCivilSocio;
+    }
+
+    public Escolaridade getEscolaridadeSocio() {
+        return escolaridadeSocio;
+    }
+
+    public void setEscolaridadeSocio(Escolaridade escolaridadeSocio) {
+        this.escolaridadeSocio = escolaridadeSocio;
+    }
+
+    public String getNomePaiSocio() {
+        return nomePaiSocio;
+    }
+
+    public void setNomePaiSocio(String nomePaiSocio) {
+        this.nomePaiSocio = nomePaiSocio;
+    }
+
+    public String getNomeMaeSocio() {
+        return nomeMaeSocio;
+    }
+
+    public void setNomeMaeSocio(String nomeMaeSocio) {
+        this.nomeMaeSocio = nomeMaeSocio;
+    }
+
+    public String getTelefoneMaeSocio() {
+        return telefoneMaeSocio;
+    }
+
+    public void setTelefoneMaeSocio(String telefoneMaeSocio) {
+        this.telefoneMaeSocio = telefoneMaeSocio;
+    }
+
+    public String getTelefonePaiSocio() {
+        return telefonePaiSocio;
+    }
+
+    public void setTelefonePaiSocio(String telefonePaiSocio) {
+        this.telefonePaiSocio = telefonePaiSocio;
+    }
+
+    public Date getNascPaiSocio() {
+        return nascPaiSocio;
+    }
+
+    public void setNascPaiSocio(Date nascPaiSocio) {
+        this.nascPaiSocio = nascPaiSocio;
+    }
+
+    public Date getNascMaeSocio() {
+        return nascMaeSocio;
+    }
+
+    public void setNascMaeSocio(Date nascMaeSocio) {
+        this.nascMaeSocio = nascMaeSocio;
+    }
+
+    public String getEmailPaiSocio() {
+        return emailPaiSocio;
+    }
+
+    public void setEmailPaiSocio(String emailPaiSocio) {
+        this.emailPaiSocio = emailPaiSocio;
+    }
+
+    public String getEmailMaeSocio() {
+        return emailMaeSocio;
+    }
+
+    public void setEmailMaeSocio(String emailMaeSocio) {
+        this.emailMaeSocio = emailMaeSocio;
+    }
+
+    public Boolean getParticipaNegocioMaeSocio() {
+        return participaNegocioMaeSocio;
+    }
+
+    public void setParticipaNegocioMaeSocio(Boolean participaNegocioMaeSocio) {
+        this.participaNegocioMaeSocio = participaNegocioMaeSocio;
+    }
+
+    public Boolean getParticipaNegocioPaiSocio() {
+        return participaNegocioPaiSocio;
+    }
+
+    public void setParticipaNegocioPaiSocio(Boolean participaNegocioPaiSocio) {
+        this.participaNegocioPaiSocio = participaNegocioPaiSocio;
+    }
+
+    public String getReligiaoSocio() {
+        return religiaoSocio;
+    }
+
+    public void setReligiaoSocio(String religiaoSocio) {
+        this.religiaoSocio = religiaoSocio;
+    }
+
+    public String getLazerSocio() {
+        return lazerSocio;
+    }
+
+    public void setLazerSocio(String lazerSocio) {
+        this.lazerSocio = lazerSocio;
+    }
+
+    public String getPrefMusicalSocio() {
+        return prefMusicalSocio;
+    }
+
+    public void setPrefMusicalSocio(String prefMusicalSocio) {
+        this.prefMusicalSocio = prefMusicalSocio;
+    }
+
+    public String getPrefLeituraSocio() {
+        return prefLeituraSocio;
+    }
+
+    public void setPrefLeituraSocio(String prefLeituraSocio) {
+        this.prefLeituraSocio = prefLeituraSocio;
+    }
+
+    public String getEsporteSocio() {
+        return esporteSocio;
+    }
+
+    public void setEsporteSocio(String esporteSocio) {
+        this.esporteSocio = esporteSocio;
+    }
+
+    public String getTimeSocio() {
+        return timeSocio;
+    }
+
+    public void setTimeSocio(String timeSocio) {
+        this.timeSocio = timeSocio;
+    }
+
+    public String getConjugeSocio() {
+        return conjugeSocio;
+    }
+
+    public void setConjugeSocio(String conjugeSocio) {
+        this.conjugeSocio = conjugeSocio;
+    }
+
+    public String getConjugeNomeGuerraSocio() {
+        return conjugeNomeGuerraSocio;
+    }
+
+    public void setConjugeNomeGuerraSocio(String conjugeNomeGuerraSocio) {
+        this.conjugeNomeGuerraSocio = conjugeNomeGuerraSocio;
+    }
+
+    public String getCpfConjSocio() {
+        return cpfConjSocio;
+    }
+
+    public void setCpfConjSocio(String cpfConjSocio) {
+        this.cpfConjSocio = cpfConjSocio;
+    }
+
+    public String getRgConjSocio() {
+        return rgConjSocio;
+    }
+
+    public void setRgConjSocio(String rgConjSocio) {
+        this.rgConjSocio = rgConjSocio;
+    }
+
+    public String getCelularConjSocio() {
+        return celularConjSocio;
+    }
+
+    public void setCelularConjSocio(String celularConjSocio) {
+        this.celularConjSocio = celularConjSocio;
+    }
+
+    public Date getNascConjSocio() {
+        return nascConjSocio;
+    }
+
+    public void setNascConjSocio(Date nascConjSocio) {
+        this.nascConjSocio = nascConjSocio;
+    }
+
+    public String getNomePaiConjSocio() {
+        return nomePaiConjSocio;
+    }
+
+    public void setNomePaiConjSocio(String nomePaiConjSocio) {
+        this.nomePaiConjSocio = nomePaiConjSocio;
+    }
+
+    public String getNomeMaeConjSocio() {
+        return nomeMaeConjSocio;
+    }
+
+    public void setNomeMaeConjSocio(String nomeMaeConjSocio) {
+        this.nomeMaeConjSocio = nomeMaeConjSocio;
+    }
+
+    public String getTelefoneMaeConjSocio() {
+        return telefoneMaeConjSocio;
+    }
+
+    public void setTelefoneMaeConjSocio(String telefoneMaeConjSocio) {
+        this.telefoneMaeConjSocio = telefoneMaeConjSocio;
+    }
+
+    public String getTelefonePaiConjSocio() {
+        return telefonePaiConjSocio;
+    }
+
+    public void setTelefonePaiConjSocio(String telefonePaiConjSocio) {
+        this.telefonePaiConjSocio = telefonePaiConjSocio;
+    }
+
+    public Date getNascPaiConjSocio() {
+        return nascPaiConjSocio;
+    }
+
+    public void setNascPaiConjSocio(Date nascPaiConjSocio) {
+        this.nascPaiConjSocio = nascPaiConjSocio;
+    }
+
+    public Date getNascMaeConjSocio() {
+        return nascMaeConjSocio;
+    }
+
+    public void setNascMaeConjSocio(Date nascMaeConjSocio) {
+        this.nascMaeConjSocio = nascMaeConjSocio;
+    }
+
+    public String getEmailPaiConjSocio() {
+        return emailPaiConjSocio;
+    }
+
+    public void setEmailPaiConjSocio(String emailPaiConjSocio) {
+        this.emailPaiConjSocio = emailPaiConjSocio;
+    }
+
+    public String getEmailMaeConjSocio() {
+        return emailMaeConjSocio;
+    }
+
+    public void setEmailMaeConjSocio(String emailMaeConjSocio) {
+        this.emailMaeConjSocio = emailMaeConjSocio;
+    }
+
+    public Boolean getParticipaNegocioMaeConjSocio() {
+        return participaNegocioMaeConjSocio;
+    }
+
+    public void setParticipaNegocioMaeConjSocio(Boolean participaNegocioMaeConjSocio) {
+        this.participaNegocioMaeConjSocio = participaNegocioMaeConjSocio;
+    }
+
+    public Boolean getParticipaNegocioPaiConjSocio() {
+        return participaNegocioPaiConjSocio;
+    }
+
+    public void setParticipaNegocioPaiConjSocio(Boolean participaNegocioPaiConjSocio) {
+        this.participaNegocioPaiConjSocio = participaNegocioPaiConjSocio;
+    }
+
+    public String getFilho1NomeSocio() {
+        return filho1NomeSocio;
+    }
+
+    public void setFilho1NomeSocio(String filho1NomeSocio) {
+        this.filho1NomeSocio = filho1NomeSocio;
+    }
+
+    public String getFilho1TelefoneSocio() {
+        return filho1TelefoneSocio;
+    }
+
+    public void setFilho1TelefoneSocio(String filho1TelefoneSocio) {
+        this.filho1TelefoneSocio = filho1TelefoneSocio;
+    }
+
+    public Date getFilho1NasciSocio() {
+        return filho1NasciSocio;
+    }
+
+    public void setFilho1NasciSocio(Date filho1NasciSocio) {
+        this.filho1NasciSocio = filho1NasciSocio;
+    }
+
+    public Boolean getFilho1PartNegocioSocio() {
+        return filho1PartNegocioSocio;
+    }
+
+    public void setFilho1PartNegocioSocio(Boolean filho1PartNegocioSocio) {
+        this.filho1PartNegocioSocio = filho1PartNegocioSocio;
+    }
+
+    public String getFilho1EmailSocio() {
+        return filho1EmailSocio;
+    }
+
+    public void setFilho1EmailSocio(String filho1EmailSocio) {
+        this.filho1EmailSocio = filho1EmailSocio;
+    }
+
+    public String getFilho2NomeSocio() {
+        return filho2NomeSocio;
+    }
+
+    public void setFilho2NomeSocio(String filho2NomeSocio) {
+        this.filho2NomeSocio = filho2NomeSocio;
+    }
+
+    public String getFilho2TelefoneSocio() {
+        return filho2TelefoneSocio;
+    }
+
+    public void setFilho2TelefoneSocio(String filho2TelefoneSocio) {
+        this.filho2TelefoneSocio = filho2TelefoneSocio;
+    }
+
+    public Date getFilho2NasciSocio() {
+        return filho2NasciSocio;
+    }
+
+    public void setFilho2NasciSocio(Date filho2NasciSocio) {
+        this.filho2NasciSocio = filho2NasciSocio;
+    }
+
+    public Boolean getFilho2PartNegocioSocio() {
+        return filho2PartNegocioSocio;
+    }
+
+    public void setFilho2PartNegocioSocio(Boolean filho2PartNegocioSocio) {
+        this.filho2PartNegocioSocio = filho2PartNegocioSocio;
+    }
+
+    public String getFilho2EmailSocio() {
+        return filho2EmailSocio;
+    }
+
+    public void setFilho2EmailSocio(String filho2EmailSocio) {
+        this.filho2EmailSocio = filho2EmailSocio;
+    }
+
+    public String getFilho3NomeSocio() {
+        return filho3NomeSocio;
+    }
+
+    public void setFilho3NomeSocio(String filho3NomeSocio) {
+        this.filho3NomeSocio = filho3NomeSocio;
+    }
+
+    public String getFilho3TelefoneSocio() {
+        return filho3TelefoneSocio;
+    }
+
+    public void setFilho3TelefoneSocio(String filho3TelefoneSocio) {
+        this.filho3TelefoneSocio = filho3TelefoneSocio;
+    }
+
+    public Date getFilho3NasciSocio() {
+        return filho3NasciSocio;
+    }
+
+    public void setFilho3NasciSocio(Date filho3NasciSocio) {
+        this.filho3NasciSocio = filho3NasciSocio;
+    }
+
+    public Boolean getFilho3PartNegocioSocio() {
+        return filho3PartNegocioSocio;
+    }
+
+    public void setFilho3PartNegocioSocio(Boolean filho3PartNegocioSocio) {
+        this.filho3PartNegocioSocio = filho3PartNegocioSocio;
+    }
+
+    public String getFilho3EmailSocio() {
+        return filho3EmailSocio;
+    }
+
+    public void setFilho3EmailSocio(String filho3EmailSocio) {
+        this.filho3EmailSocio = filho3EmailSocio;
+    }
+
+    public String getFilho4NomeSocio() {
+        return filho4NomeSocio;
+    }
+
+    public void setFilho4NomeSocio(String filho4NomeSocio) {
+        this.filho4NomeSocio = filho4NomeSocio;
+    }
+
+    public String getFilho4TelefoneSocio() {
+        return filho4TelefoneSocio;
+    }
+
+    public void setFilho4TelefoneSocio(String filho4TelefoneSocio) {
+        this.filho4TelefoneSocio = filho4TelefoneSocio;
+    }
+
+    public Date getFilho4NasciSocio() {
+        return filho4NasciSocio;
+    }
+
+    public void setFilho4NasciSocio(Date filho4NasciSocio) {
+        this.filho4NasciSocio = filho4NasciSocio;
+    }
+
+    public Boolean getFilho4PartNegocioSocio() {
+        return filho4PartNegocioSocio;
+    }
+
+    public void setFilho4PartNegocioSocio(Boolean filho4PartNegocioSocio) {
+        this.filho4PartNegocioSocio = filho4PartNegocioSocio;
+    }
+
+    public String getFilho4EmailSocio() {
+        return filho4EmailSocio;
+    }
+
+    public void setFilho4EmailSocio(String filho4EmailSocio) {
+        this.filho4EmailSocio = filho4EmailSocio;
+    }
+
+    public String getFilho5NomeSocio() {
+        return filho5NomeSocio;
+    }
+
+    public void setFilho5NomeSocio(String filho5NomeSocio) {
+        this.filho5NomeSocio = filho5NomeSocio;
+    }
+
+    public String getFilho5TelefoneSocio() {
+        return filho5TelefoneSocio;
+    }
+
+    public void setFilho5TelefoneSocio(String filho5TelefoneSocio) {
+        this.filho5TelefoneSocio = filho5TelefoneSocio;
+    }
+
+    public Date getFilho5NasciSocio() {
+        return filho5NasciSocio;
+    }
+
+    public void setFilho5NasciSocio(Date filho5NasciSocio) {
+        this.filho5NasciSocio = filho5NasciSocio;
+    }
+
+    public Boolean getFilho5PartNegocioSocio() {
+        return filho5PartNegocioSocio;
+    }
+
+    public void setFilho5PartNegocioSocio(Boolean filho5PartNegocioSocio) {
+        this.filho5PartNegocioSocio = filho5PartNegocioSocio;
+    }
+
+    public String getFilho5EmailSocio() {
+        return filho5EmailSocio;
+    }
+
+    public void setFilho5EmailSocio(String filho5EmailSocio) {
+        this.filho5EmailSocio = filho5EmailSocio;
+    }
+
+    public String getNomeTitularConta() {
+        return nomeTitularConta;
+    }
+
+    public void setNomeTitularConta(String nomeTitularConta) {
+        this.nomeTitularConta = nomeTitularConta;
+    }
+
+    public Bancos getBanco() {
+        return banco;
+    }
+
+    public void setBanco(Bancos banco) {
+        this.banco = banco;
+    }
+
+    public String getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(String agencia) {
+        this.agencia = agencia;
+    }
+
+    public TipoContaBanco getTipoConta() {
+        return tipoConta;
+    }
+
+    public void setTipoConta(TipoContaBanco tipoConta) {
+        this.tipoConta = tipoConta;
+    }
+
+    public String getNumeroConta() {
+        return numeroConta;
+    }
+
+    public void setNumeroConta(String numeroConta) {
+        this.numeroConta = numeroConta;
+    }
+
+    public String getNomePropag() {
+        return nomePropag;
+    }
+
+    public void setNomePropag(String nomePropag) {
+        this.nomePropag = nomePropag;
+    }
+
+    public String getEnderecoPropag() {
+        return enderecoPropag;
+    }
+
+    public void setEnderecoPropag(String enderecoPropag) {
+        this.enderecoPropag = enderecoPropag;
+    }
+
+    public String getPontoRefereciaPropag() {
+        return pontoRefereciaPropag;
+    }
+
+    public void setPontoRefereciaPropag(String pontoRefereciaPropag) {
+        this.pontoRefereciaPropag = pontoRefereciaPropag;
+    }
+
+    public String getSlogan() {
+        return slogan;
+    }
+
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
+    }
+
+    public Date getDataInstalacao() {
+        return dataInstalacao;
+    }
+
+    public void setDataInstalacao(Date dataInstalacao) {
+        this.dataInstalacao = dataInstalacao;
+    }
+
+    public Date getDataConsulta() {
+        return dataConsulta;
+    }
+
+    public void setDataConsulta(Date dataConsulta) {
+        this.dataConsulta = dataConsulta;
+    }
+
+    public Date getDataAssinatura() {
+        return dataAssinatura;
+    }
+
+    public void setDataAssinatura(Date dataAssinatura) {
+        this.dataAssinatura = dataAssinatura;
+    }
+
+    public String getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(String vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public Integer getMetaDeGuias() {
+        return metaDeGuias;
+    }
+
+    public void setMetaDeGuias(Integer metaDeGuias) {
+        this.metaDeGuias = metaDeGuias;
+    }
+
+    public BigDecimal getMetaCreditosDigitais() {
+        return metaCreditosDigitais;
+    }
+
+    public void setMetaCreditosDigitais(BigDecimal metaCreditosDigitais) {
+        this.metaCreditosDigitais = metaCreditosDigitais;
+    }
+
+    public BigDecimal getValorDaPromissoria() {
+        return valorDaPromissoria;
+    }
+
+    public void setValorDaPromissoria(BigDecimal valorDaPromissoria) {
+        this.valorDaPromissoria = valorDaPromissoria;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Contrato() {
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 61 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Contrato other = (Contrato) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+}

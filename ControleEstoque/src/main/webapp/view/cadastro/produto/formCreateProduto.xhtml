@@ -1,0 +1,272 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateProduto" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="* #{msg['venda.loja']}:" />
+                        <h:selectOneMenu id="empresa" value="#{produtoMB.entity.empresa}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.loja_Filial)}" 
+                                           var="loja_Filial"
+                                           itemLabel="#{loja_Filial}"/>
+                        </h:selectOneMenu>
+                    </div>   
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="codigoDeBarra" value="#{msg['produto.codigoDeBarra']}:" />
+                        <p:inputText id="codigoDeBarra" value="#{produtoMB.entity.codigoDeBarra}" maxlength="200"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descricao" value="* #{msg['produto.descricao']}:" />
+                        <p:inputText id="descricao" value="#{produtoMB.entity.descricao}" maxlength="200"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="fabricante" value="* #{msg['produto.fabricante']}:" />
+                        <h:selectOneMenu id="fabricante" value="#{produtoMB.entity.fabricante}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.fornecedor)}" 
+                                           var="fornecedor"
+                                           itemLabel="#{fornecedor}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="marca" value="#{msg['produto.marca']}:" />
+                        <p:inputText id="marca" value="#{produtoMB.entity.marca}" maxlength="200"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ncm" value="* Código NCM:" />
+                        <p:inputMask id="ncm" mask="99?999999" value="#{produtoMB.entity.codigoNCM}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cfop" value="* CFOP:" />
+                        <p:inputMask id="cfop" mask="9999" value="#{produtoMB.entity.cfop}" styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cst" value="* Código CST (Ori/Cst):" />
+                        <p:inputMask id="cst" mask="9999" value="#{produtoMB.entity.codigoCst}" styleClass="form-control"  />
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox id="produtoFracionado" value="#{produtoMB.entity.produtoFracionado}" >
+                                    <p:ajax update="formCreateProduto:panelFracoes formCreateProduto:panelFracoes1" />
+
+                                </h:selectBooleanCheckbox>
+                                #{msg['produto.produtoFracionado']}
+                            </label>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <h:panelGroup id="panelFracoes">
+                        <p:outputPanel rendered="#{produtoMB.entity.produtoFracionado}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="qtdFracoes" value="* #{msg['produto.qtdFracoes']}:" />
+                                <p:inputMask id="qtdFracoes" mask="9?999999999" placeHolder="" value="#{produtoMB.entity.qtdFracoes}" 
+                                             required="true" requiredMessage="Quantidades de Franções é Obritório!" styleClass="form-control" >
+                                    <p:ajax update=":formCreateProduto:panelFracoes1" event="blur" listener="#{produtoMB.setFracionado()}"/>
+                                    <p:ajax update=":formCreateProduto:panelPrecoVenda" event="blur" listener="#{produtoMB.setPrecoVenda()}"/>
+
+                                </p:inputMask>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="unidadeDeFracao" value="#{msg['produto.unidadeDeFracao']}:" />
+                                <h:selectOneMenu id="unidadeDeFracao" value="#{produtoMB.entity.unidadeDeFracao}" 
+                                                 required="true" requiredMessage="Unidade de Franções é Obritório!" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.unidadeDeMedita)}" 
+                                                   var="unidade"
+                                                   itemLabel="#{unidade} - #{unidade.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                        </p:outputPanel>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="unidadeDeVenda" value="* #{msg['produto.unidadeDeVenda']}:" />
+                        <h:selectOneMenu id="unidadeDeVenda" value="#{produtoMB.entity.unidadeDeVenda}" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.unidadeDeMedita)}" 
+                                           var="unidade"
+                                           itemLabel="#{unidade} - #{unidade.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="valorDaCompra:input" value="* Preço de Compra:" />
+                        <x:inputNumber id="valorDaCompra" value="#{produtoMB.entity.valorDaCompra}" styleClass="form-control" centsLimit="4">
+                            <p:ajax update=":formCreateProduto:panelPrecoCusto" event="blur" listener="#{produtoMB.setPrecoCusto()}"/>
+                            <p:ajax update=":formCreateProduto:panelPrecoVenda" event="blur" listener="#{produtoMB.setPrecoVenda()}"/>
+                            <p:ajax update=":formCreateProduto:panelFracoes1" event="blur" listener="#{produtoMB.setFracionado()}"/>
+
+                        </x:inputNumber>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="situacaoTributaria" value="#{msg['produto.situacaoTributaria']}:" />
+                        <h:selectOneMenu id="situacaoTributaria" value="#{produtoMB.entity.situacaoTributaria}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.situacaoTributaria)}" 
+                                           var="situacaoTributaria"
+                                           itemLabel="#{situacaoTributaria}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="icmsPreco:input" value="* #{msg['produto.icmsPreco']} (%):" />
+                        <x:inputNumber id="icmsPreco" value="#{produtoMB.entity.icmsPreco}" styleClass="form-control">
+                            <p:ajax update=":formCreateProduto:panelPrecoCusto" event="blur" listener="#{produtoMB.setPrecoCusto()}"/>
+
+                        </x:inputNumber>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="icmsCompra:input" value="* #{msg['produto.icmsCompra']} (%):" />
+                        <x:inputNumber id="icmsCompra" value="#{produtoMB.entity.icmsCompra}" styleClass="form-control">
+                            <p:ajax update=":formCreateProduto:panelPrecoCusto" event="blur" listener="#{produtoMB.setPrecoCusto()}"/>
+
+                        </x:inputNumber>
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="ipi:input" value="#{msg['produto.ipi']} (%):" />
+                        <x:inputNumber id="ipi" value="#{produtoMB.entity.ipi}" styleClass="form-control">
+                            <p:ajax update=":formCreateProduto:panelPrecoCusto" event="blur" listener="#{produtoMB.setPrecoCusto()}"/>
+
+                        </x:inputNumber>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="frete:input" value="#{msg['produto.frete']} (%):" />
+                        <x:inputNumber id="frete" value="#{produtoMB.entity.frete}" styleClass="form-control" centsLimit="4">
+                            <p:ajax update=":formCreateProduto:panelPrecoCusto" event="blur" listener="#{produtoMB.setPrecoCusto()}"/>
+
+                        </x:inputNumber>
+                    </div>                  
+                    <h:panelGroup id="panelPrecoCusto">
+                        <p:outputPanel>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="precoCusto" value="* Preço de Custo:" />
+                                <x:inputNumber id="precoCusto" value="#{produtoMB.entity.precoDeCusto}" styleClass="form-control" centsLimit="4">
+                                    <p:ajax update=":formCreateProduto:panelPrecoVenda" event="blur" listener="#{produtoMB.setPrecoVenda()}"/>
+                                </x:inputNumber>
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelLucro">
+                        <p:outputPanel>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="lucrobruto:input" value="* Lucro Bruto:" />
+                                <x:inputNumber id="lucrobruto" value="#{produtoMB.entity.lucroBruto}" styleClass="form-control">
+                                    <p:ajax update=":formCreateProduto:panelPrecoVenda" event="blur" listener="#{produtoMB.setPrecoVenda()}"/>
+                                    <p:ajax update=":formCreateProduto:panelFracoes1" event="blur" listener="#{produtoMB.setFracionado()}"/>
+
+                                </x:inputNumber>
+
+                            </div>                            
+                        </p:outputPanel>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelPrecoVenda">
+                        <p:outputPanel>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valorDeVenda:input" value="* Preço de Venda:" />
+                                <x:inputNumber id="valorDeVenda" value="#{produtoMB.entity.valorDeVenda}" styleClass="form-control" centsLimit="4">
+                                    <p:ajax update=":formCreateProduto:panelFracoes1" event="blur" listener="#{produtoMB.setFracionado()}"/>
+                                    <p:ajax update=":formCreateProduto:panelLucro" event="blur" listener="#{produtoMB.setLucro()}"/>
+
+                                </x:inputNumber>
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelFracoes1">
+                        <p:outputPanel rendered="#{produtoMB.entity.produtoFracionado}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valorFracionado:input" value="#{msg['produto.valorFracionado']}:" />
+                                <x:inputNumber id="valorFracionado" value="#{produtoMB.entity.valorFracionado}" 
+                                               styleClass="form-control" centsLimit="4">
+
+                                </x:inputNumber>
+
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="panelGruposSecao">
+
+                        <p:outputPanel>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="secao" value="* Seção:" />
+                                <h:selectOneMenu id="secao" value="#{produtoMB.entity.secao}" converter="entityConverter" styleClass="form-control" >
+
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.secoesProduto)}" 
+                                                   var="secoes"
+                                                   itemLabel="#{secoes.codigo} - #{secoes.descricao}">
+                                        
+                                    </f:selectItems>
+                                    <p:ajax process="@this" update=":formCreateProduto:panelGruposSecao"/> 
+                                    <x:initializer/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="grupo" value="* Grupo de Seção:" />
+                                <h:selectOneMenu id="grupo" value="#{produtoMB.entity.grupo}" converter="entityConverter" styleClass="form-control" >
+
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{produtoMB.entity.secao.grupos}" 
+                                                   var="gruposDeSocoes"
+                                                   itemLabel="#{gruposDeSocoes}">
+                                        <x:initializer/>
+                                    </f:selectItems>
+                                    <x:initializer/>
+                                </h:selectOneMenu>
+                            </div>
+                        </p:outputPanel>
+                    </h:panelGroup>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="grupoDeLojas" value="#{msg['produto.grupoDeLojas']}:" />
+                        <h:selectOneMenu id="grupoDeLojas" value="#{produtoMB.entity.grupoDeLojas}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.grupoLoja)}" 
+                                           var="grupoLoja"
+                                           itemLabel="#{grupoLoja}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataCadastro" value="* Data de Cadastro:" />
+                        <p:calendar id="dataCadastro" value="#{produtoMB.entity.dataInclusao}" disabled="true"
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="produto.create">
+                <p:commandButton process="@form" update="@form" action="#{produtoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="produto.audit">
+                <x:audit for="#{produtoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

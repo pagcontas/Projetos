@@ -1,0 +1,99 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['loja.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuLoja.xhtml" />
+        <h:form id="formListLoja">
+            <x:modalMessages/>
+            <p:dataTable paginator="true" rows="30" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="loja" rowIndexVar="index" id="dataTableLoja" widgetVar="dataTableLojaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{lojaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{lojaMB.dataModel.paginatorTemplate}"
+                         value="#{lojaMB.dataModel}" lazy="true" >
+               
+                <p:column headerText="#{msg['loja.id']}" sortBy="#{loja.id}"
+                          filterBy="#{loja.id}" style="text-align: center;" width="8%" >
+                        <h:outputText value="#{loja.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja.nome']}" sortBy="#{loja.nome}"
+                          filterBy="#{loja.nome}"   >
+                        <h:outputText value="#{loja.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja.razaosocial']}" sortBy="#{loja.razaosocial}"
+                          filterBy="#{loja.razaosocial}"   >
+                        <h:outputText value="#{loja.razaosocial}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja.cnpj']}" sortBy="#{loja.cnpj}"
+                          filterBy="#{loja.cnpj}" style="text-align: center;" width="10%"  >
+                        <h:outputText value="#{loja.cnpj}" converter="cnpjConverter" />
+                </p:column>
+                <p:column headerText="#{msg['loja.cidade']}" sortBy="#{loja.cidade}"
+                            style="text-align: left;" width="8%" >
+                        <h:outputText value="#{loja.cidade}">
+                            <x:initializer/>
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="Tipo Loja" sortBy="#{loja.tipoLoja}"
+                          filterBy="#{loja.tipoLoja.nome}" style="text-align: left;" width="8%" >
+                        <h:outputText value="#{loja.tipoLoja}">
+                            <x:initializer/>
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['loja.segmento']}" sortBy="#{loja.segmento}"
+                          style="text-align: left;" width="8%" >
+                        <h:outputText value="#{loja.segmento}">
+                            <x:initializer/>
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['loja.endereco']}" sortBy="#{loja.endereco}"
+                          filterBy="#{loja.endereco}" style="text-align: left;" width="15%"  >
+                        <h:outputText value="#{loja.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja.bairro']}" sortBy="#{loja.bairro}"
+                          filterBy="#{loja.bairro}"  style="text-align: left;" width="8%" >
+                        <h:outputText value="#{loja.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja.ativo']}" sortBy="#{loja.ativo}"
+                          filterBy="#{loja.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                        <h:outputText value="#{loja.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                         <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLojaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLoja" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{loja}" target="#{lojaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="loja.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLoja" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{loja.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="loja.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{lojaMB.delete}" >
+                            <f:setPropertyActionListener value="#{loja.id}" target="#{lojaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{loja}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+                <f:facet name="footer">
+                    <x:securityArea rolesAllowed="loja.audit">
+                        <x:auditDelete for="#{lojaMB.entityClass}"/>
+                    </x:securityArea>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog widgetVar="widgetLojaDetail" header="#{msg['loja.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailLoja.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

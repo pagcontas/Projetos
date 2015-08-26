@@ -1,0 +1,77 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+    <h:form id="formCreateEstoque" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="empresa" value="#{msg['estoque.empresa']}:" />
+                        <h:selectOneMenu id="empresa" value="#{estoqueMB.entity.empresa}" disabled="#{estoqueMB.entity.id !=null}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.loja_Filial)}" 
+                                           var="loja_Filial"
+                                           itemLabel="#{loja_Filial}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="produto" value="#{msg['estoque.produto']}:" />
+                        <h:selectOneMenu id="produto" value="#{estoqueMB.entity.produto}" disabled="#{estoqueMB.entity.id !=null}" converter="entityConverter" styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.produto)}" 
+                                           var="produto"
+                                           itemLabel="#{produto}"/>
+                            <p:ajax update=":formCreateEstoque:panelUm"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup id="panelUm">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="unidadeDeVenda" value="* #{msg['produtoTemp.unidadeDeVenda']}:" />
+                            <h:selectOneMenu id="unidadeDeVenda" value="#{estoqueMB.entity.unidadeDeVenda}"  styleClass="form-control" disabled="#{estoqueMB.entity.id !=null}">
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{estoqueMB.unidadeProduto}" 
+                                               var="unidadeDeMedida"
+                                               itemLabel="#{unidadeDeMedida.descricao} - #{unidadeDeMedida}"/>
+                                <p:ajax update=":formCreateEstoque:panelQuatro"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelQuatro">
+                        <h:panelGroup id="panelDois" rendered="#{!estoqueMB.verificarCampoFracao()}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="quantidade1:input" value="#{msg['estoque.quantidade']}:" />
+                                <x:inputNumber id="quantidade1" allowNegative="#{estoqueMB.entity.id !=null}" value="#{estoqueMB.entity.quantidade}" styleClass="form-control" centsLimit="0"/>
+                            </div>
+                        </h:panelGroup >
+                        <h:panelGroup id="panelTres" rendered="#{estoqueMB.verificarCampoFracao()}">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="quantidade2:input" value="#{msg['estoque.quantidade']}:" />
+                                <x:inputNumber id="quantidade2" allowNegative="#{estoqueMB.entity.id !=null}" value="#{estoqueMB.entity.quantidade}" styleClass="form-control"/>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="qtdMinima:input" value="#{msg['estoque.qtdMinima']}:" />
+                        <x:inputNumber id="qtdMinima" value="#{estoqueMB.entity.qtdMinima}" styleClass="form-control"/>
+                    </div>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="estoque.create">
+                <p:commandButton process="@form" update="@form" action="#{estoqueMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="estoque.audit">
+                <x:audit for="#{estoqueMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

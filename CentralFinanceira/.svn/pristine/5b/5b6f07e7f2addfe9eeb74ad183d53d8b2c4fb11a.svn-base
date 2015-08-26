@@ -1,0 +1,1377 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateContrato" >
+        <x:modalMessages autoUpdate="true"/>
+        <p:tabView>
+            <p:tab title="Informações Cadastrais">
+
+                <p:fieldset legend="Dados Básicos">
+
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="loja" value="* #{msg['contrato.loja']}:" />
+                                <h:selectOneMenu id="loja" value="#{contratoMB.entity.loja}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.loja)}" 
+                                                   var="loja"
+                                                   itemLabel="#{loja}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeFantasia" value="* #{msg['contrato.nomeFantasia']}:" />
+                                <p:inputText id="nomeFantasia" value="#{contratoMB.entity.nomeFantasia}" maxlength="80"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="ramoAtividades" value="* #{msg['contrato.ramoAtividades']}:" />
+                                <p:inputText id="ramoAtividades" value="#{contratoMB.entity.ramoAtividades}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="inicioAtividades" value="#{msg['contrato.inicioAtividades']}:" />
+                                <p:calendar id="inicioAtividades" value="#{contratoMB.entity.inicioAtividades}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="vendedor" value="#{msg['contrato.vendedor']}:" />
+                                <p:inputText id="vendedor" value="#{contratoMB.entity.vendedor}" maxlength="80"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataInstalacao" value="#{msg['contrato.dataInstalacao']}:" />
+                                <p:calendar id="dataInstalacao" value="#{contratoMB.entity.dataInstalacao}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataConsulta" value="#{msg['contrato.dataConsulta']}:" />
+                                <p:calendar id="dataConsulta" value="#{contratoMB.entity.dataConsulta}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>  
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="metaDeGuias" value="* #{msg['contrato.metaDeGuias']}:" />
+                                <p:inputMask id="metaDeGuias" mask="9?999999999" placeHolder="" value="#{contratoMB.entity.metaDeGuias}" styleClass="form-control" />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="metaCreditosDigitais:input" value="* #{msg['contrato.metaCreditosDigitais']}:" />
+                                <x:inputNumber id="metaCreditosDigitais" value="#{contratoMB.entity.metaCreditosDigitais}" styleClass="form-control"/>
+                            </div>                                                
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="valorDaPromissoria:input" value="* #{msg['contrato.valorDaPromissoria']}:" />
+                                <x:inputNumber id="valorDaPromissoria" value="#{contratoMB.entity.valorDaPromissoria}" styleClass="form-control"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="ativo" value="#{contratoMB.entity.ativo}" />
+                                        #{msg['contrato.ativo']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </p:fieldset>
+
+                <p:fieldset legend="Dias Depósito">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="depositoSeg" value="#{contratoMB.entity.depositoSeg}" />
+                                        #{msg['contrato.depositoSeg']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="depositoTer" value="#{contratoMB.entity.depositoTer}" />
+                                        #{msg['contrato.depositoTer']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="depositoQuar" value="#{contratoMB.entity.depositoQuar}" />
+                                        #{msg['contrato.depositoQuar']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="depositoQuin" value="#{contratoMB.entity.depositoQuin}" />
+                                        #{msg['contrato.depositoQuin']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="depositoSex" value="#{contratoMB.entity.depositoSex}" />
+                                        #{msg['contrato.depositoSex']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Telefones">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefone" value="#{msg['contrato.telefone']}:" />
+                                <p:inputText id="telefone" value="#{contratoMB.entity.telefone}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="celular" value="#{msg['contrato.celular']}:" />
+                                <p:inputText id="celular" value="#{contratoMB.entity.celular}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="fax" value="#{msg['contrato.fax']}:" />
+                                <p:inputText id="fax" value="#{contratoMB.entity.fax}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="whatsApp" value="#{msg['contrato.whatsApp']}:" />
+                                <p:inputText id="whatsApp" value="#{contratoMB.entity.whatsApp}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="orelhaoProximo" value="#{msg['contrato.orelhaoProximo']}:" />
+                                <p:inputText id="orelhaoProximo" value="#{contratoMB.entity.orelhaoProximo}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Endereços Digitais">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="email" value="#{msg['contrato.email']}:" />
+                                <p:inputText id="email" value="#{contratoMB.entity.email}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="skype" value="#{msg['contrato.skype']}:" />
+                                <p:inputText id="skype" value="#{contratoMB.entity.skype}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="facebook" value="#{msg['contrato.facebook']}:" />
+                                <p:inputText id="facebook" value="#{contratoMB.entity.facebook}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="site" value="#{msg['contrato.site']}:" />
+                                <p:inputText id="site" value="#{contratoMB.entity.site}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+
+                <p:fieldset legend="Horários">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="funcSegASextAbert" value="#{msg['contrato.funcSegASextAbert']}:" />
+                                <p:calendar id="funcSegASextAbert" value="#{contratoMB.entity.funcSegASextAbert}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="funcSegASextFechar" value="#{msg['contrato.funcSegASextFechar']}:" />
+                                <p:calendar id="funcSegASextFechar" value="#{contratoMB.entity.funcSegASextFechar}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="funcSabadoAbert" value="#{msg['contrato.funcSabadoAbert']}:" />
+                                <p:calendar id="funcSabadoAbert" value="#{contratoMB.entity.funcSabadoAbert}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="funcSabadoFechar" value="#{msg['contrato.funcSabadoFechar']}:" />
+                                <p:calendar id="funcSabadoFechar" value="#{contratoMB.entity.funcSabadoFechar}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="horaFechCaixa" value="#{msg['contrato.horaFechCaixa']}:" />
+                                <p:calendar id="horaFechCaixa" value="#{contratoMB.entity.horaFechCaixa}" 
+                                            showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar">
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+
+                <p:fieldset legend="Operações">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="opArrecContas" value="#{contratoMB.entity.opArrecContas}" />
+                                        #{msg['contrato.opArrecContas']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="opVendCD" value="#{contratoMB.entity.opVendCD}" />
+                                        #{msg['contrato.opVendCD']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="opServicos" value="#{contratoMB.entity.opServicos}" />
+                                        #{msg['contrato.opServicos']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="opBB" value="#{contratoMB.entity.opBB}" />
+                                        #{msg['contrato.opBB']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Dias Autorizados Operações">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="diaAutOpSeg" value="#{contratoMB.entity.diaAutOpSeg}" />
+                                        #{msg['contrato.diaAutOpSeg']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="diaAutOpTerc" value="#{contratoMB.entity.diaAutOpTerc}" />
+                                        #{msg['contrato.diaAutOpTerc']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="diaAutOpQuar" value="#{contratoMB.entity.diaAutOpQuar}" />
+                                        #{msg['contrato.diaAutOpQuar']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="diaAutOpQui" value="#{contratoMB.entity.diaAutOpQui}" />
+                                        #{msg['contrato.diaAutOpQui']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="diaAutOpSex" value="#{contratoMB.entity.diaAutOpSex}" />
+                                        #{msg['contrato.diaAutOpSex']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="diaAutOpSab" value="#{contratoMB.entity.diaAutOpSab}" />
+                                        #{msg['contrato.diaAutOpSab']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="diaAutOpDom" value="#{contratoMB.entity.diaAutOpDom}" />
+                                        #{msg['contrato.diaAutOpDom']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="diaAutOpFeriados" value="#{contratoMB.entity.diaAutOpFeriados}" />
+                                        #{msg['contrato.diaAutOpFeriados']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Informações Pessoais Proprietário">
+                <p:fieldset legend="Dados Básicos">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomePro" value="* #{msg['contrato.nomePro']}:" />
+                                <p:inputText id="nomePro" value="#{contratoMB.entity.nomePro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeGuerraPro" value="#{msg['contrato.nomeGuerraPro']}:" />
+                                <p:inputText id="nomeGuerraPro" value="#{contratoMB.entity.nomeGuerraPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfPro" value="* #{msg['contrato.cpfPro']}:" />
+                                <p:inputText id="cpfPro" value="#{contratoMB.entity.cpfPro}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rgPro" value="* #{msg['contrato.rgPro']}:" />
+                                <p:inputText id="rgPro" value="#{contratoMB.entity.rgPro}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataNascimentoPro" value="#{msg['contrato.dataNascimentoPro']}:" />
+                                <p:calendar id="dataNascimentoPro" value="#{contratoMB.entity.dataNascimentoPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="estadoCivilPro" value="#{msg['contrato.estadoCivilPro']}:" />
+                                <h:selectOneMenu id="estadoCivilPro" value="#{contratoMB.entity.estadoCivilPro}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
+                                                   var="estadoCivil"
+                                                   itemLabel="#{estadoCivil.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="escolaridadePro" value="#{msg['contrato.escolaridadePro']}:" />
+                                <h:selectOneMenu id="escolaridadePro" value="#{contratoMB.entity.escolaridadePro}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.escolaridade)}" 
+                                                   var="escolaridade"
+                                                   itemLabel="#{escolaridade.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="religiaoPro" value="#{msg['contrato.religiaoPro']}:" />
+                                <p:inputText id="religiaoPro" value="#{contratoMB.entity.religiaoPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="profissaoPro" value="#{msg['contrato.profissaoPro']}:" />
+                                <p:inputText id="profissaoPro" value="#{contratoMB.entity.profissaoPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rendaPro:input" value="#{msg['contrato.rendaPro']}:" />
+                                <x:inputNumber id="rendaPro" value="#{contratoMB.entity.rendaPro}" styleClass="form-control"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>                
+                <p:fieldset legend="Endereço">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="enderecoPro" value="#{msg['contrato.enderecoPro']}:" />
+                                <p:inputText id="enderecoPro" value="#{contratoMB.entity.enderecoPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="bairroPro" value="#{msg['contrato.bairroPro']}:" />
+                                <p:inputText id="bairroPro" value="#{contratoMB.entity.bairroPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cidadePro" value="#{msg['contrato.cidadePro']}:" />
+                                <h:selectOneMenu id="cidadePro" value="#{contratoMB.entity.cidadePro}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                                   var="cidade"
+                                                   itemLabel="#{cidade}"/>
+                                </h:selectOneMenu>
+                            </div>                           
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cepPro" value="#{msg['contrato.cepPro']}:" />
+                                <p:inputText id="cepPro" value="#{contratoMB.entity.cepPro}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Contatos">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefonePro" value="#{msg['contrato.telefonePro']}:" />
+                                <p:inputText id="telefonePro" value="#{contratoMB.entity.telefonePro}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="celularPro" value="#{msg['contrato.celularPro']}:" />
+                                <p:inputText id="celularPro" value="#{contratoMB.entity.celularPro}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="faxPro" value="#{msg['contrato.faxPro']}:" />
+                                <p:inputText id="faxPro" value="#{contratoMB.entity.faxPro}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailPro" value="#{msg['contrato.emailPro']}:" />
+                                <p:inputText id="emailPro" value="#{contratoMB.entity.emailPro}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Pessoal">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="lazerPro" value="#{msg['contrato.lazerPro']}:" />
+                                <p:inputText id="lazerPro" value="#{contratoMB.entity.lazerPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="prefMusicalPro" value="#{msg['contrato.prefMusicalPro']}:" />
+                                <p:inputText id="prefMusicalPro" value="#{contratoMB.entity.prefMusicalPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="prefLeituraPro" value="#{msg['contrato.prefLeituraPro']}:" />
+                                <p:inputText id="prefLeituraPro" value="#{contratoMB.entity.prefLeituraPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="esportePro" value="#{msg['contrato.esportePro']}:" />
+                                <p:inputText id="esportePro" value="#{contratoMB.entity.esportePro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="timePro" value="#{msg['contrato.timePro']}:" />
+                                <p:inputText id="timePro" value="#{contratoMB.entity.timePro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Filiação">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeMaePro" value="#{msg['contrato.nomeMaePro']}:" />
+                                <p:inputText id="nomeMaePro" value="#{contratoMB.entity.nomeMaePro}" maxlength="80"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefoneMaePro" value="#{msg['contrato.telefoneMaePro']}:" />
+                                <p:inputText id="telefoneMaePro" value="#{contratoMB.entity.telefoneMaePro}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascMaePro" value="#{msg['contrato.nascMaePro']}:" />
+                                <p:calendar id="nascMaePro" value="#{contratoMB.entity.nascMaePro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailMaePro" value="#{msg['contrato.emailMaePro']}:" />
+                                <p:inputText id="emailMaePro" value="#{contratoMB.entity.emailMaePro}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="participaNegocioMaePro" value="#{contratoMB.entity.participaNegocioMaePro}" />
+                                        #{msg['contrato.participaNegocioMaePro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomePaiPro" value="#{msg['contrato.nomePaiPro']}:" />
+                                <p:inputText id="nomePaiPro" value="#{contratoMB.entity.nomePaiPro}" maxlength="80"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefonePaiPro" value="#{msg['contrato.telefonePaiPro']}:" />
+                                <p:inputText id="telefonePaiPro" value="#{contratoMB.entity.telefonePaiPro}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascPaiPro" value="#{msg['contrato.nascPaiPro']}:" />
+                                <p:calendar id="nascPaiPro" value="#{contratoMB.entity.nascPaiPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailPaiPro" value="#{msg['contrato.emailPaiPro']}:" />
+                                <p:inputText id="emailPaiPro" value="#{contratoMB.entity.emailPaiPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="participaNegocioPaiPro" value="#{contratoMB.entity.participaNegocioPaiPro}" />
+                                        #{msg['contrato.participaNegocioPaiPro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Cônjuge" id="conjugeId">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="conjugePro" value="#{msg['contrato.conjugePro']}:" />
+                                <p:inputText id="conjugePro" value="#{contratoMB.entity.conjugePro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="conjugeNomeGuerraPro" value="#{msg['contrato.conjugeNomeGuerraPro']}:" />
+                                <p:inputText id="conjugeNomeGuerraPro" value="#{contratoMB.entity.conjugeNomeGuerraPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rgConjPro" value="#{msg['contrato.rgConjPro']}:" />
+                                <p:inputText id="rgConjPro" value="#{contratoMB.entity.rgConjPro}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfConjPro" value="#{msg['contrato.cpfConjPro']}:" />
+                                <p:inputText id="cpfConjPro" value="#{contratoMB.entity.cpfConjPro}" maxlength="15"  styleClass="form-control"  />
+                            </div>                    
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascConjPro" value="#{msg['contrato.nascConjPro']}:" />
+                                <p:calendar id="nascConjPro" value="#{contratoMB.entity.nascConjPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="celularConjPro" value="#{msg['contrato.celularConjPro']}:" />
+                                <p:inputText id="celularConjPro" value="#{contratoMB.entity.celularConjPro}" maxlength="15"  styleClass="form-control"  />
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeMaeConjPro" value="#{msg['contrato.nomeMaeConjPro']}:" />
+                                <p:inputText id="nomeMaeConjPro" value="#{contratoMB.entity.nomeMaeConjPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>  
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascMaeConjPro" value="#{msg['contrato.nascMaeConjPro']}:" />
+                                <p:calendar id="nascMaeConjPro" value="#{contratoMB.entity.nascMaeConjPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefoneMaeConjPro" value="#{msg['contrato.telefoneMaeConjPro']}:" />
+                                <p:inputText id="telefoneMaeConjPro" value="#{contratoMB.entity.telefoneMaeConjPro}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailMaeConjPro" value="#{msg['contrato.emailMaeConjPro']}:" />
+                                <p:inputText id="emailMaeConjPro" value="#{contratoMB.entity.emailMaeConjPro}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="participaNegocioMaeConjPro" value="#{contratoMB.entity.participaNegocioMaeConjPro}" />
+                                        #{msg['contrato.participaNegocioMaeConjPro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomePaiConjPro" value="#{msg['contrato.nomePaiConjPro']}:" />
+                                <p:inputText id="nomePaiConjPro" value="#{contratoMB.entity.nomePaiConjPro}" maxlength="60"  styleClass="form-control"  />
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefonePaiConjPro" value="#{msg['contrato.telefonePaiConjPro']}:" />
+                                <p:inputText id="telefonePaiConjPro" value="#{contratoMB.entity.telefonePaiConjPro}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascPaiConjPro" value="#{msg['contrato.nascPaiConjPro']}:" />
+                                <p:calendar id="nascPaiConjPro" value="#{contratoMB.entity.nascPaiConjPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailPaiConjPro" value="#{msg['contrato.emailPaiConjPro']}:" />
+                                <p:inputText id="emailPaiConjPro" value="#{contratoMB.entity.emailPaiConjPro}" maxlength="150"  styleClass="form-control"  />
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="participaNegocioPaiConjPro" value="#{contratoMB.entity.participaNegocioPaiConjPro}" />
+                                        #{msg['contrato.participaNegocioPaiConjPro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Filhos">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho1NomePro" value="#{msg['contrato.filho1NomePro']}:" />
+                                <p:inputText id="filho1NomePro" value="#{contratoMB.entity.filho1NomePro}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho1TelefonePro" value="#{msg['contrato.filho1TelefonePro']}:" />
+                                <p:inputText id="filho1TelefonePro" value="#{contratoMB.entity.filho1TelefonePro}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho1NasciPro" value="#{msg['contrato.filho1NasciPro']}:" />
+                                <p:calendar id="filho1NasciPro" value="#{contratoMB.entity.filho1NasciPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho1EmailPro" value="#{msg['contrato.filho1EmailPro']}:" />
+                                <p:inputText id="filho1EmailPro" value="#{contratoMB.entity.filho1EmailPro}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho1PartNegocioPro" value="#{contratoMB.entity.filho1PartNegocioPro}" />
+                                        #{msg['contrato.filho1PartNegocioPro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho2NomePro" value="#{msg['contrato.filho2NomePro']}:" />
+                                <p:inputText id="filho2NomePro" value="#{contratoMB.entity.filho2NomePro}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho2TelefonePro" value="#{msg['contrato.filho2TelefonePro']}:" />
+                                <p:inputText id="filho2TelefonePro" value="#{contratoMB.entity.filho2TelefonePro}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho2NasciPro" value="#{msg['contrato.filho2NasciPro']}:" />
+                                <p:calendar id="filho2NasciPro" value="#{contratoMB.entity.filho2NasciPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho2EmailPro" value="#{msg['contrato.filho2EmailPro']}:" />
+                                <p:inputText id="filho2EmailPro" value="#{contratoMB.entity.filho2EmailPro}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho2PartNegocioPro" value="#{contratoMB.entity.filho2PartNegocioPro}" />
+                                        #{msg['contrato.filho2PartNegocioPro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho3NomePro" value="#{msg['contrato.filho3NomePro']}:" />
+                                <p:inputText id="filho3NomePro" value="#{contratoMB.entity.filho3NomePro}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho3TelefonePro" value="#{msg['contrato.filho3TelefonePro']}:" />
+                                <p:inputText id="filho3TelefonePro" value="#{contratoMB.entity.filho3TelefonePro}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho3NasciPro" value="#{msg['contrato.filho3NasciPro']}:" />
+                                <p:calendar id="filho3NasciPro" value="#{contratoMB.entity.filho3NasciPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>                           
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho3EmailPro" value="#{msg['contrato.filho3EmailPro']}:" />
+                                <p:inputText id="filho3EmailPro" value="#{contratoMB.entity.filho3EmailPro}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho3PartNegocioPro" value="#{contratoMB.entity.filho3PartNegocioPro}" />
+                                        #{msg['contrato.filho3PartNegocioPro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho4NomePro" value="#{msg['contrato.filho4NomePro']}:" />
+                                <p:inputText id="filho4NomePro" value="#{contratoMB.entity.filho4NomePro}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho4TelefonePro" value="#{msg['contrato.filho4TelefonePro']}:" />
+                                <p:inputText id="filho4TelefonePro" value="#{contratoMB.entity.filho4TelefonePro}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho4NasciPro" value="#{msg['contrato.filho4NasciPro']}:" />
+                                <p:calendar id="filho4NasciPro" value="#{contratoMB.entity.filho4NasciPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho4EmailPro" value="#{msg['contrato.filho4EmailPro']}:" />
+                                <p:inputText id="filho4EmailPro" value="#{contratoMB.entity.filho4EmailPro}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho4PartNegocioPro" value="#{contratoMB.entity.filho4PartNegocioPro}" />
+                                        #{msg['contrato.filho4PartNegocioPro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho5NomePro" value="#{msg['contrato.filho5NomePro']}:" />
+                                <p:inputText id="filho5NomePro" value="#{contratoMB.entity.filho5NomePro}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho5TelefonePro" value="#{msg['contrato.filho5TelefonePro']}:" />
+                                <p:inputText id="filho5TelefonePro" value="#{contratoMB.entity.filho5TelefonePro}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho5NasciPro" value="#{msg['contrato.filho5NasciPro']}:" />
+                                <p:calendar id="filho5NasciPro" value="#{contratoMB.entity.filho5NasciPro}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho5EmailPro" value="#{msg['contrato.filho5EmailPro']}:" />
+                                <p:inputText id="filho5EmailPro" value="#{contratoMB.entity.filho5EmailPro}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho5PartNegocioPro" value="#{contratoMB.entity.filho5PartNegocioPro}" />
+                                        #{msg['contrato.filho5PartNegocioPro']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+
+            </p:tab>
+            <p:tab title="Informações Pessoais Sócio">
+                <p:fieldset legend="Dados Básicos">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeSocio" value="#{msg['contrato.nomeSocio']}:" />
+                                <p:inputText id="nomeSocio" value="#{contratoMB.entity.nomeSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeGuerraSocio" value="#{msg['contrato.nomeGuerraSocio']}:" />
+                                <p:inputText id="nomeGuerraSocio" value="#{contratoMB.entity.nomeGuerraSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfSocio" value="#{msg['contrato.cpfSocio']}:" />
+                                <p:inputText id="cpfSocio" value="#{contratoMB.entity.cpfSocio}" maxlength="16"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rgSocio" value="#{msg['contrato.rgSocio']}:" />
+                                <p:inputText id="rgSocio" value="#{contratoMB.entity.rgSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="dataNascimentoSocio" value="#{msg['contrato.dataNascimentoSocio']}:" />
+                                <p:calendar id="dataNascimentoSocio" value="#{contratoMB.entity.dataNascimentoSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="estadoCivilSocio" value="#{msg['contrato.estadoCivilSocio']}:" />
+                                <h:selectOneMenu id="estadoCivilSocio" value="#{contratoMB.entity.estadoCivilSocio}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
+                                                   var="estadoCivil"
+                                                   itemLabel="#{estadoCivil.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="escolaridadeSocio" value="#{msg['contrato.escolaridadeSocio']}:" />
+                                <h:selectOneMenu id="escolaridadeSocio" value="#{contratoMB.entity.escolaridadeSocio}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.escolaridade)}" 
+                                                   var="escolaridade"
+                                                   itemLabel="#{escolaridade.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="religiaoSocio" value="#{msg['contrato.religiaoSocio']}:" />
+                                <p:inputText id="religiaoSocio" value="#{contratoMB.entity.religiaoSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="profissaoSocio" value="#{msg['contrato.profissaoSocio']}:" />
+                                <p:inputText id="profissaoSocio" value="#{contratoMB.entity.profissaoSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rendaSocio:input" value="#{msg['contrato.rendaSocio']}:" />
+                                <x:inputNumber id="rendaSocio" value="#{contratoMB.entity.rendaSocio}" styleClass="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </p:fieldset>
+                <p:fieldset legend="Endereço">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="enderecoSocio" value="#{msg['contrato.enderecoSocio']}:" />
+                                <p:inputText id="enderecoSocio" value="#{contratoMB.entity.enderecoSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="bairroSocio" value="#{msg['contrato.bairroSocio']}:" />
+                                <p:inputText id="bairroSocio" value="#{contratoMB.entity.bairroSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cidadeSocio" value="#{msg['contrato.cidadeSocio']}:" />
+                                <h:selectOneMenu id="cidadeSocio" value="#{contratoMB.entity.cidadeSocio}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                                   var="cidade"
+                                                   itemLabel="#{cidade.nome}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cepSocio" value="#{msg['contrato.cepSocio']}:" />
+                                <p:inputText id="cepSocio" value="#{contratoMB.entity.cepSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Contatos">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefoneSocio" value="#{msg['contrato.telefoneSocio']}:" />
+                                <p:inputText id="telefoneSocio" value="#{contratoMB.entity.telefoneSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="celularSocio" value="#{msg['contrato.celularSocio']}:" />
+                                <p:inputText id="celularSocio" value="#{contratoMB.entity.celularSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="faxSocio" value="#{msg['contrato.faxSocio']}:" />
+                                <p:inputText id="faxSocio" value="#{contratoMB.entity.faxSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailSocio" value="#{msg['contrato.emailSocio']}:" />
+                                <p:inputText id="emailSocio" value="#{contratoMB.entity.emailSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Pessoal">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="lazerSocio" value="#{msg['contrato.lazerSocio']}:" />
+                                <p:inputText id="lazerSocio" value="#{contratoMB.entity.lazerSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="prefMusicalSocio" value="#{msg['contrato.prefMusicalSocio']}:" />
+                                <p:inputText id="prefMusicalSocio" value="#{contratoMB.entity.prefMusicalSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="prefLeituraSocio" value="#{msg['contrato.prefLeituraSocio']}:" />
+                                <p:inputText id="prefLeituraSocio" value="#{contratoMB.entity.prefLeituraSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="esporteSocio" value="#{msg['contrato.esporteSocio']}:" />
+                                <p:inputText id="esporteSocio" value="#{contratoMB.entity.esporteSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="timeSocio" value="#{msg['contrato.timeSocio']}:" />
+                                <p:inputText id="timeSocio" value="#{contratoMB.entity.timeSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Filiação">
+
+                    <div class="container-fluid">
+                        <div class="row">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeMaeSocio" value="#{msg['contrato.nomeMaeSocio']}:" />
+                                <p:inputText id="nomeMaeSocio" value="#{contratoMB.entity.nomeMaeSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefoneMaeSocio" value="#{msg['contrato.telefoneMaeSocio']}:" />
+                                <p:inputText id="telefoneMaeSocio" value="#{contratoMB.entity.telefoneMaeSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>                          
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascMaeSocio" value="#{msg['contrato.nascMaeSocio']}:" />
+                                <p:calendar id="nascMaeSocio" value="#{contratoMB.entity.nascMaeSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>                           
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailMaeSocio" value="#{msg['contrato.emailMaeSocio']}:" />
+                                <p:inputText id="emailMaeSocio" value="#{contratoMB.entity.emailMaeSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="participaNegocioMaeSocio" value="#{contratoMB.entity.participaNegocioMaeSocio}" />
+                                        #{msg['contrato.participaNegocioMaeSocio']}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomePaiSocio" value="#{msg['contrato.nomePaiSocio']}:" />
+                                <p:inputText id="nomePaiSocio" value="#{contratoMB.entity.nomePaiSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefonePaiSocio" value="#{msg['contrato.telefonePaiSocio']}:" />
+                                <p:inputText id="telefonePaiSocio" value="#{contratoMB.entity.telefonePaiSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascPaiSocio" value="#{msg['contrato.nascPaiSocio']}:" />
+                                <p:calendar id="nascPaiSocio" value="#{contratoMB.entity.nascPaiSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailPaiSocio" value="#{msg['contrato.emailPaiSocio']}:" />
+                                <p:inputText id="emailPaiSocio" value="#{contratoMB.entity.emailPaiSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="participaNegocioPaiSocio" value="#{contratoMB.entity.participaNegocioPaiSocio}" />
+                                        #{msg['contrato.participaNegocioPaiSocio']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Cônjuge">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="conjugeSocio" value="#{msg['contrato.conjugeSocio']}:" />
+                                <p:inputText id="conjugeSocio" value="#{contratoMB.entity.conjugeSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="conjugeNomeGuerraSocio" value="#{msg['contrato.conjugeNomeGuerraSocio']}:" />
+                                <p:inputText id="conjugeNomeGuerraSocio" value="#{contratoMB.entity.conjugeNomeGuerraSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="rgConjSocio" value="#{msg['contrato.rgConjSocio']}:" />
+                                <p:inputText id="rgConjSocio" value="#{contratoMB.entity.rgConjSocio}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="cpfConjSocio" value="#{msg['contrato.cpfConjSocio']}:" />
+                                <p:inputText id="cpfConjSocio" value="#{contratoMB.entity.cpfConjSocio}" maxlength="16"  styleClass="form-control"  />
+                            </div>                          
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascConjSocio" value="#{msg['contrato.nascConjSocio']}:" />
+                                <p:calendar id="nascConjSocio" value="#{contratoMB.entity.nascConjSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="celularConjSocio" value="#{msg['contrato.celularConjSocio']}:" />
+                                <p:inputText id="celularConjSocio" value="#{contratoMB.entity.celularConjSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeMaeConjSocio" value="#{msg['contrato.nomeMaeConjSocio']}:" />
+                                <p:inputText id="nomeMaeConjSocio" value="#{contratoMB.entity.nomeMaeConjSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefoneMaeConjSocio" value="#{msg['contrato.telefoneMaeConjSocio']}:" />
+                                <p:inputText id="telefoneMaeConjSocio" value="#{contratoMB.entity.telefoneMaeConjSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascMaeConjSocio" value="#{msg['contrato.nascMaeConjSocio']}:" />
+                                <p:calendar id="nascMaeConjSocio" value="#{contratoMB.entity.nascMaeConjSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailMaeConjSocio" value="#{msg['contrato.emailMaeConjSocio']}:" />
+                                <p:inputText id="emailMaeConjSocio" value="#{contratoMB.entity.emailMaeConjSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="participaNegocioMaeConjSocio" value="#{contratoMB.entity.participaNegocioMaeConjSocio}" />
+                                        #{msg['contrato.participaNegocioMaeConjSocio']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomePaiConjSocio" value="#{msg['contrato.nomePaiConjSocio']}:" />
+                                <p:inputText id="nomePaiConjSocio" value="#{contratoMB.entity.nomePaiConjSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="telefonePaiConjSocio" value="#{msg['contrato.telefonePaiConjSocio']}:" />
+                                <p:inputText id="telefonePaiConjSocio" value="#{contratoMB.entity.telefonePaiConjSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nascPaiConjSocio" value="#{msg['contrato.nascPaiConjSocio']}:" />
+                                <p:calendar id="nascPaiConjSocio" value="#{contratoMB.entity.nascPaiConjSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="emailPaiConjSocio" value="#{msg['contrato.emailPaiConjSocio']}:" />
+                                <p:inputText id="emailPaiConjSocio" value="#{contratoMB.entity.emailPaiConjSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="participaNegocioPaiConjSocio" value="#{contratoMB.entity.participaNegocioPaiConjSocio}" />
+                                        #{msg['contrato.participaNegocioPaiConjSocio']}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+                <p:fieldset legend="Filhos">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho1NomeSocio" value="#{msg['contrato.filho1NomeSocio']}:" />
+                                <p:inputText id="filho1NomeSocio" value="#{contratoMB.entity.filho1NomeSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho1TelefoneSocio" value="#{msg['contrato.filho1TelefoneSocio']}:" />
+                                <p:inputText id="filho1TelefoneSocio" value="#{contratoMB.entity.filho1TelefoneSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho1NasciSocio" value="#{msg['contrato.filho1NasciSocio']}:" />
+                                <p:calendar id="filho1NasciSocio" value="#{contratoMB.entity.filho1NasciSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho1EmailSocio" value="#{msg['contrato.filho1EmailSocio']}:" />
+                                <p:inputText id="filho1EmailSocio" value="#{contratoMB.entity.filho1EmailSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho1PartNegocioSocio" value="#{contratoMB.entity.filho1PartNegocioSocio}" />
+                                        #{msg['contrato.filho1PartNegocioSocio']}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho2NomeSocio" value="#{msg['contrato.filho2NomeSocio']}:" />
+                                <p:inputText id="filho2NomeSocio" value="#{contratoMB.entity.filho2NomeSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho2TelefoneSocio" value="#{msg['contrato.filho2TelefoneSocio']}:" />
+                                <p:inputText id="filho2TelefoneSocio" value="#{contratoMB.entity.filho2TelefoneSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho2NasciSocio" value="#{msg['contrato.filho2NasciSocio']}:" />
+                                <p:calendar id="filho2NasciSocio" value="#{contratoMB.entity.filho2NasciSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho2EmailSocio" value="#{msg['contrato.filho2EmailSocio']}:" />
+                                <p:inputText id="filho2EmailSocio" value="#{contratoMB.entity.filho2EmailSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho2PartNegocioSocio" value="#{contratoMB.entity.filho2PartNegocioSocio}" />
+                                        #{msg['contrato.filho2PartNegocioSocio']}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho3NomeSocio" value="#{msg['contrato.filho3NomeSocio']}:" />
+                                <p:inputText id="filho3NomeSocio" value="#{contratoMB.entity.filho3NomeSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho3TelefoneSocio" value="#{msg['contrato.filho3TelefoneSocio']}:" />
+                                <p:inputText id="filho3TelefoneSocio" value="#{contratoMB.entity.filho3TelefoneSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho3NasciSocio" value="#{msg['contrato.filho3NasciSocio']}:" />
+                                <p:calendar id="filho3NasciSocio" value="#{contratoMB.entity.filho3NasciSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho3EmailSocio" value="#{msg['contrato.filho3EmailSocio']}:" />
+                                <p:inputText id="filho3EmailSocio" value="#{contratoMB.entity.filho3EmailSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho3PartNegocioSocio" value="#{contratoMB.entity.filho3PartNegocioSocio}" />
+                                        #{msg['contrato.filho3PartNegocioSocio']}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho4NomeSocio" value="#{msg['contrato.filho4NomeSocio']}:" />
+                                <p:inputText id="filho4NomeSocio" value="#{contratoMB.entity.filho4NomeSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho4TelefoneSocio" value="#{msg['contrato.filho4TelefoneSocio']}:" />
+                                <p:inputText id="filho4TelefoneSocio" value="#{contratoMB.entity.filho4TelefoneSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho4NasciSocio" value="#{msg['contrato.filho4NasciSocio']}:" />
+                                <p:calendar id="filho4NasciSocio" value="#{contratoMB.entity.filho4NasciSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho4PartNegocioSocio" value="#{contratoMB.entity.filho4PartNegocioSocio}" />
+                                        #{msg['contrato.filho4PartNegocioSocio']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho4EmailSocio" value="#{msg['contrato.filho4EmailSocio']}:" />
+                                <p:inputText id="filho4EmailSocio" value="#{contratoMB.entity.filho4EmailSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho5NomeSocio" value="#{msg['contrato.filho5NomeSocio']}:" />
+                                <p:inputText id="filho5NomeSocio" value="#{contratoMB.entity.filho5NomeSocio}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho5TelefoneSocio" value="#{msg['contrato.filho5TelefoneSocio']}:" />
+                                <p:inputText id="filho5TelefoneSocio" value="#{contratoMB.entity.filho5TelefoneSocio}" maxlength="15"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho5NasciSocio" value="#{msg['contrato.filho5NasciSocio']}:" />
+                                <p:calendar id="filho5NasciSocio" value="#{contratoMB.entity.filho5NasciSocio}" 
+                                            showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                    <x:mask/>
+                                </p:calendar>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <h:selectBooleanCheckbox id="filho5PartNegocioSocio" value="#{contratoMB.entity.filho5PartNegocioSocio}" />
+                                        #{msg['contrato.filho5PartNegocioSocio']}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="filho5EmailSocio" value="#{msg['contrato.filho5EmailSocio']}:" />
+                                <p:inputText id="filho5EmailSocio" value="#{contratoMB.entity.filho5EmailSocio}" maxlength="150"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+            </p:tab>
+            <p:tab title="Referências Bancárias">
+                <p:fieldset legend="Dados Bancários">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomeTitularConta" value="#{msg['contrato.nomeTitularConta']}:" />
+                                <p:inputText id="nomeTitularConta" value="#{contratoMB.entity.nomeTitularConta}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="banco" value="#{msg['contrato.banco']}:" />
+                                <h:selectOneMenu id="banco" value="#{contratoMB.entity.banco}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.bancos)}" 
+                                                   var="bancos"
+                                                   itemLabel="#{bancos} - #{bancos.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>                            
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="tipoConta" value="#{msg['contrato.tipoConta']}:" />
+                                <h:selectOneMenu id="tipoConta" value="#{contratoMB.entity.tipoConta}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{findAllBean.get(classMB.tipoContaBanco)}" 
+                                                   var="tipoContaBanco"
+                                                   itemLabel="#{tipoContaBanco.descricao}"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="agencia" value="#{msg['contrato.agencia']}:" />
+                                <p:inputText id="agencia" value="#{contratoMB.entity.agencia}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="numeroConta" value="#{msg['contrato.numeroConta']}:" />
+                                <p:inputText id="numeroConta" value="#{contratoMB.entity.numeroConta}" maxlength="20"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+
+            </p:tab>
+            <p:tab title="Dados para Elaboração da Propaganda">
+                <p:fieldset legend="Dados Básicos">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="nomePropag" value="#{msg['contrato.nomePropag']}:" />
+                                <p:inputText id="nomePropag" value="#{contratoMB.entity.nomePropag}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="enderecoPropag" value="#{msg['contrato.enderecoPropag']}:" />
+                                <p:inputText id="enderecoPropag" value="#{contratoMB.entity.enderecoPropag}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="pontoRefereciaPropag" value="#{msg['contrato.pontoRefereciaPropag']}:" />
+                                <p:inputText id="pontoRefereciaPropag" value="#{contratoMB.entity.pontoRefereciaPropag}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="slogan" value="#{msg['contrato.slogan']}:" />
+                                <p:inputText id="slogan" value="#{contratoMB.entity.slogan}" maxlength="50"  styleClass="form-control"  />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+
+            </p:tab>
+            <p:tab title="Informações da Equipe">
+                
+                <p:fieldset legend="Equipe">
+
+                    <div class="container-fluid">
+                        <div class="row">
+
+                        </div>
+
+                    </div>
+
+                </p:fieldset>
+            </p:tab>
+
+        </p:tabView>
+
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="contrato.create">
+                <p:commandButton process="@form" update="@form" action="#{contratoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="contrato.audit">
+                <x:audit for="#{contratoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

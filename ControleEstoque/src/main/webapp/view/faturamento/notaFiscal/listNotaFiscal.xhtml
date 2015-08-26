@@ -1,0 +1,159 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['notaFiscal.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuNotaFiscal.xhtml" />
+        <h:form id="formListNotaFiscal">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="notaFiscal_export" target=":formListNotaFiscal:dataTableNotaFiscal"
+                                widgetVar="dataTableNotaFiscalWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="notaFiscal" rowIndexVar="index" id="dataTableNotaFiscal" widgetVar="dataTableNotaFiscalWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{notaFiscalMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{notaFiscalMB.dataModel.paginatorTemplate}"
+                         value="#{notaFiscalMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="Empresa" sortBy="#{notaFiscal.loja}"
+                          filterBy="#{notaFiscal.loja.razaoSocial}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Empresa" />
+                    </f:facet>
+                    <h:outputText value="#{notaFiscal.loja}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['notaFiscal.venda']}" sortBy="#{notaFiscal.venda}"
+                          filterBy="#{notaFiscal.venda.id}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['notaFiscal.venda']}" />
+                    </f:facet>
+                    <h:outputText value="#{notaFiscal.venda}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Cliente" sortBy="#{notaFiscal.venda.cliente}"
+                          filterBy="#{notaFiscal.venda.cliente.razaoSocial}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Cliente" />
+                    </f:facet>
+                    <h:outputText value="#{notaFiscal.venda.cliente}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['notaFiscal.numeroNota']}" sortBy="#{notaFiscal.numeroNota}"
+                          filterBy="#{notaFiscal.numeroNota}"  style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['notaFiscal.numeroNota']}" />
+                    </f:facet>
+                    <h:outputText value="#{notaFiscal.numeroNota}"/>
+                </p:column>
+                
+                <p:column headerText="Data da Venda" sortBy="#{notaFiscal.venda.dataVenda}"
+                          filterBy="#{notaFiscal.venda.dataVenda}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data da Venda" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{notaFiscal.venda.dataVenda}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Data da Nota" sortBy="#{notaFiscal.dataEmissao}"
+                          filterBy="#{notaFiscal.dataEmissao}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data da Nota" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{notaFiscal.dataEmissao}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['venda.totalAPagar']}" sortBy="#{venda.totalAPagar}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['venda.totalAPagar']}" />
+                    </f:facet>
+                    <h:outputText value="#{notaFiscal.venda.totalAPagar}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>    
+                <p:column headerText="#{msg['notaFiscal.status']}" sortBy="#{notaFiscal.status}"
+                          filterBy="#{notaFiscal.status}"  filterOptions="#{findAllBean.getSelect(classMB.statusNF)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['notaFiscal.status']}" />
+                    </f:facet>
+                    <h:outputText value="#{notaFiscal.status.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="Documentos">
+                    <x:securityArea rolesAllowed="notaFiscal.create">
+                        <p:commandButton icon="ui-icon-document" ajax="false" 
+                                         process="@form" title="Nota Fiscal"  action="#{notaFiscalMB.gerarNFe(notaFiscal)}">
+
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="notaFiscal.create">
+                        <p:commandButton icon="ui-icon-document-b" ajax="false" 
+                                         process="@form" title="Gerar Arquivo TXT"  action="#{notaFiscalMB.gerarArquivoTextNfe(notaFiscal)}">
+
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    
+                    <x:securityArea rolesAllowed="notaFiscal.create">
+                        <p:button icon="ui-icon-pencil" outcome="createNotaFiscal" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{notaFiscal.id}" />
+                        </p:button>
+                    </x:securityArea>
+
+                    <x:securityArea rolesAllowed="notaFiscal.create">
+                        <p:commandButton oncomplete="PF('widgetConfirmaNotaFiscal').show();"  icon="ui-icon-circle-check" 
+                                         process="@form" update=":formConfirmaNotaFiscal" title="Confirmar Nota Fiscal" disabled="#{notaFiscal.status.num==1 || notaFiscal.status.num==3}">
+                            <f:setPropertyActionListener value="#{notaFiscal}" target="#{notaFiscalMB.notaConfirmada}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="notaFiscal.create">
+                        <p:commandButton icon="ui-icon-cancel" ajax="false" 
+                                         process="@form" title="Cancelar Nota Fiscal"  action="#{notaFiscalMB.cancelarNota(notaFiscal)}" disabled="#{notaFiscal.status.num==2 || notaFiscal.status.num==1}">
+
+                        </p:commandButton>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="notaFiscal.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{notaFiscalMB.delete}" >
+                            <f:setPropertyActionListener value="#{notaFiscal.id}" target="#{notaFiscalMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{notaFiscal}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="notaFiscal.audit">
+                    <x:auditDelete for="#{notaFiscalMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetNotaFiscalDetail" header="#{msg['notaFiscal.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailNotaFiscal.xhtml" />
+        </p:dialog>
+        <p:dialog widgetVar="widgetConfirmaNotaFiscal" header="Confirmar Nota Fiscal" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="confirmarNota.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

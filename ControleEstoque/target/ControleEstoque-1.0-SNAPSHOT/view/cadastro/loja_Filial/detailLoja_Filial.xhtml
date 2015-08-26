@@ -1,0 +1,100 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailLoja_Filial" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.tipo.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.razaoSocial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.razaoSocial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.nomeFantasia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.nomeFantasia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.cnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.cnpj}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.inscricaoEstatual']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.inscricaoEstatual}" styleClass="uix-content-detail"/>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.numero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.numero}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.bairro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.cidadeEndereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.cidadeEndereco.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.complemento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.complemento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.tipoEndereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.tipoEndereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.fax']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.fax}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.celula1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.celula1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.celular2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.celular2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.whatsapp']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.whatsapp}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['loja_Filial.facebook']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{loja_FilialMB.entity.facebook}" styleClass="uix-content-detail"/>
+                </div>
+               
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetLoja_FilialDetail').hide()" />
+            <x:securityArea rolesAllowed="loja_Filial.audit">
+                <x:audit for="#{loja_FilialMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

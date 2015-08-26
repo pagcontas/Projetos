@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Gráfico de Arrecadação" />
+    <ui:define name="body">
+
+        <h:form id="formGerarGrafico">
+            <x:modalMessages/>
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="tipoBusca" value="Tipo Busca:" />
+                    <h:selectOneMenu id="tipoBusca" value="#{graficosMB.busca}"  styleClass="form-control">
+                        <f:selectItem itemLabel="Tudo" />
+                        <f:selectItems value="#{findAllBean.get(classMB.cidadeOuLoja)}" 
+                                       var="busca"
+                                       itemLabel="#{busca.descricao}"/>
+
+                        <p:ajax update="formGerarGrafico" process="@this" listener="#{graficosMB.tipoBusca}"/>
+                    </h:selectOneMenu>
+                </div>
+                
+                <h:panelGroup id="panelLoja" rendered="#{graficosMB.checkLoja}">       
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="loja" value="#{msg['fatosbb.loja']}:" />
+                        <h:selectOneMenu id="loja" value="#{graficosMB.loja}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.loja)}" 
+                                           var="loja"
+                                           itemLabel="#{loja}"/>
+                            
+                        </h:selectOneMenu>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup id="panelCidade" rendered="#{graficosMB.checkCidade}">   
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="#{msg['loja.cidade']}:" />
+                        <h:selectOneMenu id="cidade" value="#{graficosMB.cidade}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                           var="cidade"
+                                           itemLabel="#{cidade}"/>
+                        </h:selectOneMenu>
+                    </div>
+                </h:panelGroup>  
+
+            </div>
+            <div class="row">
+                <div class="uix-center">
+                    <p:commandButton value="Gerar Gráfico" ajax="false" update="panelZero" action="#{graficosMB.gerarGrafico}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <h:panelGroup id="panelZero">                     
+                    <p:chart type="line" model="#{graficosMB.dateModel}" style="height:500px;" widgetVar="chart"/>                     
+                    <div class="uix-center">                         
+                        <p:commandButton type="button" value="Desativar Zoom" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>                     
+                    </div>                 
+                </h:panelGroup>
+            </div>
+
+        </h:form>
+
+
+
+    </ui:define>
+</ui:composition>

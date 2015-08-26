@@ -1,0 +1,46 @@
+package br.com.jsoft.centralfinanceira.mb.contrato;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.contrato.ContratoBO;
+import br.com.jsoft.centralfinanceira.bo.email.ConfiguracaoEmailBO;
+import br.com.jsoft.centralfinanceira.bo.email.EmailBO;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Contrato;
+import br.com.jsoft.centralfinanceira.modelo.controleacesso.Usuario;
+import br.com.jsoft.centralfinanceira.modelo.email.ConfiguracaoEmail;
+import br.com.jsoft.centralfinanceira.util.SessaoUtils;
+import com.xpert.core.exception.BusinessException;
+import com.xpert.faces.utils.FacesMessageUtils;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.Schedule;
+
+/**
+ *
+ * @author killerbee
+ */
+@ManagedBean
+@ViewScoped
+public class ContratoMB extends AbstractBaseBean<Contrato> implements Serializable {
+
+    @EJB
+    private ContratoBO contratoBO;
+
+   
+
+    @Override
+    public ContratoBO getBO() {
+        return contratoBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+   
+}

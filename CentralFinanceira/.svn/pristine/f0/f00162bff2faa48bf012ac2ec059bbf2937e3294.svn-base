@@ -1,0 +1,248 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.modelo.contrato;
+
+import br.com.jsoft.centralfinanceira.modelo.central.Posto;
+import br.com.jsoft.centralfinanceira.modelo.contrato.enums.Avalista;
+import br.com.jsoft.centralfinanceira.modelo.contrato.enums.TipoSistema;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+/**
+ *
+ * @author killerbee
+ */
+@Entity
+@Table(schema = "dados")
+public class Contrato implements Serializable {
+
+    @Id
+    @SequenceGenerator(name = "Contrato", sequenceName = "seq_contrato")
+    @GeneratedValue(generator = "Contrato")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "O Posto é Obrigatório!")
+    private Posto posto;
+
+    private BigDecimal limiteCoban;
+
+    private BigDecimal limiteConvenios;
+
+    private BigDecimal limiteRecarga;
+
+    @NotNull(message = "O Limite Total é Obrigatório!")
+    private BigDecimal limiteTotal;
+
+    private BigDecimal novoLimite;
+
+    private TipoSistema sistema;
+
+    @Size(max = 200)
+    private String consultor;
+
+    private BigDecimal novoBoleto;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull(message = "A Data Inicial é obrigatória!")
+    private Date dataInicial;
+
+    @NotNull(message = "A Data Final é obrigatória!")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataFinal; // um ano depois
+
+    private Avalista avalista;
+
+    private BigDecimal notaPromissoria;
+
+    @Size(max = 200)
+    private String observacao;
+
+    private boolean contratoBB;
+
+    private boolean ativo = true;
+
+    private boolean emailOk = true;
+
+    public Posto getPosto() {
+        return posto;
+    }
+
+    public void setPosto(Posto posto) {
+        this.posto = posto;
+    }
+
+    public BigDecimal getLimiteCoban() {
+        return limiteCoban;
+    }
+
+    public void setLimiteCoban(BigDecimal limiteCoban) {
+        this.limiteCoban = limiteCoban;
+    }
+
+    public BigDecimal getLimiteConvenios() {
+        return limiteConvenios;
+    }
+
+    public void setLimiteConvenios(BigDecimal limiteConvenios) {
+        this.limiteConvenios = limiteConvenios;
+    }
+
+    public BigDecimal getLimiteRecarga() {
+        return limiteRecarga;
+    }
+
+    public void setLimiteRecarga(BigDecimal limiteRecarga) {
+        this.limiteRecarga = limiteRecarga;
+    }
+
+    public BigDecimal getLimiteTotal() {
+        return limiteTotal;
+    }
+
+    public void setLimiteTotal(BigDecimal limiteTotal) {
+        this.limiteTotal = limiteTotal;
+    }
+
+    public BigDecimal getNovoLimite() {
+        return novoLimite;
+    }
+
+    public void setNovoLimite(BigDecimal novoLimite) {
+        this.novoLimite = novoLimite;
+    }
+
+    public TipoSistema getSistema() {
+        return sistema;
+    }
+
+    public void setSistema(TipoSistema sistema) {
+        this.sistema = sistema;
+    }
+
+    public String getConsultor() {
+        return consultor;
+    }
+
+    public void setConsultor(String consultor) {
+        this.consultor = consultor;
+    }
+
+    public BigDecimal getNovoBoleto() {
+        return novoBoleto;
+    }
+
+    public void setNovoBoleto(BigDecimal novoBoleto) {
+        this.novoBoleto = novoBoleto;
+    }
+
+    public Avalista getAvalista() {
+        return avalista;
+    }
+
+    public void setAvalista(Avalista avalista) {
+        this.avalista = avalista;
+    }
+
+    public BigDecimal getNotaPromissoria() {
+        return notaPromissoria;
+    }
+
+    public void setNotaPromissoria(BigDecimal notaPromissoria) {
+        this.notaPromissoria = notaPromissoria;
+    }
+
+    public boolean isContratoBB() {
+        return contratoBB;
+    }
+
+    public void setContratoBB(boolean contratoBB) {
+        this.contratoBB = contratoBB;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public Date getDataInicial() {
+        return dataInicial;
+    }
+
+    public void setDataInicial(Date dataInicial) {
+        this.dataInicial = dataInicial;
+    }
+
+    public Date getDataFinal() {
+        return dataFinal;
+    }
+
+    public void setDataFinal(Date dataFinal) {
+        this.dataFinal = dataFinal;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isEmailOk() {
+        return emailOk;
+    }
+
+    public void setEmailOk(boolean emailOk) {
+        this.emailOk = emailOk;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Contrato other = (Contrato) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+}

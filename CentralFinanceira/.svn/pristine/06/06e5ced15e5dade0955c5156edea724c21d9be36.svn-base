@@ -1,0 +1,98 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['convenioBoleto.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConvenioBoleto.xhtml" />
+        <h:form id="formListConvenioBoleto">
+            <x:modalMessages/>
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="convenioBoleto" rowIndexVar="index" id="dataTableConvenioBoleto" widgetVar="dataTableConvenioBoletoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{convenioBoletoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{convenioBoletoMB.dataModel.paginatorTemplate}"
+                         value="#{convenioBoletoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <p:commandButton onclick="dataTableConvenioBoletoWidget.filter()" type="button" icon="ui-icon-refresh" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioBoleto.id']}" sortBy="#{convenioBoleto.id}"
+                             >
+                        <h:outputText value="#{convenioBoleto.id}">
+                            <x:initializer/>
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['convenioBoleto.nome']}" sortBy="#{convenioBoleto.nome}"
+                          filterBy="#{convenioBoleto.nome}"   >
+                        <h:outputText value="#{convenioBoleto.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioBoleto.retemcomissao']}" sortBy="#{convenioBoleto.retemcomissao}"
+                          filterBy="#{convenioBoleto.retemcomissao}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                        <h:outputText value="#{convenioBoleto.retemcomissao}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['convenioBoleto.tarifa']}" sortBy="#{convenioBoleto.tarifa}"
+                             style="text-align: right;">
+                        <h:outputText value="#{convenioBoleto.tarifa}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                </p:column>
+            <p:column headerText="#{msg['convenioBoleto.tipofloat']}" sortBy="#{convenioBoleto.tipofloat}"
+                             >
+                        <h:outputText value="#{convenioBoleto.tipofloat}">
+                            <x:initializer/>
+                        </h:outputText>
+                </p:column>
+                    <p:column headerText="#{msg['convenioBoleto.diasfloat']}" sortBy="#{convenioBoleto.diasfloat}"
+                          filterBy="#{convenioBoleto.diasfloat}"   >
+                        <h:outputText value="#{convenioBoleto.diasfloat}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioBoleto.iss']}" sortBy="#{convenioBoleto.iss}"
+                             style="text-align: right;">
+                        <h:outputText value="#{convenioBoleto.iss}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['convenioBoleto.ativo']}" sortBy="#{convenioBoleto.ativo}"
+                          filterBy="#{convenioBoleto.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                        <h:outputText value="#{convenioBoleto.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                         <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetConvenioBoletoDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailConvenioBoleto" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{convenioBoleto}" target="#{convenioBoletoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="convenioBoleto.create">
+                        <p:button icon="ui-icon-pencil" outcome="createConvenioBoleto" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{convenioBoleto.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="convenioBoleto.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{convenioBoletoMB.delete}" >
+                            <f:setPropertyActionListener value="#{convenioBoleto.id}" target="#{convenioBoletoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{convenioBoleto}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+                <f:facet name="footer">
+                    <x:securityArea rolesAllowed="convenioBoleto.audit">
+                        <x:auditDelete for="#{convenioBoletoMB.entityClass}"/>
+                    </x:securityArea>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog widgetVar="widgetConvenioBoletoDetail" header="#{msg['convenioBoleto.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailConvenioBoleto.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

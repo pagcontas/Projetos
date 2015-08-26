@@ -1,0 +1,208 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fatosops.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFatosops.xhtml" />
+        <h:form id="formListFatosops">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="fatosops_export" target=":formListFatosops:dataTableFatosops"
+                                widgetVar="dataTableFatosopsWidget"  />
+
+            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fatosops" rowIndexVar="index" id="dataTableFatosops" widgetVar="dataTableFatosopsWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fatosopsMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fatosopsMB.dataModel.paginatorTemplate}"
+                         value="#{fatosopsMB.dataModel}" lazy="true" >
+                <p:ajax event="page" oncomplete="updateSum()"/>
+                <p:ajax event="filter" oncomplete="updateSum()"/>
+                <p:ajax event="sort" oncomplete="updateSum()"/>
+
+                <p:column headerText="#{msg['fatosops.loja']}" sortBy="#{fatosops.loja}"
+                          filterBy="#{fatosops.loja.id}" >
+                    <f:facet name="header">
+                        <h:outputText value="Cód. Loja" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.loja.id}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.loja']}" sortBy="#{fatosops.loja}"
+                          filterBy="#{fatosops.loja.nome}"  >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.loja.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.conveniop']}" sortBy="#{fatosops.conveniop}"
+                          filterBy="#{fatosops.conveniop.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.conveniop']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.conveniop.nome}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.periodo']}" sortBy="#{fatosops.periodo}"
+                          filterBy="#{fatosops.periodo}" style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.periodo']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.periodo}" converter="periodoConverterList"/>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.qtd']}" sortBy="#{fatosops.qtd}"
+                          filterBy="#{fatosops.qtd}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.qtd']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.qtd}"/>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosopsMB.totalQtdPaginaAtual()}" id="somaQdt" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="#{msg['fatosops.arrecadado']}" sortBy="#{fatosops.arrecadado}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.arrecadado']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.arrecadado}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosopsMB.totalArrecadadoPaginaAtual()}" id="somaArrecadado" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.unitariop']}" sortBy="#{fatosops.unitariop}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.unitariop']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.unitariop}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosopsMB.totalUniConvenioPaginaAtual()}" id="somaUniConv" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.unitarioloja']}" sortBy="#{fatosops.unitarioloja}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.unitarioloja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.unitarioloja}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosopsMB.totalUniLojaPaginaAtual()}" id="somaUniLoja" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.unitarioliquido']}" sortBy="#{fatosops.unitarioLiquido}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.unitarioliquido']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.unitarioLiquido}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosopsMB.totalUniLiquidoPaginaAtual()}" id="somaUniLiq" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="#{msg['fatosBoletos.comissaoLoja']}" sortBy="#{fatosops.comissaoLoja}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.comissaoLoja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.comissaoLoja}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosopsMB.totalComLojaPaginaAtual()}" id="somaComLoja" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="#{msg['fatosBoletos.comissaoConvenio']}" sortBy="#{fatosops.comissaoConvenio}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.comissaoConvenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.comissaoConvenio}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosopsMB.totalComConvenioPaginaAtual()}" id="somaComConv" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="#{msg['fatosBoletos.comissaoLiquida']}" sortBy="#{fatosops.comissaoLiquida}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.comissaoLiquida']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosops.comissaoLiquida}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosopsMB.totalComLiquidaPaginaAtual()}" id="somaComLiq" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetFatosopsDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFatosops" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fatosops}" target="#{fatosopsMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fatosops.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFatosops" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fatosops.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fatosops.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fatosopsMB.delete}" >
+                            <f:setPropertyActionListener value="#{fatosops.id}" target="#{fatosopsMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fatosops}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fatosops.audit">
+                    <x:auditDelete for="#{fatosopsMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFatosopsDetail" header="#{msg['fatosops.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFatosops.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

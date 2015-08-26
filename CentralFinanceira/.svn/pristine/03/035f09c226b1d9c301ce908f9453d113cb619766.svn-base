@@ -1,0 +1,94 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['contrato.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuContrato.xhtml" />
+        <h:form id="formListContrato">
+            <x:modalMessages/>
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="contrato" rowIndexVar="index" id="dataTableContrato" widgetVar="dataTableContratoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{contratoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{contratoMB.dataModel.paginatorTemplate}"
+                         value="#{contratoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <p:commandButton onclick="dataTableContratoWidget.filter()" type="button" icon="ui-icon-refresh" />
+                    </f:facet>
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['contrato.nome']}" sortBy="#{contrato.nome}"
+                          filterBy="#{contrato.nome}"   >
+                        <h:outputText value="#{contrato.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['contrato.rg']}" sortBy="#{contrato.rg}"
+                          filterBy="#{contrato.rg}"   >
+                        <h:outputText value="#{contrato.rg}"/>
+                </p:column>
+                <p:column headerText="#{msg['contrato.cpf']}" sortBy="#{contrato.cpf}"
+                          filterBy="#{contrato.cpf}"   >
+                        <h:outputText value="#{contrato.cpf}" converter="cpfConverter"/>
+                </p:column>
+                <p:column headerText="#{msg['contrato.dataInicial']}" sortBy="#{contrato.dataInicial}"
+                          filterBy="#{contrato.dataInicial}"   style="text-align: center;">
+                        <f:facet name="header">
+                            #{msg['contrato.dataInicial']}
+                            <x:dateFilter/>
+                        </f:facet>
+                        <h:outputText value="#{contrato.dataInicial}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contrato.dataFinal']}" sortBy="#{contrato.dataFinal}"
+                          filterBy="#{contrato.dataFinal}"   style="text-align: center;">
+                        <f:facet name="header">
+                            #{msg['contrato.dataFinal']}
+                            <x:dateFilter/>
+                        </f:facet>
+                        <h:outputText value="#{contrato.dataFinal}">
+                            <f:convertDateTime />
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contrato.ativo']}" sortBy="#{contrato.ativo}"
+                          filterBy="#{contrato.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                        <h:outputText value="#{contrato.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                         <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetContratoDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailContrato" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{contrato}" target="#{contratoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="contrato.create">
+                        <p:button icon="ui-icon-pencil" outcome="createContrato" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{contrato.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="contrato.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{contratoMB.delete}" >
+                            <f:setPropertyActionListener value="#{contrato.id}" target="#{contratoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{contrato}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+                <f:facet name="footer">
+                    <x:securityArea rolesAllowed="contrato.audit">
+                        <x:auditDelete for="#{contratoMB.entityClass}"/>
+                    </x:securityArea>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog widgetVar="widgetContratoDetail" header="#{msg['contrato.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailContrato.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

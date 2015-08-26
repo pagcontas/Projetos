@@ -1,0 +1,32 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.ConvenioSiteBO;
+import br.com.jsoft.centralfinanceira.modelo.central.ConvenioSite;
+
+/**
+ *
+ * @author killerbee
+ */
+@ManagedBean
+@ViewScoped
+public class ConvenioSiteMB extends AbstractBaseBean<ConvenioSite> implements Serializable {
+
+    @EJB
+    private ConvenioSiteBO convenioSiteBO;
+
+    @Override
+    public ConvenioSiteBO getBO() {
+        return convenioSiteBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+}

@@ -1,0 +1,144 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Gráfico de Rentabilidade de Convenio" />
+    <ui:define name="body">
+        <div class="container-fluid">
+            <h:form id="listRentabilidadeLoja">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="Tipo de Convenio:" />
+                        <h:selectOneMenu id="tipo" value="#{graficosConvenioMB.camposConsulta.tipoBoleto}"  styleClass="form-control" >
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoBoletos)}" 
+                                           var="tipo"
+                                           itemLabel="#{tipo.descricao}"/>
+                            <p:ajax process="@this" update="listRentabilidadeLoja"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup rendered="#{graficosConvenioMB.boleto}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenioboleto" value="Convenio Boleto:" />
+                            <h:selectOneMenu id="convenioboleto" value="#{graficosConvenioMB.camposConsulta.convenioBoleto}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioBoleto)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{graficosConvenioMB.boletoSite}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conveniosite" value="Convenio Site:" />
+                            <h:selectOneMenu id="conveniosite" value="#{graficosConvenioMB.camposConsulta.convenioSite}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioSite)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{graficosConvenioMB.credito}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conveniocredito" value="Convenio Crédito:" />
+                            <h:selectOneMenu id="conveniocredito" value="#{graficosConvenioMB.camposConsulta.convenioCredito}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.conveniocredigi)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{graficosConvenioMB.recarga}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conveniorecarga" value="Convenio Recarga:" />
+                            <h:selectOneMenu id="conveniorecarga" value="#{graficosConvenioMB.camposConsulta.convenioRecarga}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioRecarga)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{graficosConvenioMB.valeGas}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conveniogas" value="Convenio Vale Gás" />
+                            <h:selectOneMenu id="conveniogas" value="#{graficosConvenioMB.camposConsulta.convenioValeGas}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioGas)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{graficosConvenioMB.OP}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenioreop" value="Convenio OP" />
+                            <h:selectOneMenu id="convenioreop" value="#{graficosConvenioMB.camposConsulta.convenioOp}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.conveniop)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{graficosConvenioMB.BB}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenioreBb" value="Convenio BB" />
+                            <h:selectOneMenu id="convenioreBb" value="#{graficosConvenioMB.camposConsulta.convenioBB}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.conveniobb)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{graficosConvenioMB.BP}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenioreBp" value="Convenio BP" />
+                            <h:selectOneMenu id="convenioreBp" value="#{graficosConvenioMB.camposConsulta.convenioBP}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioBanPop)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+
+
+                </div>                
+                <div class="row">
+                    <div class="uix-center">
+                        <p:commandButton value="Gerar Gráfico" ajax="false" update="formGraficos" action="#{graficosConvenioMB.gerarGrafico}"/>
+                    </div>
+                </div>
+
+            </h:form>
+            <h:form id="formGraficos">
+
+
+                <div class="row">
+                                       
+                        <p:chart type="line" model="#{graficosConvenioMB.dateModel}" style="height:500px;" widgetVar="chart"/>                     
+                        <div class="uix-center">                         
+                            <p:commandButton type="button" value="Desativar Zoom" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>                     
+                        </div>                 
+                </div>
+            </h:form>
+
+
+        </div>
+    </ui:define>
+</ui:composition>

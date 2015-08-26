@@ -1,0 +1,75 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.mb.maps;
+
+import br.com.jsoft.centralfinanceira.bo.central.LojaBO;
+import br.com.jsoft.centralfinanceira.dao.central.LojaDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.Loja;
+import com.xpert.core.crud.AbstractBaseBean;
+import com.xpert.core.crud.AbstractBusinessObject;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Init;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
+//import org.primefaces.model.map.GeocodeResult;
+
+/**
+ *
+ * @author KillerBeeTwo
+ */
+@ManagedBean
+public class AddMarkersMB extends AbstractBaseBean<Loja> implements Serializable {
+
+    @EJB
+    private LojaBO lojaBO;
+
+    private List<Loja> lojas;
+
+    private MapModel model = new DefaultMapModel();
+//    private GeocodeEvent geocode;
+
+    @Override
+    public void init() {
+        lojas = lojaBO.getDAO().list("ativo", true);
+        
+        if (lojas != null) {
+            for (Loja loja : lojas) {
+                if (loja.getLatitude() != null && loja.getLongitude() != null) {
+                    model.addOverlay(new Marker(new LatLng(Double.valueOf(loja.getLatitude()), Double.valueOf(loja.getLongitude())), (loja.getId() + " - " + loja.getNome())));
+                }
+            }
+        }
+    }
+
+    public AddMarkersMB() {
+
+        //more overlays
+    }
+
+    public MapModel getModel() {
+        return this.model;
+    }
+
+    @Override
+    public LojaBO getBO() {
+        return lojaBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+}

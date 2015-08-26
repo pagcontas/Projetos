@@ -1,0 +1,45 @@
+package br.com.jsoft.centralfinanceira.bo.contrato;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.controle.ContratoDAO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Contrato;
+
+/**
+ *
+ * @author killerbee
+ */
+@Stateless
+public class ContratoBO extends AbstractBusinessObject<Contrato> {
+
+    @EJB
+    private ContratoDAO contratoDAO;
+    
+    @Override
+    public ContratoDAO getDAO() {
+        return contratoDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return null;
+    }
+
+    @Override
+    public void validate(Contrato contrato) throws BusinessException {
+//        BusinessException exception = new BusinessException();
+//        exception.add("");
+//                
+//                exception.check();
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+}

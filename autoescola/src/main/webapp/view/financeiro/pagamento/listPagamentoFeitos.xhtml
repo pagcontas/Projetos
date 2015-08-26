@@ -1,0 +1,129 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Listar Pagamentos Realizados" />
+
+    <ui:define name="body">
+        <ui:include src="menuPagamento.xhtml" />
+        <x:modalMessages/>
+
+        <div class="container-fluid">
+            <h:form id="formCamposBusca">
+                <div class="row">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="campoCpf" value="#{msg['aluno.cpf']}:" />
+                        <x:cpf id="campoCpf" value="#{relatorioPagamentoMB.camposConsulta.cpf}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="campoNome" value="#{msg['aluno.nome']}:" />
+                        <p:inputText id="campoNome" value="#{relatorioPagamentoMB.camposConsulta.aluno}" maxlength="200"  styleClass="form-control"  />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="campoTipoPagamento" value="#{msg['pagamento.tipoPagamento']}:" />
+                        <h:selectOneMenu id="campoTipoPagamento" value="#{relatorioPagamentoMB.camposConsulta.tipoPagamento}"  styleClass="form-control" disabled="#{pagamentoMB.entity.id!=0}">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.bandeira)}" 
+                                           var="bandeira"
+                                           itemLabel="#{bandeira.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataInicial" value="Data Inicial" />
+                        <p:calendar id="dataInicial" value="#{relatorioPagamentoMB.camposConsulta.dataInicial}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataFinal" value="Data Final" />
+                        <p:calendar id="dataFinal" value="#{relatorioPagamentoMB.camposConsulta.dataFinal}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+
+
+
+                </div>
+
+                <div class="uix-center">
+                    <p:commandButton process="@this formCamposBusca" update="@this dataTablePagamento" action="#{relatorioPagamentoMB.consultarPorCampos}" value="Buscar" />
+                </div>
+
+                <div class="row">
+
+
+                    <x:dataTableActions fileName="pagamento_export" target=":formListPagamento:dataTablePagamento"
+                                        widgetVar="dataTablePagamentoWidget"  />
+
+                    <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                 var="pagamento" rowIndexVar="index" id="dataTablePagamento" widgetVar="dataTablePagamentoWidget" styleClass="table-responsive"
+                                 currentPageReportTemplate="#{relatorioPagamentoMB.dataModel.currentPageReportTemplate}"
+                                 paginatorTemplate="#{relatorioPagamentoMB.dataModel.paginatorTemplate}"
+                                 value="#{relatorioPagamentoMB.pagamentos}" filteredValue="#{relatorioPagamentoMB.pagamentosFiltrados}" lazy="false" >
+
+                        <p:ajax event="page" oncomplete="updateSum()"/>
+                        <p:ajax event="filter" oncomplete="updateSum()"/>
+                        <p:ajax event="sort" oncomplete="updateSum()"/>
+
+                        <p:column styleClass="uix-datatable-index">
+                            <h:outputText value="#{index+1}"/>
+                            <f:facet name="footer">
+                                <h:outputText value="#{relatorioPagamentoMB.qtdTotal()}" id="qtdTotal" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="0" maxFractionDigits="0" />
+                                </h:outputText>
+                            </f:facet>
+                        </p:column>
+                        <p:column headerText="#{msg['aluno.cpf']}" style="text-align: right;" width="10%" >
+
+                            <h:outputText value="#{pagamento.cpf}" converter="cpfConverter"/>
+                        </p:column>
+                        <p:column headerText="#{msg['aluno.nome']}" width="30%">
+
+                            <h:outputText value="#{pagamento.aluno}"/>
+                        </p:column>                   
+                        <p:column headerText="#{msg['pagamento.tipoPagamento']}"
+                                  filterOptions="#{findAllBean.getSelect(classMB.bandeira)}" 
+                                  style="text-align: right;" width="8%">
+
+                            <h:outputText value="#{pagamento.tipoPagamento.descricao}"/>
+                        </p:column>
+
+                        <p:column headerText="Parcela" style="text-align: right;" width="8%">
+                            <h:outputText value="#{pagamento.parcela}"/>
+                        </p:column>
+
+                        <p:column headerText="Data Pagamento" style="text-align: center;" width="12%">
+                            <h:outputText value="#{pagamento.pagamento}">
+                                <f:convertDateTime />
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="Total" style="font-weight:bold">
+                                </h:outputText>
+                            </f:facet> 
+                        </p:column>                
+
+                        <p:column headerText="#{msg['pagamento.valor']}" style="text-align: right;" width="12%">
+                            <h:outputText value="#{pagamento.valor}">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                            </h:outputText>
+                            <f:facet name="footer">
+                                <h:outputText value="#{relatorioPagamentoMB.pegarTotal()}" id="total" style="font-weight:bold">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                            </f:facet>                            
+                        </p:column>                
+
+                    </p:dataTable>
+                    <p:remoteCommand name="updateSum" update="formCamposBusca:dataTablePagamento:total formCamposBusca:dataTablePagamento:qtdTotal" process="@this" />
+                </div>
+            </h:form>
+        </div>
+
+    </ui:define>
+</ui:composition>

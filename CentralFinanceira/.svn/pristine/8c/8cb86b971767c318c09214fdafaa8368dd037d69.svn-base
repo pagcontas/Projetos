@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['itensEquipe.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuItensEquipe.xhtml" />
+        <h:form id="formListItensEquipe">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="itensEquipe_export" target=":formListItensEquipe:dataTableItensEquipe"
+                                     widgetVar="dataTableItensEquipeWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itensEquipe" rowIndexVar="index" id="dataTableItensEquipe" widgetVar="dataTableItensEquipeWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{itensEquipeMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{itensEquipeMB.dataModel.paginatorTemplate}"
+                         value="#{itensEquipeMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['itensEquipe.equipe']}" sortBy="#{itensEquipe.equipe}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itensEquipe.equipe']}" />
+                    </f:facet>
+                    <h:outputText value="#{itensEquipe.equipe}"/>
+                </p:column>
+                <p:column headerText="#{msg['itensEquipe.contrato']}" sortBy="#{itensEquipe.contrato}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itensEquipe.contrato']}" />
+                    </f:facet>
+                    <h:outputText value="#{itensEquipe.contrato}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetItensEquipeDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailItensEquipe" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{itensEquipe}" target="#{itensEquipeMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="itensEquipe.create">
+                        <p:button icon="ui-icon-pencil" outcome="createItensEquipe" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{itensEquipe.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="itensEquipe.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{itensEquipeMB.delete}" >
+                            <f:setPropertyActionListener value="#{itensEquipe.id}" target="#{itensEquipeMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{itensEquipe}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="itensEquipe.audit">
+                    <x:auditDelete for="#{itensEquipeMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetItensEquipeDetail" header="#{msg['itensEquipe.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailItensEquipe.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

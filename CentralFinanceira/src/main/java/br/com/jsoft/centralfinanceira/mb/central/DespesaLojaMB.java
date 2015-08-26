@@ -1,0 +1,39 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.DespesaLojaBO;
+import br.com.jsoft.centralfinanceira.modelo.central.DespesaLoja;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class DespesaLojaMB extends AbstractBaseBean<DespesaLoja> implements Serializable {
+
+    @EJB
+    private DespesaLojaBO despesaLojaBO;
+
+    @Override
+    public DespesaLojaBO getBO() {
+        return despesaLojaBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    @Override
+    public void postSave() {
+        setEntity(new DespesaLoja());
+    }
+    
+    
+}

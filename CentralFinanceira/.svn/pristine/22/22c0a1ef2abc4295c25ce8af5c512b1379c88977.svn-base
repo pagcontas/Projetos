@@ -1,0 +1,38 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.FatosBoletosBO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+
+/**
+ *
+ * @author jj
+ */
+@ManagedBean
+@ViewScoped
+public class FatosBoletosMB extends AbstractBaseBean<FatosBoletos> implements Serializable {
+
+    @EJB
+    private FatosBoletosBO fatosBoletosBO;
+
+    @Override
+    public FatosBoletosBO getBO() {
+        return fatosBoletosBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+    
+    
+    public String relatorioRemuneracao(){
+        
+        return null;
+    }
+}

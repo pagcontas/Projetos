@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['dowloadArquivos.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuDowloadArquivos.xhtml" />
+        <h:form id="formListDowloadArquivos">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="dowloadArquivos_export" target=":formListDowloadArquivos:dataTableDowloadArquivos"
+                                     widgetVar="dataTableDowloadArquivosWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="dowloadArquivos" rowIndexVar="index" id="dataTableDowloadArquivos" widgetVar="dataTableDowloadArquivosWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{dowloadArquivosMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{dowloadArquivosMB.dataModel.paginatorTemplate}"
+                         value="#{dowloadArquivosMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['dowloadArquivos.nome']}" sortBy="#{dowloadArquivos.nome}"
+                    filterBy="#{dowloadArquivos.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dowloadArquivos.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{dowloadArquivos.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['dowloadArquivos.extensao']}" sortBy="#{dowloadArquivos.extensao}"
+                    filterBy="#{dowloadArquivos.extensao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dowloadArquivos.extensao']}" />
+                    </f:facet>
+                    <h:outputText value="#{dowloadArquivos.extensao}"/>
+                </p:column>
+                <p:column headerText="#{msg['dowloadArquivos.conteudo']}" sortBy="#{dowloadArquivos.conteudo}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['dowloadArquivos.conteudo']}" />
+                    </f:facet>
+                    <h:outputText value="#{dowloadArquivos.conteudo}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetDowloadArquivosDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailDowloadArquivos" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{dowloadArquivos}" target="#{dowloadArquivosMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="dowloadArquivos.create">
+                        <p:button icon="ui-icon-pencil" outcome="createDowloadArquivos" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{dowloadArquivos.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="dowloadArquivos.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{dowloadArquivosMB.delete}" >
+                            <f:setPropertyActionListener value="#{dowloadArquivos.id}" target="#{dowloadArquivosMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{dowloadArquivos}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="dowloadArquivos.audit">
+                    <x:auditDelete for="#{dowloadArquivosMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetDowloadArquivosDetail" header="#{msg['dowloadArquivos.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailDowloadArquivos.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

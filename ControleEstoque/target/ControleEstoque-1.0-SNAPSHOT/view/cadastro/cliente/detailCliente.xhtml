@@ -1,0 +1,204 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailCliente" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.tipoDePessoa']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.tipoDePessoa.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.tipo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.tipo.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.nome']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.razaoSocial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.razaoSocial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.nomeFantasia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.nomeFantasia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.cpf']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.cpf}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.cnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.cnpj}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.inscricaoEstatual']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.inscricaoEstatual}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.numero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.numero}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.bairro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.cidadeEndereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.cidadeEndereco.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.complemento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.complemento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.tipoEndereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.tipoEndereco.descricao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.telefone']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.telefone}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.fax']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.fax}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.celula1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.celula1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.celular2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.celular2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.whatsapp']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.whatsapp}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.email']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.email}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.facebook']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.facebook}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.renda']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.renda}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.fatura']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.fatura.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.recebimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.recebimento.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.observacao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.observacao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.dataNascimento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.dataNascimento}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.estadoCivil']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.estadoCivil}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.sexo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.sexo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.nomeDaMae']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.nomeDaMae}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.nomeDoPai']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.nomeDoPai}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.nomeEmpresaTrabalho']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.nomeEmpresaTrabalho}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.endEmpresaTrabalho']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.endEmpresaTrabalho}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.numEndEmpTrabalho']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.numEndEmpTrabalho}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.bairroEmpresaTrabalho']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.bairroEmpresaTrabalho}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.cidEndEmpresaTrabalho']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.cidEndEmpresaTrabalho.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.cepEndEmpresaTrabalho']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.cepEndEmpresaTrabalho}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.telefoneEmprTrabalho']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.telefoneEmprTrabalho}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.dataAdmissao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.dataAdmissao}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.funcao']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.funcao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.rendaTrabalho']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.rendaTrabalho}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['cliente.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{clienteMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetClienteDetail').hide()" />
+            <x:securityArea rolesAllowed="cliente.audit">
+                <x:audit for="#{clienteMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

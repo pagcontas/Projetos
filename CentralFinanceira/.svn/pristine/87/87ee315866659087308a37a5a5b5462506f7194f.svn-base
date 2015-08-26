@@ -1,0 +1,130 @@
+package br.com.jsoft.centralfinanceira.bo.central;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.central.FatosBoletosDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+import br.com.jsoft.centralfinanceira.vo.ComissaoConvenioVO;
+import br.com.jsoft.centralfinanceira.vo.ComissaoLojaVO;
+import br.com.jsoft.centralfinanceira.vo.ConsultaFatosVO;
+import br.com.jsoft.centralfinanceira.vo.RelatorioRemunecaoVO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import com.xpert.faces.utils.FacesJasper;
+import com.xpert.persistence.query.Restrictions;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import javax.faces.context.FacesContext;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
+
+    @EJB
+    private FatosBoletosDAO fatosBoletosDAO;
+
+    @Override
+    public FatosBoletosDAO getDAO() {
+        return fatosBoletosDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+
+        return null;
+    }
+
+    @Override
+    public void validate(FatosBoletos fatosBoletos) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    /**
+     *
+     * @author Juniel
+     * @param fatos
+     * @see Metodo usado para gerar relatorio Caused by:
+     * java.lang.OutOfMemoryError: GC overhead limit exceeded
+     */
+    public void gerarReport(List<RelatorioRemunecaoVO> fatos) {
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String caminho;
+        caminho = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images/pag_contas.jpg");
+        HashMap params = new HashMap();
+        params.put("dataAtual", dt.format(new Date()));
+        params.put("caminhoImagem", caminho);
+        FacesJasper.createJasperReport(fatos, params,
+                "/WEB-INF/report/template/FatosBoletos/relatorioRemuneracao.jasper", "Relatorio_de_Remuneração");
+
+    }
+
+    public List<RelatorioRemunecaoVO> consultaLoja(ConsultaFatosVO consultaFatosVO) {
+
+        Restrictions restrictions = new Restrictions();
+
+        if (consultaFatosVO.getLoja() != null) {
+            restrictions.equals("fb.loja", consultaFatosVO.getLoja());
+        }
+        if (consultaFatosVO.getConvenio() != null) {
+            restrictions.equals("fb.convenioboleto", consultaFatosVO.getConvenio());
+        }
+
+        if (!"".equals(consultaFatosVO.getPeriodoInicial()) && "".equals(consultaFatosVO.getPeriodoFinal())) {
+            String[] temp = consultaFatosVO.getPeriodoInicial().split("/");
+            Integer periodoInicial = Integer.valueOf(temp[1] + temp[0]);
+            restrictions.greaterEqualsThan("fb.periodo", periodoInicial);
+        }
+
+        if ("".equals(consultaFatosVO.getPeriodoInicial()) && !"".equals(consultaFatosVO.getPeriodoFinal())) {
+            String[] temp = consultaFatosVO.getPeriodoInicial().split("/");
+            Integer periodoFinal = Integer.valueOf(temp[1] + temp[0]);
+            restrictions.lessEqualsThan("fb.periodo", periodoFinal);
+        }
+
+        if (!"".equals(consultaFatosVO.getPeriodoInicial()) && !"".equals(consultaFatosVO.getPeriodoFinal())) {
+            String[] temp = consultaFatosVO.getPeriodoInicial().split("/");
+            Integer periodoInicial = Integer.valueOf(temp[1] + temp[0]);
+
+            String[] temp2 = consultaFatosVO.getPeriodoFinal().split("/");
+            Integer periodoFinal = Integer.valueOf(temp2[1] + temp2[0]);
+
+            restrictions.greaterEqualsThan("fb.periodo", periodoInicial);
+            restrictions.lessEqualsThan("fb.periodo", periodoFinal);
+        }
+
+        List<RelatorioRemunecaoVO> relatorioRemunecao = new ArrayList<RelatorioRemunecaoVO>();
+
+        List<FatosBoletos> fatosBoletos;
+
+        fatosBoletos = fatosBoletosDAO.getQueryBuilder()
+                .from(FatosBoletos.class, "fb")
+                .add(restrictions).orderBy("fb.loja.id, fb.convenioboleto.id, fb.periodo ASC")
+                .getResultList();
+
+        for (FatosBoletos fato : fatosBoletos) {
+            relatorioRemunecao.add(new RelatorioRemunecaoVO(fato));
+        }
+
+        return relatorioRemunecao;
+    }
+    
+    public void updateUniConvenio(ComissaoConvenioVO comissaoConvenio){
+        fatosBoletosDAO.updateUnitarioConvenio(comissaoConvenio.getId(), comissaoConvenio.getUnitarioconvenio(), comissaoConvenio.getPeriodo());
+    }
+    
+    public void updateUniLoja(ComissaoLojaVO comissaoLoja){
+        fatosBoletosDAO.updateUnitarioLoja(comissaoLoja.getId(), comissaoLoja.getUnitarioloja(), comissaoLoja.getPeriodo());
+    }
+
+}

@@ -1,0 +1,114 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPagContas" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.razaoSocial']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.razaoSocial}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.nomeFantasia']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.nomeFantasia}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.cnpj']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.cnpj}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.inscricaoEstadual']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.inscricaoEstadual}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.endereco']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.endereco}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.bairro']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.bairro}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.numero']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.numero}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.cep']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.cep}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.cidade']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.cidade}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.nomeProc1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.nomeProc1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.nacionalidadeProc1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.nacionalidadeProc1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.estadoCivilProc1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.estadoCivilProc1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.profissaoProc1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.profissaoProc1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.rgProc1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.rgProc1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.orgaoExpeditorPro1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.orgaoExpeditorPro1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.cpfProc1']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.cpfProc1}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.nomeProc2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.nomeProc2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.nacionalidadeProc2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.nacionalidadeProc2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.estadoCivilProc2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.estadoCivilProc2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.profissaoProc2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.profissaoProc2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.rgProc2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.rgProc2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.orgaoExpeditorPro2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.orgaoExpeditorPro2}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagContas.cpfProc2']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagContasMB.entity.cpfProc2}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="widgetPagContasDetail.hide()" />
+            <x:securityArea rolesAllowed="pagContas.audit">
+                <x:audit for="#{pagContasMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

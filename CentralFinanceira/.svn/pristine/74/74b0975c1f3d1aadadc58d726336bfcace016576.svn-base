@@ -1,0 +1,41 @@
+package br.com.jsoft.centralfinanceira.bo.central;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.central.CredigivalorDAO;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import br.com.jsoft.centralfinanceira.modelo.central.Credigivalor;
+
+/**
+ *
+ * @author killerbee
+ */
+@Stateless
+public class CredigivalorBO extends AbstractBusinessObject<Credigivalor> {
+
+    @EJB
+    private CredigivalorDAO credigivalorDAO;
+    
+    @Override
+    public CredigivalorDAO getDAO() {
+        return credigivalorDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+        return null;
+    }
+
+    @Override
+    public void validate(Credigivalor credigivalor) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+}

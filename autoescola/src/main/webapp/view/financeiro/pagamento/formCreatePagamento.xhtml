@@ -1,0 +1,149 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreatePagamento" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages autoUpdate="true"/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="aluno" value="#{msg['pagamento.aluno']}:" />
+                        <h:selectOneMenu id="aluno" value="#{pagamentoMB.entity.aluno}" converter="entityConverter" styleClass="form-control" 
+                                         disabled="#{pagamentoMB.entity.id!=0}">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.aluno)}" 
+                                           var="aluno"
+                                           itemLabel="#{aluno.nome}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="valor:input" value="* #{msg['pagamento.valor']}:" />
+                        <x:inputNumber id="valor" value="#{pagamentoMB.entity.valor}" styleClass="form-control" disabled="#{pagamentoMB.entity.id!=0}"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="desconto:input" value="#{msg['pagamento.desconto']}:" />
+                        <x:inputNumber id="desconto" value="#{pagamentoMB.entity.desconto}" styleClass="form-control" disabled="#{pagamentoMB.entity.id!=0}"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="entrada:input" value="#{msg['pagamento.entrada']}:" />
+                        <x:inputNumber id="entrada" value="#{pagamentoMB.entity.entrada}" styleClass="form-control" disabled="#{pagamentoMB.entity.id!=0}"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipoPagamento" value="* #{msg['pagamento.tipoPagamento']}:" />
+                        <h:selectOneMenu id="tipoPagamento" value="#{pagamentoMB.entity.tipoPagamento}"  styleClass="form-control" disabled="#{pagamentoMB.entity.id!=0}">
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.bandeira)}" 
+                                           var="bandeira"
+                                           itemLabel="#{bandeira.descricao}"/>
+                            <p:ajax update="panelQdtParcelas" /> 
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="dataPrimeiraParcela" value="* Data 1ª Parcela:" />
+                        <p:calendar id="dataPrimeiraParcela" value="#{pagamentoMB.entity.dataPrimeiraParcela}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar" disabled="#{pagamentoMB.entity.id!=0}" >
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:panelGroup id="panelQdtParcelas">
+                            <p:outputPanel rendered="#{pagamentoMB.entity.tipoPagamento.numero != 0}">
+                                    <h:outputLabel for="qtdParcelas" value="* #{msg['pagamento.qtdParcelas']}:" />
+                                    <p:inputMask id="qtdParcelas" mask="9?999999999" placeHolder="" value="#{pagamentoMB.entity.qtdParcelas}" styleClass="form-control" disabled="#{pagamentoMB.entity.id!=0}"/>
+                            </p:outputPanel> 
+                        </h:panelGroup> 
+                    </div>
+                </div>
+                <div class="row">
+                    <h:panelGroup id="panelCampo" rendered="#{pagamentoMB.entity.id != 0}">
+                        <p:outputPanel id="outPutPanel">
+
+                            <p:dataTable emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="parcelas" rowIndexVar="index" id="dataTableParcelas" 
+                                         value="#{pagamentoMB.entity.parcelas}">
+                                <x:initializer/>                                
+                                <p:column headerText="#{msg['parcelas.parcela']}" sortBy="#{parcelas.parcela}"
+                                          style="text-align: right;" >
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['parcelas.parcela']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{parcelas.parcela}/#{pagamentoMB.entity.qtdParcelas}"/>
+                                </p:column>
+                                <p:column headerText="#{msg['parcelas.valor']}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['parcelas.valor']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{parcelas.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['parcelas.dataVencimento']}"
+                                          style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['parcelas.dataVencimento']}" />
+
+                                    </f:facet>
+                                    <h:outputText value="#{parcelas.dataVencimento}">
+                                        <f:convertDateTime />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="#{msg['parcelas.dataPagamento']}"
+                                          style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['parcelas.dataPagamento']}" />
+
+                                    </f:facet>
+                                    <h:outputText value="#{parcelas.dataPagamento}">
+                                        <f:convertDateTime />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Pago?"
+                                          style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msg['parcelas.situacao']}" />
+                                    </f:facet>
+                                    <h:outputText value="#{parcelas.situacao}" converter ="yesNoConverter" />
+                                </p:column>
+
+                                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{xmsg['actions']}"/>
+                                    </f:facet>
+
+                                    <p:commandButton process="@this" oncomplete="widgetDialogEditarParcelas.show();"  icon="ui-icon-circle-check" 
+                                                     title="Confirmar Pagamento" >
+                                        <f:setPropertyActionListener value="#{parcelas}" target="#{pagamentoMB.parcela}" />
+                                    </p:commandButton>
+
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel> 
+                    </h:panelGroup>
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="pagamento.create">
+                <p:commandButton process="@form" update="@form" action="#{pagamentoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="pagamento.audit">
+                <x:audit for="#{pagamentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+    <p:dialog widgetVar="widgetDialogEditarParcelas" header="Confirmar Pagamento Parcela" appendToBody="true" 
+              modal="true" >
+        <ui:include src="dialogEditarParcelas.xhtml" />
+    </p:dialog>
+
+</ui:composition>

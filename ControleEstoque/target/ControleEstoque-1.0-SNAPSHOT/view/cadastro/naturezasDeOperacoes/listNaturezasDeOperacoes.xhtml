@@ -1,0 +1,91 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['naturezasDeOperacoes.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuNaturezasDeOperacoes.xhtml" />
+        <h:form id="formListNaturezasDeOperacoes">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="naturezasDeOperacoes_export" target=":formListNaturezasDeOperacoes:dataTableNaturezasDeOperacoes"
+                                     widgetVar="dataTableNaturezasDeOperacoesWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="naturezasDeOperacoes" rowIndexVar="index" id="dataTableNaturezasDeOperacoes" widgetVar="dataTableNaturezasDeOperacoesWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{naturezasDeOperacoesMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{naturezasDeOperacoesMB.dataModel.paginatorTemplate}"
+                         value="#{naturezasDeOperacoesMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="CNJP" sortBy="#{naturezasDeOperacoes.loja.cnpj}"
+                          filterBy="#{naturezasDeOperacoes.loja.cnpj}"  style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="CNPJ" />
+                    </f:facet>
+                    <h:outputText value="#{naturezasDeOperacoes.loja.cnpj}" converter="cnpjConverter">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Nome Empresa" sortBy="#{naturezasDeOperacoes.loja}"
+                          filterBy="#{naturezasDeOperacoes.loja.nome}"  >
+                    <f:facet name="header">
+                        <h:outputText value="Nome Empresa" />
+                    </f:facet>
+                    <h:outputText value="#{naturezasDeOperacoes.loja}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['naturezasDeOperacoes.codigo']}" sortBy="#{naturezasDeOperacoes.codigo}"
+                    filterBy="#{naturezasDeOperacoes.codigo}"  style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezasDeOperacoes.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezasDeOperacoes.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['naturezasDeOperacoes.nome']}" sortBy="#{naturezasDeOperacoes.nome}"
+                    filterBy="#{naturezasDeOperacoes.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['naturezasDeOperacoes.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{naturezasDeOperacoes.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetNaturezasDeOperacoesDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailNaturezasDeOperacoes" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{naturezasDeOperacoes}" target="#{naturezasDeOperacoesMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="naturezasDeOperacoes.create">
+                        <p:button icon="ui-icon-pencil" outcome="createNaturezasDeOperacoes" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{naturezasDeOperacoes.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="naturezasDeOperacoes.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{naturezasDeOperacoesMB.delete}" >
+                            <f:setPropertyActionListener value="#{naturezasDeOperacoes.id}" target="#{naturezasDeOperacoesMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{naturezasDeOperacoes}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="naturezasDeOperacoes.audit">
+                    <x:auditDelete for="#{naturezasDeOperacoesMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetNaturezasDeOperacoesDetail" header="#{msg['naturezasDeOperacoes.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailNaturezasDeOperacoes.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

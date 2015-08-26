@@ -1,0 +1,14 @@
+package br.com.jsoft.centralfinanceira.dao.controle;
+
+import com.xpert.persistence.dao.BaseDAO;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Contrato;
+import javax.ejb.Local;
+
+/**
+ *
+ * @author killerbee
+ */
+@Local
+public interface ContratoDAO extends BaseDAO<Contrato> {
+    
+}

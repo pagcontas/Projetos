@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['conveniobb.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConveniobb.xhtml" />
+        <h:form id="formListConveniobb">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="conveniobb_export" target=":formListConveniobb:dataTableConveniobb"
+                                     widgetVar="dataTableConveniobbWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="conveniobb" rowIndexVar="index" id="dataTableConveniobb" widgetVar="dataTableConveniobbWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{conveniobbMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{conveniobbMB.dataModel.paginatorTemplate}"
+                         value="#{conveniobbMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['conveniobb.nome']}" sortBy="#{conveniobb.nome}"
+                    filterBy="#{conveniobb.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['conveniobb.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{conveniobb.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetConveniobbDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailConveniobb" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{conveniobb}" target="#{conveniobbMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="conveniobb.create">
+                        <p:button icon="ui-icon-pencil" outcome="createConveniobb" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{conveniobb.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="conveniobb.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{conveniobbMB.delete}" >
+                            <f:setPropertyActionListener value="#{conveniobb.id}" target="#{conveniobbMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{conveniobb}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="conveniobb.audit">
+                    <x:auditDelete for="#{conveniobbMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetConveniobbDetail" header="#{msg['conveniobb.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailConveniobb.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,82 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['tipoDespesa.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuTipoDespesa.xhtml" />
+        <h:form id="formListTipoDespesa">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="tipoDespesa_export" target=":formListTipoDespesa:dataTableTipoDespesa"
+                                     widgetVar="dataTableTipoDespesaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="tipoDespesa" rowIndexVar="index" id="dataTableTipoDespesa" widgetVar="dataTableTipoDespesaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{tipoDespesaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{tipoDespesaMB.dataModel.paginatorTemplate}"
+                         value="#{tipoDespesaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['tipoDespesa.nome']}" sortBy="#{tipoDespesa.nome}"
+                    filterBy="#{tipoDespesa.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tipoDespesa.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{tipoDespesa.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['tipoDespesa.valorPadrao']}" sortBy="#{tipoDespesa.valorPadrao}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tipoDespesa.valorPadrao']}" />
+                    </f:facet>
+                    <h:outputText value="#{tipoDespesa.valorPadrao}">
+                        <f:convertNumber minFractionDigits="4" maxFractionDigits="4" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['tipoDespesa.descricao']}" sortBy="#{tipoDespesa.descricao}"
+                    filterBy="#{tipoDespesa.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['tipoDespesa.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{tipoDespesa.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetTipoDespesaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailTipoDespesa" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{tipoDespesa}" target="#{tipoDespesaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="tipoDespesa.create">
+                        <p:button icon="ui-icon-pencil" outcome="createTipoDespesa" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{tipoDespesa.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="tipoDespesa.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{tipoDespesaMB.delete}" >
+                            <f:setPropertyActionListener value="#{tipoDespesa.id}" target="#{tipoDespesaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{tipoDespesa}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="tipoDespesa.audit">
+                    <x:auditDelete for="#{tipoDespesaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetTipoDespesaDetail" header="#{msg['tipoDespesa.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailTipoDespesa.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

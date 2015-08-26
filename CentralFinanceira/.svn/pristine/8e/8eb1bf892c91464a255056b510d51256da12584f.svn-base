@@ -1,0 +1,93 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['posto.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPosto.xhtml" />
+        <h:form id="formListPosto">
+            <x:modalMessages/>
+            <p:dataTable paginator="true" rows="30" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="posto" rowIndexVar="index" id="dataTablePosto" widgetVar="dataTablePostoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{postoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{postoMB.dataModel.paginatorTemplate}"
+                         value="#{postoMB.dataModel}" lazy="true" >
+               
+                <p:column headerText="#{msg['posto.id']}" sortBy="#{posto.id}"
+                          filterBy="#{posto.id}" style="text-align: center;" width="8%" >
+                        <h:outputText value="#{posto.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['posto.nome']}" sortBy="#{posto.nome}"
+                          filterBy="#{posto.nome}"   >
+                        <h:outputText value="#{posto.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['posto.razaosocial']}" sortBy="#{posto.razaosocial}"
+                          filterBy="#{posto.razaosocial}"   >
+                        <h:outputText value="#{posto.razaosocial}"/>
+                </p:column>
+                <p:column headerText="#{msg['posto.cnpj']}" sortBy="#{posto.cnpj}"
+                          filterBy="#{posto.cnpj}" style="text-align: center;" width="10%"  >
+                        <h:outputText value="#{posto.cnpj}" converter="cnpjConverter" />
+                </p:column>
+                <p:column headerText="#{msg['posto.cidade']}" sortBy="#{posto.cidade}"
+                            style="text-align: left;" width="8%" >
+                        <h:outputText value="#{posto.cidade}">
+                            <x:initializer/>
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['posto.segmento']}" sortBy="#{posto.segmento}"
+                          style="text-align: left;" width="8%" >
+                        <h:outputText value="#{posto.segmento}">
+                            <x:initializer/>
+                        </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['posto.endereco']}" sortBy="#{posto.endereco}"
+                          filterBy="#{posto.endereco}" style="text-align: left;" width="15%"  >
+                        <h:outputText value="#{posto.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['posto.bairro']}" sortBy="#{posto.bairro}"
+                          filterBy="#{posto.bairro}"  style="text-align: left;" width="8%" >
+                        <h:outputText value="#{posto.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['posto.ativo']}" sortBy="#{posto.ativo}"
+                          filterBy="#{posto.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                        <h:outputText value="#{posto.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                         <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetPostoDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPosto" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{posto}" target="#{postoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="posto.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPosto" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{posto.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="posto.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{postoMB.delete}" >
+                            <f:setPropertyActionListener value="#{posto.id}" target="#{postoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{posto}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+                <f:facet name="footer">
+                    <x:securityArea rolesAllowed="posto.audit">
+                        <x:auditDelete for="#{postoMB.entityClass}"/>
+                    </x:securityArea>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog widgetVar="widgetPostoDetail" header="#{msg['posto.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailPosto.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

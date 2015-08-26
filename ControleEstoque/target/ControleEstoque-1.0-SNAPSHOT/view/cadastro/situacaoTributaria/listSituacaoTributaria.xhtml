@@ -1,0 +1,73 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['situacaoTributaria.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuSituacaoTributaria.xhtml" />
+        <h:form id="formListSituacaoTributaria">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="situacaoTributaria_export" target=":formListSituacaoTributaria:dataTableSituacaoTributaria"
+                                     widgetVar="dataTableSituacaoTributariaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="situacaoTributaria" rowIndexVar="index" id="dataTableSituacaoTributaria" widgetVar="dataTableSituacaoTributariaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{situacaoTributariaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{situacaoTributariaMB.dataModel.paginatorTemplate}"
+                         value="#{situacaoTributariaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['situacaoTributaria.codigo']}" sortBy="#{situacaoTributaria.codigo}"
+                    filterBy="#{situacaoTributaria.codigo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['situacaoTributaria.codigo']}" />
+                    </f:facet>
+                    <h:outputText value="#{situacaoTributaria.codigo}"/>
+                </p:column>
+                <p:column headerText="#{msg['situacaoTributaria.descricao']}" sortBy="#{situacaoTributaria.descricao}"
+                    filterBy="#{situacaoTributaria.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['situacaoTributaria.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{situacaoTributaria.descricao}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetSituacaoTributariaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailSituacaoTributaria" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{situacaoTributaria}" target="#{situacaoTributariaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="situacaoTributaria.create">
+                        <p:button icon="ui-icon-pencil" outcome="createSituacaoTributaria" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{situacaoTributaria.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="situacaoTributaria.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{situacaoTributariaMB.delete}" >
+                            <f:setPropertyActionListener value="#{situacaoTributaria.id}" target="#{situacaoTributariaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{situacaoTributaria}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="situacaoTributaria.audit">
+                    <x:auditDelete for="#{situacaoTributariaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetSituacaoTributariaDetail" header="#{msg['situacaoTributaria.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailSituacaoTributaria.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

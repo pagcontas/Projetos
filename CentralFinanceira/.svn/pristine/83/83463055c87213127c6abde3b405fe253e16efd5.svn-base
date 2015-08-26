@@ -1,0 +1,14 @@
+package br.com.jsoft.centralfinanceira.dao.contrato.impl;
+
+import br.com.jsoft.centralfinanceira.application.BaseDAOImpl;
+import br.com.jsoft.centralfinanceira.dao.contrato.ItensEquipeDAO;
+import br.com.jsoft.centralfinanceira.modelo.contrato.ItensEquipe;
+import javax.ejb.Stateless;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class ItensEquipeDAOImpl extends BaseDAOImpl<ItensEquipe> implements ItensEquipeDAO {
+}

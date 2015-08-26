@@ -1,0 +1,1718 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Rentabilidade da Loja" />
+    <ui:define name="body">
+        <div class="container-fluid">
+            <h:form id="listRentabilidadeLoja">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                        <h:outputLabel value="#{msg['fatosBoletos.loja']}:"/>
+
+                        <p:autoComplete value="#{rentabilidadeMB.camposConsulta.loja}" requiredMessage="O campo Loja é Obrigatório!"
+
+                                        completeMethod="#{lojaMB.consultarLoja}" styleClass="uix-autocomplete" 
+
+                                        minQueryLength="1" global="false" forceSelection="true"
+
+                                        var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
+                            <x:initializer/>
+                            <p:column> 
+
+                                <h:outputText value="#{p.id} - #{p.nome}"/>
+
+                            </p:column> 
+
+                        </p:autoComplete>
+
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Periodo Inicial:"/>
+                        <p:inputMask mask="99/9999" value="#{rentabilidadeMB.camposConsulta.dataInicial}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Periodo Final:"/>
+                        <p:inputMask mask="99/9999" value="#{rentabilidadeMB.camposConsulta.dataFinal}" styleClass="form-control" />
+                    </div>       
+                </div>                
+
+                <div class="uix-center">
+                    <p:commandButton process="@this listRentabilidadeLoja" update="@this tabView:dataTableFatosBoletos @this tabView:dataTableFatosBoletosSite 
+                                     @this tabView:dataTableFatosBoletosCreditos @this tabView:dataTableFatosBoletosRecarga @this tabView:dataTableFatosBoletosValeGas 
+                                     @this tabView:dataTableFatosBoletosOps @this tabView:panelGridTotais" action="#{rentabilidadeMB.getListasConvenioLoja()}" value="Buscar" />
+                </div>
+
+
+                <x:modalMessages autoUpdate="true"/> 
+                <p:tabView id="tabView">
+                    <p:tab title="Boletos">
+                        <x:dataTableActions fileName="listagem_comissao_Loja" target=":listRentabilidadeLoja:dataTableFatosBoletos"    
+                                            widgetVar="dataTableFatosBoletosWidget"  />
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="rentBoleto" rowIndexVar="index" id="dataTableFatosBoletos" widgetVar="dataTableFatosBoletosWidget" styleClass="table-responsive"
+                                         currentPageReportTemplate="#{rentabilidadeMB.dataModel.currentPageReportTemplate}"
+                                         paginatorTemplate="#{rentabilidadeMB.dataModel.paginatorTemplate}"
+                                         value="#{rentabilidadeMB.boletos}" filteredValue="#{rentabilidadeMB.boletosFiltrados}" lazy="false">
+                                <p:ajax event="page" oncomplete="updateSum()"/>
+                                <p:ajax event="filter" oncomplete="updateSum()"/>
+                                <p:ajax event="sort" oncomplete="updateSum()"/>
+                                <p:column headerText="Convênio" sortBy="#{rentBoleto.convenio}"
+                                          filterBy="#{rentBoleto.convenio}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.convenio}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Empresa" sortBy="#{rentBoleto.empresa}"
+                                          filterBy="#{rentBoleto.empresa}" width="20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Empresa" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.empresa}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>                        
+                                <p:column headerText="Guias" sortBy="#{rentBoleto.guias}"
+                                          filterBy="#{rentBoleto.guias}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Guias" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.guias}">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalGuiasBoletos()}" id="somaGuiasBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{rentBoleto.valor}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalValorBoletos()}" id="somaValorBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Tarifa Convênio" sortBy="#{rentBoleto.tarifaConvenio}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletos()}" id="somaTarifaConvenioBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Convênio" sortBy="#{rentBoleto.comissaoConvenio}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletos()}" id="somaComissaoConvBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletos(), rentabilidadeMB.totalComissaoConvenioBoletos())}%" id="porcComissaoConvenioBoleto" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Tarifa Loja" sortBy="#{rentBoleto.tarifaLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletos()}" id="somaTarifaLojaBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Loja" sortBy="#{rentBoleto.comissaoLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletos()}" id="somaComissaoLojaBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletos(), rentabilidadeMB.totalComissaoLojaBoletos())}%" id="porcComissaoLojaBoleto" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>                                    
+                                </p:column>
+
+                                <p:column headerText="Custo Oper." sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Custo Oper." />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletos()}" id="somaComissaoSistemaBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletos(), rentabilidadeMB.totalComissaoSistemaBoletos())}%" id="porcComissaoSistemaBoleto" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Total Descontos" sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Total Descontos" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao + rentBoleto.comissaoLoja + rentBoleto.tarifaLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalDescontosBoletos()}" id="somaTotalDescontosBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletos(), rentabilidadeMB.totalDescontosBoletos())}%" id="porcTotalDescontoBoleto" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Imposto" sortBy="#{rentBoleto.imposto}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imposto" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.imposto}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalImpostoBoletos()}" id="somaImpostoBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletos(), rentabilidadeMB.totalImpostoBoletos())}%" id="porcComissaoImpostoBoleto" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Líquido" sortBy="#{rentBoleto.liquido}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Líquido" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.liquido}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletos()}" id="somaLiquidoBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletos(), rentabilidadeMB.totalLiquidoBoletos())}%" id="porcComissaoLiquidaBoleto" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Porcentagem" style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Porcentagem" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentabilidadeMB.porcentagemLiquida(rentabilidadeMB.totalLiquidoBoletos(), rentBoleto.liquido)}%" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+
+                                </p:column>
+
+
+                            </p:dataTable>
+                            <p:remoteCommand name="updateSum" update=":listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaGuiasBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaTarifaConvenioBoletos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaComissaoConvBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaTarifaLojaBoletos  
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaComissaoLojaBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaComissaoSistemaBoletos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaImpostoBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaLiquidoBoletos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaValorBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoConvenioBoleto 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoLojaBoleto :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoSistemaBoleto 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoImpostoBoleto :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoLiquidaBoleto
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaTotalDescontosBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcTotalDescontoBoleto" process="@this" />
+
+
+
+                        </div>
+
+                    </p:tab>
+                    <p:tab title="Boletos Site">
+                        <x:dataTableActions fileName="listagem_comissao_Loja_Site" target=":listRentabilidadeLoja:dataTableFatosBoletosSite"    
+                                            widgetVar="dataTableFatosBoletosSiteWidget"  />
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="rentBoleto" rowIndexVar="index" id="dataTableFatosBoletosSite" widgetVar="dataTableFatosBoletosSiteWidget" styleClass="table-responsive"
+                                         currentPageReportTemplate="#{rentabilidadeMB.dataModel.currentPageReportTemplate}"
+                                         paginatorTemplate="#{rentabilidadeMB.dataModel.paginatorTemplate}"
+                                         value="#{rentabilidadeMB.boletosSite}" filteredValue="#{rentabilidadeMB.boletosSiteFiltrados}" lazy="false">
+                                <p:ajax event="page" oncomplete="updateSumSite()"/>
+                                <p:ajax event="filter" oncomplete="updateSumSite()"/>
+                                <p:ajax event="sort" oncomplete="updateSumSite()"/>
+                                <p:column headerText="Convênio" sortBy="#{rentBoleto.convenio}"
+                                          filterBy="#{rentBoleto.convenio}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.convenio}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Empresa" sortBy="#{rentBoleto.empresa}"
+                                          filterBy="#{rentBoleto.empresa}" width="20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Empresa" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.empresa}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>                        
+                                <p:column headerText="Guias" sortBy="#{rentBoleto.guias}"
+                                          filterBy="#{rentBoleto.guias}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Guias" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.guias}">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosSite()}" id="somaGuiasBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{rentBoleto.valor}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalValorBoletosSite()}" id="somaValorBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Tarifa Convênio" sortBy="#{rentBoleto.tarifaConvenio}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosSite()}" id="somaTarifaConvenioBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Convênio" sortBy="#{rentBoleto.comissaoConvenio}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosSite()}" id="somaComissaoConvBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosSite(), rentabilidadeMB.totalComissaoConvenioBoletosSite())}%" id="porcComissaoConvenioBoletoSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Tarifa Loja" sortBy="#{rentBoleto.tarifaLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosSite()}" id="somaTarifaLojaBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Loja" sortBy="#{rentBoleto.comissaoLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosSite()}" id="somaComissaoLojaBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosSite(), rentabilidadeMB.totalComissaoLojaBoletosSite())}%" id="porcComissaoLojaBoletoSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>                                    
+                                </p:column>
+                                <p:column headerText="Comissão W7" sortBy="#{rentBoleto.comissaoW7}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão W7" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoW7}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoW7BoletosSite()}" id="somaComissaoW7BoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosSite(), rentabilidadeMB.totalComissaoW7BoletosSite())}%" id="porcComissaoW7BoletoSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Custo Operacional" sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Custo Operacional" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosSite()}" id="somaComissaoSistemaBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosSite(), rentabilidadeMB.totalComissaoSistemaBoletosSite())}%" id="porcComissaoSistemaBoletoSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Total Descontos" sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Total Descontos" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao + rentBoleto.comissaoLoja + rentBoleto.tarifaLoja + comissaoW7}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalDescontosBoletosSite()}" id="somaTotalDescontosBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosSite(), rentabilidadeMB.totalDescontosBoletosSite())}%" id="porcTotalDescontoBoletoSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Imposto" sortBy="#{rentBoleto.imposto}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imposto" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.imposto}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosSite()}" id="somaImpostoBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosSite(), rentabilidadeMB.totalImpostoBoletosSite())}%" id="porcComissaoImpostoBoletoSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Líquido" sortBy="#{rentBoleto.liquido}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Líquido" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.liquido}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosSite()}" id="somaLiquidoBoletosSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosSite(), rentabilidadeMB.totalLiquidoBoletosSite())}%" id="porcComissaoLiquidoBoletoSite" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Porcentagem" style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Porcentagem" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentabilidadeMB.porcentagemLiquida(rentabilidadeMB.totalLiquidoBoletosSite(), rentBoleto.liquido)}%" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+
+                                </p:column>
+
+
+                            </p:dataTable>
+                            <p:remoteCommand name="updateSumSite" update=":listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaGuiasBoletosSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaTarifaConvenioBoletosSite 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaComissaoConvBoletosSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaTarifaLojaBoletosSite 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaComissaoLojaBoletosSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaComissaoSistemaBoletosSite 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaImpostoBoletosSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaLiquidoBoletosSite
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaValorBoletosSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaComissaoW7BoletosSite 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:porcComissaoConvenioBoletoSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:porcComissaoLojaBoletoSite 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:porcComissaoW7BoletoSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:porcComissaoSistemaBoletoSite 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:porcComissaoImpostoBoletoSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:porcComissaoLiquidoBoletoSite 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:somaTotalDescontosBoletosSite :listRentabilidadeLoja:tabView:dataTableFatosBoletosSite:porcTotalDescontoBoletoSite" process="@this" />
+
+
+
+                        </div>
+
+                    </p:tab>
+                    <p:tab title="Boletos Créditos">
+                        <x:dataTableActions fileName="listagem_comissao_Loja_Creditos" target=":listRentabilidadeLoja:dataTableFatosBoletosCreditos"    
+                                            widgetVar="dataTableFatosBoletosCreditosWidget"  />
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="rentBoleto" rowIndexVar="index" id="dataTableFatosBoletosCreditos" widgetVar="dataTableFatosBoletosCreditosWidget" styleClass="table-responsive"
+                                         currentPageReportTemplate="#{rentabilidadeMB.dataModel.currentPageReportTemplate}"
+                                         paginatorTemplate="#{rentabilidadeMB.dataModel.paginatorTemplate}"
+                                         value="#{rentabilidadeMB.boletosCreditos}" filteredValue="#{rentabilidadeMB.boletosCreditosFiltrados}" lazy="false">
+                                <p:ajax event="page" oncomplete="updateSumCreditos()"/>
+                                <p:ajax event="filter" oncomplete="updateSumCreditos()"/>
+                                <p:ajax event="sort" oncomplete="updateSumCreditos()"/>
+                                <p:column headerText="Convênio" sortBy="#{rentBoleto.convenio}"
+                                          filterBy="#{rentBoleto.convenio}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.convenio}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Empresa" sortBy="#{rentBoleto.empresa}"
+                                          filterBy="#{rentBoleto.empresa}" width="20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Empresa" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.empresa}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>                        
+                                <p:column headerText="Guias" sortBy="#{rentBoleto.guias}"
+                                          filterBy="#{rentBoleto.guias}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Guias" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.guias}">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosCreditos()}" id="somaGuiasBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{rentBoleto.valor}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalValorBoletosCreditos()}" id="somaValorBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Tarifa Convênio" sortBy="#{rentBoleto.tarifaConvenio}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosCreditos()}" id="somaTarifaConvenioBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>                                    
+                                </p:column>
+
+                                <p:column headerText="Comissão Convênio" sortBy="#{rentBoleto.comissaoConvenio}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosCreditos()}" id="somaComissaoConvBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosCreditos(), rentabilidadeMB.totalComissaoConvenioBoletosCreditos())}%" id="porcComissaoConvenioBoletoCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Tarifa Loja" sortBy="#{rentBoleto.tarifaLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosCreditos()}" id="somaTarifaLojaBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Loja" sortBy="#{rentBoleto.comissaoLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosCreditos()}" id="somaComissaoLojaBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosCreditos(), rentabilidadeMB.totalComissaoLojaBoletosCreditos())}%" id="porcComissaoLojaBoletoCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>                                    
+                                </p:column>
+
+                                <p:column headerText="Custo Oper." sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Custo Oper." />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosCreditos()}" id="somaComissaoSistemaBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>                                    
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosCreditos(), rentabilidadeMB.totalComissaoSistemaBoletosCreditos())}%" id="porcComissaoSistemaLojaBoletoCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Total Descontos" sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Total Descontos" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao + rentBoleto.comissaoLoja + rentBoleto.tarifaLoja + comissaoW7}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalDescontosBoletosCreditos()}" id="somaTotalDescontosBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosCreditos(), rentabilidadeMB.totalDescontosBoletosCreditos())}%" id="porcTotalDescontoBoletoCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Imposto" sortBy="#{rentBoleto.imposto}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imposto" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.imposto}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosCreditos()}" id="somaImpostoBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosCreditos(), rentabilidadeMB.totalImpostoBoletosCreditos())}%" id="porcComissaoImpostoBoletoCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Líquido" sortBy="#{rentBoleto.liquido}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Líquido" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.liquido}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosCreditos()}" id="somaLiquidoBoletosCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeMB.porcentagemComissao(rentabilidadeMB.totalComissaoConvenioBoletosCreditos(), rentabilidadeMB.totalLiquidoBoletosCreditos())}%" id="porcComissaoLiquidoBoletoCreditos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Porcentagem" style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Porcentagem" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentabilidadeMB.porcentagemLiquida(rentabilidadeMB.totalLiquidoBoletosCreditos(), rentBoleto.liquido)}%" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+
+                                </p:column>
+
+
+                            </p:dataTable>
+                            <p:remoteCommand name="updateSumCreditos" update=":listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaGuiasBoletosCreditos :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaTarifaConvenioBoletosCreditos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaComissaoConvBoletosCreditos :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaTarifaLojaBoletosCreditos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaComissaoLojaBoletosCreditos :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaComissaoSistemaBoletosCreditos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaImpostoBoletosCreditos :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaLiquidoBoletosCreditos
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaValorBoletosCreditos :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:porcComissaoConvenioBoletoCreditos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:porcComissaoLojaBoletoCreditos :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:porcComissaoSistemaLojaBoletoCreditos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:porcComissaoImpostoBoletoCreditos :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:porcComissaoLiquidoBoletoCreditos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:somaTotalDescontosBoletosCreditos :listRentabilidadeLoja:tabView:dataTableFatosBoletosCreditos:porcTotalDescontoBoletoCreditos" process="@this" />
+
+
+
+                        </div>
+                    </p:tab>
+                    <p:tab title="Boletos Recargas">
+                        <x:dataTableActions fileName="listagem_comissao_Loja_Recarga" target=":listRentabilidadeLoja:dataTableFatosBoletosRecarga"    
+                                            widgetVar="dataTableFatosBoletosRecargaWidget"  />
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="rentBoleto" rowIndexVar="index" id="dataTableFatosBoletosRecarga" widgetVar="dataTableFatosBoletosRecargaWidget" styleClass="table-responsive"
+                                         currentPageReportTemplate="#{rentabilidadeMB.dataModel.currentPageReportTemplate}"
+                                         paginatorTemplate="#{rentabilidadeMB.dataModel.paginatorTemplate}"
+                                         value="#{rentabilidadeMB.boletosRecargas}" filteredValue="#{rentabilidadeMB.boletosRecargasFiltrados}" lazy="false">
+                                <p:ajax event="page" oncomplete="updateSumRecargas()"/>
+                                <p:ajax event="filter" oncomplete="updateSumRecargas()"/>
+                                <p:ajax event="sort" oncomplete="updateSumRecargas()"/>
+                                <p:column headerText="Convênio" sortBy="#{rentBoleto.convenio}"
+                                          filterBy="#{rentBoleto.convenio}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.convenio}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Empresa" sortBy="#{rentBoleto.empresa}"
+                                          filterBy="#{rentBoleto.empresa}" width="20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Empresa" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.empresa}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>                        
+                                <p:column headerText="Guias" sortBy="#{rentBoleto.guias}"
+                                          filterBy="#{rentBoleto.guias}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Guias" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.guias}">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosRecargas()}" id="somaGuiasBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{rentBoleto.valor}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalValorBoletosRecargas()}" id="somaValorBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Tarifa Convênio" sortBy="#{rentBoleto.tarifaConvenio}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosRecargas()}" id="somaTarifaConvenioBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Convênio" sortBy="#{rentBoleto.comissaoConvenio}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosRecargas()}" id="somaComissaoConvBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Tarifa Loja" sortBy="#{rentBoleto.tarifaLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosRecargas()}" id="somaTarifaLojaBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Loja" sortBy="#{rentBoleto.comissaoLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosRecargas()}" id="somaComissaoLojaBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+
+                                    </f:facet>                                    
+                                </p:column>
+
+                                <p:column headerText="Custo Oper." sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Custo Oper." />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosRecargas()}" id="somaComissaoSistemaBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Imposto" sortBy="#{rentBoleto.imposto}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imposto" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.imposto}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosRecargas()}" id="somaImpostoBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Líquido" sortBy="#{rentBoleto.liquido}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Líquido" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.liquido}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosRecargas()}" id="somaLiquidoBoletosRecarga" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+
+                            </p:dataTable>
+                            <p:remoteCommand name="updateSumRecargas" update=":listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaGuiasBoletosRecarga :listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaTarifaConvenioBoletosRecarga 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaComissaoConvBoletosRecarga :listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaTarifaLojaBoletosRecarga 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaComissaoLojaBoletosRecarga :listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaComissaoSistemaBoletosRecarga 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaImpostoBoletosRecarga :listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaLiquidoBoletosRecarga
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosRecarga:somaValorBoletosRecarga" process="@this" />
+
+
+
+                        </div>
+
+
+                    </p:tab>
+                    <p:tab title="Boletos Vale Gás">
+                        <x:dataTableActions fileName="listagem_comissao_Loja_ValeGas" target=":listRentabilidadeLoja:dataTableFatosBoletosValeGas"    
+                                            widgetVar="dataTableFatosBoletosValeGasWidget"  />
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="rentBoleto" rowIndexVar="index" id="dataTableFatosBoletosValeGas" widgetVar="dataTableFatosBoletosValeGasWidget" styleClass="table-responsive"
+                                         currentPageReportTemplate="#{rentabilidadeMB.dataModel.currentPageReportTemplate}"
+                                         paginatorTemplate="#{rentabilidadeMB.dataModel.paginatorTemplate}"
+                                         value="#{rentabilidadeMB.boletosValeGas}" filteredValue="#{rentabilidadeMB.boletosValeGasFiltrados}" lazy="false">
+                                <p:ajax event="page" oncomplete="updateSumValeGas()"/>
+                                <p:ajax event="filter" oncomplete="updateSumValeGas()"/>
+                                <p:ajax event="sort" oncomplete="updateSumValeGas()"/>
+                                <p:column headerText="Convênio" sortBy="#{rentBoleto.convenio}"
+                                          filterBy="#{rentBoleto.convenio}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.convenio}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Empresa" sortBy="#{rentBoleto.empresa}"
+                                          filterBy="#{rentBoleto.empresa}" width="20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Empresa" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.empresa}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>                        
+                                <p:column headerText="Guias" sortBy="#{rentBoleto.guias}"
+                                          filterBy="#{rentBoleto.guias}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Guias" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.guias}">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosValeGas()}" id="somaGuiasBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{rentBoleto.valor}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalValorBoletosValeGas()}" id="somaValorBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Tarifa Convênio" sortBy="#{rentBoleto.tarifaConvenio}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosValeGas()}" id="somaTarifaConvenioBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Convênio" sortBy="#{rentBoleto.comissaoConvenio}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosValeGas()}" id="somaComissaoConvBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Tarifa Loja" sortBy="#{rentBoleto.tarifaLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosValeGas()}" id="somaTarifaLojaBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Loja" sortBy="#{rentBoleto.comissaoLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosValeGas()}" id="somaComissaoLojaBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+
+                                    </f:facet>                                    
+                                </p:column>
+
+                                <p:column headerText="Custo Oper." sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Custo Oper." />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosValeGas()}" id="somaComissaoSistemaBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Imposto" sortBy="#{rentBoleto.imposto}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imposto" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.imposto}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosValeGas()}" id="somaImpostoBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Líquido" sortBy="#{rentBoleto.liquido}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Líquido" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.liquido}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosValeGas()}" id="somaLiquidoBoletosValeGas" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+
+                            </p:dataTable>
+                            <p:remoteCommand name="updateSumValeGas" update=":listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaGuiasBoletosValeGas :listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaTarifaConvenioBoletosValeGas 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaComissaoConvBoletosValeGas :listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaTarifaLojaBoletosValeGas 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaComissaoLojaBoletosValeGas :listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaComissaoSistemaBoletosValeGas 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaImpostoBoletosValeGas :listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaLiquidoBoletosValeGas
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosValeGas:somaValorBoletosValeGas" process="@this" />
+
+
+
+                        </div>
+
+                    </p:tab>
+                    <p:tab title="Boletos Ops">
+                        <x:dataTableActions fileName="listagem_comissao_Loja_Ops" target=":listRentabilidadeLoja:dataTableFatosBoletosOps"    
+                                            widgetVar="dataTableFatosBoletosOpsWidget"  />
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="rentBoleto" rowIndexVar="index" id="dataTableFatosBoletosOps" widgetVar="dataTableFatosBoletosOpsWidget" styleClass="table-responsive"
+                                         currentPageReportTemplate="#{rentabilidadeMB.dataModel.currentPageReportTemplate}"
+                                         paginatorTemplate="#{rentabilidadeMB.dataModel.paginatorTemplate}"
+                                         value="#{rentabilidadeMB.boletosOps}" filteredValue="#{rentabilidadeMB.boletosOpsFiltrados}" lazy="false">
+                                <p:ajax event="page" oncomplete="updateSumOps()"/>
+                                <p:ajax event="filter" oncomplete="updateSumOps()"/>
+                                <p:ajax event="sort" oncomplete="updateSumOps()"/>
+                                <p:column headerText="Convênio" sortBy="#{rentBoleto.convenio}"
+                                          filterBy="#{rentBoleto.convenio}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.convenio}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Empresa" sortBy="#{rentBoleto.empresa}"
+                                          filterBy="#{rentBoleto.empresa}" width="20%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Empresa" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.empresa}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>                        
+                                <p:column headerText="Guias" sortBy="#{rentBoleto.guias}"
+                                          filterBy="#{rentBoleto.guias}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Guias" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.guias}">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosOps()}" id="somaGuiasBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{rentBoleto.valor}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalValorBoletosOps()}" id="somaValorBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Tarifa Convênio" sortBy="#{rentBoleto.tarifaConvenio}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosOps()}" id="somaTarifaConvenioBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Convênio" sortBy="#{rentBoleto.comissaoConvenio}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoConvenio}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosOps()}" id="somaComissaoConvBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Tarifa Loja" sortBy="#{rentBoleto.tarifaLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosOps()}" id="somaTarifaLojaBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Comissão Loja" sortBy="#{rentBoleto.comissaoLoja}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoLoja}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosOps()}" id="somaComissaoLojaBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+
+                                    </f:facet>                                    
+                                </p:column>
+
+                                <p:column headerText="Custo Oper." sortBy="#{rentBoleto.comissao}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Custo Oper." />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosOps()}" id="somaComissaoSistemaBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Imposto" sortBy="#{rentBoleto.imposto}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imposto" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.imposto}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosOps()}" id="somaImpostoBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Líquido" sortBy="#{rentBoleto.liquido}"
+                                          style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Líquido" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.liquido}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosOps()}" id="somaLiquidoBoletosOps" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+
+
+                            </p:dataTable>
+                            <p:remoteCommand name="updateSumOps" update=":listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaGuiasBoletosOps :listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaTarifaConvenioBoletosOps 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaComissaoConvBoletosOps :listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaTarifaLojaBoletosOps 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaComissaoLojaBoletosOps :listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaComissaoSistemaBoletosOps 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaImpostoBoletosOps :listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaLiquidoBoletosOps
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletosOps:somaValorBoletosOps" process="@this" />
+
+
+
+                        </div>
+
+                    </p:tab>
+                    <p:tab title="Totais" >
+                        <p:panelGrid style="margin-top:20px" id="panelGridTotais">
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column colspan="15">Totais</p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>Convênio</p:column>
+                                    <p:column>Empresa</p:column>
+                                    <p:column>Guias</p:column>
+                                    <p:column>Valor</p:column>
+                                    <p:column>Tarifa Convênio</p:column>
+                                    <p:column>Comissão Convênio</p:column>
+                                    <p:column>Tarifa Loja</p:column>
+                                    <p:column>Comissão Loja</p:column>
+                                    <p:column>Comissão W7</p:column>
+                                    <p:column>Custo Operacional</p:column>
+                                    <p:column>Imposto</p:column>
+                                    <p:column>Líquido</p:column>
+                                </p:row>
+
+                            </f:facet>
+
+                            <p:row>
+                                <p:column colspan="15">Boletos</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> - </p:column>
+                                <p:column> - </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalGuiasBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalValorBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoW7Boletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalImpostoBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="15">Boletos Site</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> - </p:column>
+                                <p:column> - </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalValorBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoW7BoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosSite()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="15">Boletos Créditos</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> - </p:column>
+                                <p:column> - </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalValorBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoW7BoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosCreditos()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="15">Boletos Recargas</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> - </p:column>
+                                <p:column> - </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalValorBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoW7BoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosRecargas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="15">Boletos Vale Gás</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> - </p:column>
+                                <p:column> - </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalValorBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoW7BoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosValeGas()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column colspan="15">Boletos Ops</p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column> - </p:column>
+                                <p:column> - </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalGuiasBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalValorBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaConvenioBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoConvenioBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalTarifaLojaBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoLojaBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoW7BoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>                                    
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalComissaoSistemaBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalImpostoBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{rentabilidadeMB.totalLiquidoBoletosOps()}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="15"> </p:column>
+                            </p:row>
+
+                            <f:facet name="footer">
+
+                                <p:row>
+                                    <p:column> - </p:column>
+                                    <p:column> - </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalGuias()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalValor()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaConvenio()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoConvenio()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalTarifaLoja()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoLoja()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoW7()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalComissaoSistema()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{rentabilidadeMB.totalImposto()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>                                        
+                                    </p:column>
+                                    <p:column>                                    
+                                        <h:outputText value="#{rentabilidadeMB.totalLiquido()}" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </p:column>
+                                </p:row>
+                            </f:facet>
+                        </p:panelGrid>
+
+
+                    </p:tab>
+                </p:tabView>
+            </h:form>
+
+
+        </div>
+    </ui:define>
+</ui:composition>

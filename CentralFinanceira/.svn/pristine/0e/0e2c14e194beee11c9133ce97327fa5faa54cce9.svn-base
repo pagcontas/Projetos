@@ -1,0 +1,51 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateCredigivalor" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="id" value="#{msg['credigivalor.id']}:" />
+                         <p:inputMask id="id" mask="9?999999999" placeHolder="" value="#{credigivalorMB.entity.id}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="conveniocredigi" value="#{msg['credigivalor.conveniocredigi']}:" />
+                         <h:selectOneMenu id="conveniocredigi" value="#{credigivalorMB.entity.conveniocredigi}" converter="entityConverter" styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.conveniocredigi)}" 
+                                            var="conveniocredigi"
+                                            itemLabel="#{conveniocredigi}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="unitario" value="* #{msg['credigivalor.unitario']}:" />
+                         <p:inputMask id="unitario" mask="9?999999999" placeHolder="" value="#{credigivalorMB.entity.unitario}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="comissao:input" value="#{msg['credigivalor.comissao']}:" />
+                         <x:inputNumber id="comissao" value="#{credigivalorMB.entity.comissao}" styleClass="form-control"/>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="credigivalor.create">
+                <p:commandButton process="@form" update="@form" action="#{credigivalorMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="credigivalor.audit">
+                <x:audit for="#{credigivalorMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,83 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateFatosBoletos" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                        <h:outputLabel value="#{msg['fatosBoletos.loja']}:"/>
+
+                        <p:autoComplete value="#{fatosBoletosMB.entity.loja}" required="true" requiredMessage="O campo Loja é Obrigatório!"
+
+                                        completeMethod="#{lojaMB.consultarLoja}" styleClass="uix-autocomplete" 
+
+                                        minQueryLength="1" forceSelection="true"
+
+                                        var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
+                            <x:initializer/>
+                            <p:column> 
+
+                                <h:outputText value="#{p.id} - #{p.nome}"/>
+
+                            </p:column> 
+
+                        </p:autoComplete>
+
+                    </div>
+                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="convenioboleto" value="#{msg['fatosBoletos.convenioboleto']}:" />
+                        <h:selectOneMenu id="convenioboleto" value="#{fatosBoletosMB.entity.convenioboleto}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.convenioBoleto)}" 
+                                           var="convenioBoleto"
+                                           itemLabel="#{convenioBoleto}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="periodo" value="* #{msg['fatosBoletos.periodoCreate']}:" />
+                        <p:inputMask id="periodo" mask="99/9999" placeHolder="" value="#{fatosBoletosMB.entity.periodo}" 
+                                     styleClass="form-control" converter="periodoConverterList"/>
+                    </div>                     
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="qtd" value="* #{msg['fatosBoletos.qtdCreate']}:" />
+                        <p:inputMask id="qtd" mask="9?999999999" placeHolder="" value="#{fatosBoletosMB.entity.qtd}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="arrecadado:input" value="#{msg['fatosBoletos.arrecadadoCreate']}:" />
+                        <x:inputNumber id="arrecadado" value="#{fatosBoletosMB.entity.arrecadado}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="unitarioconvenio:input" value="#{msg['fatosBoletos.unitarioconvenioCreate']}:" />
+                        <x:inputNumber id="unitarioconvenio" value="#{fatosBoletosMB.entity.unitarioconvenio}" styleClass="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="unitarioloja:input" value="#{msg['fatosBoletos.unitariolojaCreate']}:" />
+                        <x:inputNumber id="unitarioloja" value="#{fatosBoletosMB.entity.unitarioloja}" styleClass="form-control"/>
+                    </div>                  
+                   
+                </div>
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="fatosBoletos.create">
+                <p:commandButton process="@form" update="@form" action="#{fatosBoletosMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="fatosBoletos.audit">
+                <x:audit for="#{fatosBoletosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

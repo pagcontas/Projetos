@@ -1,0 +1,311 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateVenda" >
+        <x:modalMessages autoUpdate="true" />
+        <p:tabView id="tabGeral">
+            <p:tab title="#{xmsg['generalData']}">   
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="loja" value="* #{msg['venda.loja']}:" />
+                            <h:selectOneMenu id="loja" value="#{vendaMB.entity.loja}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.loja_Filial)}" 
+                                               var="loja_Filial"
+                                               itemLabel="#{loja_Filial}"/>
+                                <p:ajax update="panelComplemento" listener="#{vendaMB.setValorPorEmpresa()}"/>
+                            </h:selectOneMenu>
+                        </div>                        
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="vendedor" value="#{msg['venda.vendedor']}:" />
+                            <h:outputText id="vendedor" value="#{vendaMB.entity.vendedor.nome}" styleClass="form-control"  />                                               
+                        </div>
+
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="grupoLoja" value="* #{msg['venda.grupoLoja']}:" />
+                            <h:selectOneMenu id="grupoLoja" value="#{vendaMB.entity.grupoLoja}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.grupoLoja)}" 
+                                               var="grupoLoja"
+                                               itemLabel="#{grupoLoja}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cliente" value="* #{msg['venda.cliente']}:" />
+                            <h:selectOneMenu id="cliente" value="#{vendaMB.entity.cliente}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.cliente)}" 
+                                               var="cliente"
+                                               itemLabel="#{cliente}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="natureza" value="* Natureza de Operacoes:" />
+                            <h:selectOneMenu id="natureza" value="#{vendaMB.entity.natureza}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.naturezasDeOperacoes)}" 
+                                               var="naturezaOperacoes"
+                                               itemLabel="#{naturezaOperacoes}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="modalidade" value="* Modalidade:" />
+                            <h:selectOneMenu id="modalidade" value="#{vendaMB.entity.modalidade}"  styleClass="form-control" required="true" requiredMessage="A Modalidade é requerida!">
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.modalidadeFrete)}" 
+                                               var="modalidade"
+                                               itemLabel="#{modalidade.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataVenda" value="* #{msg['venda.dataVenda']}:" />
+                            <p:calendar id="dataVenda" value="#{vendaMB.entity.dataVenda}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="dataEntrega" value="Data Entrega:" />
+                            <p:calendar id="dataEntrega" value="#{vendaMB.entity.dataEntrega}" 
+                                        showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  >
+                                <x:mask/>
+                            </p:calendar>
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="ativo" value="#{vendaMB.entity.ativo}" rendered="#{vendaMB.entity.id!=null}"/>
+                                    <h:outputLabel value="#{msg['venda.ativo']}" rendered="#{vendaMB.entity.id!=null}"/>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                    <h:panelGroup id="panelComplemento">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="complemento" value="Complemento:" />
+                            <p:inputTextarea id="complemento" value="#{vendaMB.entity.campoComplementar}" maxlength="255" rows="10" styleClass="form-control"
+                                             cols="50"/>
+                        </div>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Lista de Produtos">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h:panelGroup id="panelUm">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="produtoTela" value="* Produto:" />
+                                <h:selectOneMenu id="produtoTela" value="#{vendaMB.produtoTela}" converter="entityConverter" styleClass="form-control" >
+                                    <x:initializer/>
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{vendaMB.produtosAtivos}" 
+                                                   var="produto"
+                                                   itemLabel="#{produto}"/>
+                                    <p:ajax update=":formCreateVenda:tabGeral:panelDois" listener="#{vendaMB.setarCamposDeItens()}"/>
+
+                                </h:selectOneMenu>
+                            </div>
+
+                        </h:panelGroup>
+                        <h:panelGroup id="panelDois">
+
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="unidadeDeVenda" value="* #{msg['produtoTemp.unidadeDeVenda']}:" />
+                                <h:selectOneMenu id="unidadeDeVenda" value="#{vendaMB.itemVenda.unidadeDeVenda}"  styleClass="form-control" >
+                                    <f:selectItem itemLabel="#{xmsg['select']}" />
+                                    <f:selectItems value="#{vendaMB.listUnidade}" 
+                                                   var="unidadeDeMedida"
+                                                   itemLabel="#{unidadeDeMedida} - #{unidadeDeMedida.descricao}"/>
+                                    <p:ajax update=":formCreateVenda:tabGeral:panelDoisUm :formCreateVenda:tabGeral:panelQuatro" listener="#{vendaMB.setarValorFrancionado()}"/>
+                                </h:selectOneMenu>
+                            </div>         
+                            <h:panelGroup id="panelQuatro">
+                                <h:panelGroup id="panelDoisDois" rendered="#{!vendaMB.verificarCampoFracao()}">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="qtd1" value="* #{msg['produtoTemp.qtd']}:"/>
+                                        <x:inputNumber id="qtd1" value="#{vendaMB.itemVenda.qtd}" styleClass="form-control" centsLimit="0"/>
+                                    </div>
+                                </h:panelGroup>
+                                <h:panelGroup id="panelDoisTres" rendered="#{vendaMB.verificarCampoFracao()}">
+                                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                        <h:outputLabel for="qtd2" value="* #{msg['produtoTemp.qtd']}:" />
+                                        <x:inputNumber id="qtd2" value="#{vendaMB.itemVenda.qtd}" styleClass="form-control"/>
+                                    </div>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                            <h:panelGroup id="panelDoisUm">
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="valorDaCompra:input" value="* Valor:" />
+                                    <x:inputNumber id="valorDaCompra" value="#{vendaMB.itemVenda.valorUnitario}" styleClass="form-control" centsLimit="4"/>
+                                </div>
+                            </h:panelGroup>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="desconto:input" value="Desconto (%):" />
+                                <x:inputNumber id="desconto" value="#{vendaMB.itemVenda.desconto}" styleClass="form-control"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="icmsCompra:input" value="* #{msg['produtoTemp.icmsCompra']}:" />
+                                <x:inputNumber id="icmsCompra" value="#{vendaMB.itemVenda.icmsCompra}" styleClass="form-control"/>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                <h:outputLabel for="ipi:input" value="* #{msg['produtoTemp.ipi']}:" />
+                                <x:inputNumber id="ipi" value="#{vendaMB.itemVenda.ipi}" styleClass="form-control"/>
+                            </div>
+
+
+
+                        </h:panelGroup>
+                    </div>
+
+                    <p:separator/>
+                    <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+                    <div class="uix-center">
+                        <p:commandButton process="@this :formCreateVenda:tabGeral:panelDois :formCreateVenda:tabGeral:valorEntrada :formCreateVenda:tabGeral:valorDoDesconto" update=":formCreateVenda:tabGeral:tableProduto :formCreateVenda:tabGeral:panelUm :formCreateVenda:tabGeral:panelDois :formCreateVenda:tabGeral:panelValorTotal" value="Adicionar" 
+                                         action="#{vendaMB.addItemLista()}"/>
+                    </div>
+                    <br/>
+
+
+                    <div class="row">
+                        <p:dataTable var="itemVenda" value="#{vendaMB.entity.itensVenda}" id="tableProduto">
+                            <x:initializer/>
+                            <p:column headerText="Código" style="text-align: right;">
+                                <h:outputText value="#{itemVenda.produto.id}" />
+                            </p:column>
+                            <p:column headerText="Descricao">
+                                <h:outputText value="#{itemVenda.produto.descricao}" />
+                            </p:column>
+
+                            <p:column headerText="Unidade">
+                                <h:outputText value="#{itemVenda.unidadeDeVenda.descricao} - #{itemVenda.unidadeDeVenda}" />
+                            </p:column>                            
+                            <p:column headerText="Qtd" style="text-align: right;">
+                                <x:inputNumber  value="#{itemVenda.qtd}" size="9">
+                                    <p:ajax event="blur" update=":formCreateVenda:tabGeral:tableProduto :formCreateVenda:tabGeral:panelValorTotal" />
+                                </x:inputNumber>
+                            </p:column>
+                            <p:column headerText="Valor" style="text-align: right;">
+                                <x:inputNumber  value="#{itemVenda.valorUnitario}" centsLimit="4">
+                                    <p:ajax event="blur" update=":formCreateVenda:tabGeral:tableProduto :formCreateVenda:tabGeral:panelValorTotal" />
+                                </x:inputNumber>
+                            </p:column>
+
+                            <p:column headerText="Desconto" style="text-align: right;">
+                                <x:inputNumber  value="#{itemVenda.desconto}" size="5">
+                                    <p:ajax event="blur" update=":formCreateVenda:tabGeral:tableProduto :formCreateVenda:tabGeral:panelValorTotal" />
+                                </x:inputNumber>
+                            </p:column>
+
+                            <p:column headerText="Icms" style="text-align: right;">
+                                <x:inputNumber  value="#{itemVenda.icmsCompra}" size="5">
+                                    <p:ajax event="blur" update=":formCreateVenda:tabGeral:tableProduto :formCreateVenda:tabGeral:panelValorTotal" />
+                                </x:inputNumber>    
+                            </p:column>
+                            <p:column headerText="Ipi" style="text-align: right;">
+                                <x:inputNumber  value="#{itemVenda.ipi}" size="5">
+                                    <p:ajax event="blur" update=":formCreateVenda:tabGeral:tableProduto :formCreateVenda:tabGeral:panelValorTotal" />
+                                </x:inputNumber>
+                            </p:column>    
+                            <p:column headerText="SubTotal" style="text-align: right; font-weight:bold;">
+                                <h:outputText value="#{vendaMB.getTotalPorProduto(itemVenda.qtd, itemVenda.valorUnitario, itemVenda.icmsCompra, itemVenda.ipi, itemVenda.desconto)}">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                </h:outputText>
+                                <f:facet name="footer">
+                                    <h:outputText value="Valor total Produtos" style="font-weight:bold"/><br/>
+                                    <h:outputText value="#{vendaMB.valorMercadoria}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText><br/>
+                                    <h:outputText value="Valor total da Venda" style="font-weight:bold"/><br/>
+                                    <h:outputText id="valorPedidoTabela" value="#{vendaMB.valorDaNota}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                </f:facet>
+                            </p:column>
+                            <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                                <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this" 
+                                                 action="#{vendaMB.removerItemLista(itemVenda)}" update=":formCreateVenda:tabGeral:panelValorTotal :formCreateVenda:tabGeral:tableProduto">
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Dados para Pagamento">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conta" value="* Conta para Pagamento:" />
+                            <h:selectOneMenu id="conta" value="#{vendaMB.entity.conta}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.contaBancaria)}" 
+                                               var="contaBancaria"
+                                               itemLabel="#{contaBancaria} - #{contaBancaria.banco}"/>
+
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="formaPagamento" value="* #{msg['venda.formaPagamento']}:" />
+                            <h:selectOneMenu id="formaPagamento" value="#{vendaMB.entity.formaPagamento}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.formaDePagamento)}" 
+                                               var="formaDePagamento"
+                                               itemLabel="#{formaDePagamento.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="valorEntrada:input" value="#{msg['venda.valorEntrada']}:" />
+                            <x:inputNumber id="valorEntrada" value="#{vendaMB.entity.valorEntrada}" styleClass="form-control">
+                                <p:ajax update=":formCreateVenda:tabGeral:panelValorTotal :formCreateVenda:tabGeral:tableProduto:valorPedidoTabela" process="@this" event="blur"/>
+                            </x:inputNumber>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="valorDoDesconto:input" value="Desconto (%):" />
+                            <x:inputNumber id="valorDoDesconto" value="#{vendaMB.entity.desconto}" styleClass="form-control">
+                                <p:ajax update=":formCreateVenda:tabGeral:panelValorTotal :formCreateVenda:tabGeral:tableProduto:valorPedidoTabela" process="@this" event="blur"/>
+                            </x:inputNumber>
+                        </div>
+                        <h:panelGroup id="panelValorTotal"> 
+                            <p:outputPanel>
+                                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <h:outputLabel for="valorDaNota" value="Valor Total da Venda" />
+                                    <x:inputNumber id="valorDaNota" value="#{vendaMB.getValorDaNota()}" styleClass="form-control" disabled="true"/>
+                                </div>
+                            </p:outputPanel>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </p:tab>
+        </p:tabView>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="venda.create">
+                <p:commandButton process="@form" update="@form" action="#{vendaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="venda.audit">
+                <x:audit for="#{vendaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

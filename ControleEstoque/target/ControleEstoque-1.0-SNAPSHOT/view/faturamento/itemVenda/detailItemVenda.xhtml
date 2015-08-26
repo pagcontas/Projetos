@@ -1,0 +1,60 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailItemVenda" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemVenda.venda']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemVendaMB.entity.venda}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemVenda.produto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemVendaMB.entity.produto}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemVenda.qtd']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemVendaMB.entity.qtd}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemVenda.valorUnitario']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemVendaMB.entity.valorUnitario}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemVenda.unidadeDeVenda']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemVendaMB.entity.unidadeDeVenda}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemVenda.icmsCompra']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemVendaMB.entity.icmsCompra}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemVenda.ipi']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemVendaMB.entity.ipi}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['itemVenda.ativo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{itemVendaMB.entity.ativo}" converter ="yesNoConverter"  styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetItemVendaDetail').hide()" />
+            <x:securityArea rolesAllowed="itemVenda.audit">
+                <x:audit for="#{itemVendaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

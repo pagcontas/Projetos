@@ -1,0 +1,163 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fatosBoletoSite.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFatosBoletoSite.xhtml" />
+        <h:form id="formListFatosBoletoSite">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="fatosBoletoSite_export" target=":formListFatosBoletoSite:dataTableFatosBoletoSite"
+                                     widgetVar="dataTableFatosBoletoSiteWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fatosBoletoSite" rowIndexVar="index" id="dataTableFatosBoletoSite" widgetVar="dataTableFatosBoletoSiteWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fatosBoletoSiteMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fatosBoletoSiteMB.dataModel.paginatorTemplate}"
+                         value="#{fatosBoletoSiteMB.dataModel}" lazy="true" >
+                <p:column headerText="Pos" sortBy="#{fatosBoletoSite.loja}"
+                          filterBy="#{fatosBoletoSite.loja.id}" style="text-align: right;" width="5%">
+                    <f:facet name="header">
+                        <h:outputText value="Pos" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.loja.id}">
+                        <x:initializer/>
+                    </h:outputText> 
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletoSite.loja']}" sortBy="#{fatosBoletoSite.loja}"
+                          filterBy="#{fatosBoletoSite.loja.nome}" width="20%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.loja.nome}">
+                        <x:initializer/>
+                    </h:outputText> 
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletoSite.convenioboleto']}" sortBy="#{fatosBoletoSite.conveniosite}"
+                         filterBy="#{fatosBoletoSite.conveniosite.nome}" width="20%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.convenioboleto']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.conveniosite}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletoSite.periodo']}" sortBy="#{fatosBoletoSite.periodo}"
+                    filterBy="#{fatosBoletoSite.periodo}" style="text-align: right;" width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.periodo']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.periodo}" converter="periodoConverterList"/>
+                </p:column>               
+                <p:column headerText="#{msg['fatosBoletoSite.qtd']}" sortBy="#{fatosBoletoSite.qtd}"
+                    filterBy="#{fatosBoletoSite.qtd}" style="text-align: right;" width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.qtd']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.qtd}"/>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletoSite.arrecadado']}" sortBy="#{fatosBoletoSite.arrecadado}"
+                       filterBy="#{fatosBoletoSite.arrecadado}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.arrecadado']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.arrecadado}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletoSite.unitarioconvenio']}" sortBy="#{fatosBoletoSite.unitarioconvenio}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.unitarioconvenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.unitarioconvenio}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletoSite.unitarioloja']}" sortBy="#{fatosBoletoSite.unitarioloja}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.unitarioloja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.unitarioloja}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                 <p:column headerText="#{msg['fatosBoletoSite.unitarioliquido']}" sortBy="#{fatosBoletoSite.unitarioLiquido}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.unitarioliquido']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.unitarioLiquido}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="#{msg['fatosBoletoSite.comissaoLoja']}" sortBy="#{fatosBoletoSite.comissaoLoja}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.comissaoLoja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.comissaoLoja}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="#{msg['fatosBoletoSite.comissaoConvenio']}" sortBy="#{fatosBoletoSite.comissaoConvenio}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.comissaoConvenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.comissaoConvenio}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="#{msg['fatosBoletoSite.comissaoLiquida']}" sortBy="#{fatosBoletoSite.comissaoLiquida}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletoSite.comissaoLiquida']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletoSite.comissaoLiquida}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetFatosBoletoSiteDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFatosBoletoSite" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fatosBoletoSite}" target="#{fatosBoletoSiteMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fatosBoletoSite.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFatosBoletoSite" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fatosBoletoSite.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fatosBoletoSite.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fatosBoletoSiteMB.delete}" >
+                            <f:setPropertyActionListener value="#{fatosBoletoSite.id}" target="#{fatosBoletoSiteMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fatosBoletoSite}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fatosBoletoSite.audit">
+                    <x:auditDelete for="#{fatosBoletoSiteMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFatosBoletoSiteDetail" header="#{msg['fatosBoletoSite.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFatosBoletoSite.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

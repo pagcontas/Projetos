@@ -1,0 +1,138 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreatePagContas" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="razaoSocial" value="* #{msg['pagContas.razaoSocial']}:" />
+                         <p:inputText id="razaoSocial" value="#{pagContasMB.entity.razaoSocial}" maxlength="80"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeFantasia" value="* #{msg['pagContas.nomeFantasia']}:" />
+                         <p:inputText id="nomeFantasia" value="#{pagContasMB.entity.nomeFantasia}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cnpj" value="* #{msg['pagContas.cnpj']}:" />
+                         <x:cnpj id="cnpj" value="#{pagContasMB.entity.cnpj}" styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="inscricaoEstadual" value="#{msg['pagContas.inscricaoEstadual']}:" />
+                         <p:inputText id="inscricaoEstadual" value="#{pagContasMB.entity.inscricaoEstadual}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="endereco" value="* #{msg['pagContas.endereco']}:" />
+                         <p:inputText id="endereco" value="#{pagContasMB.entity.endereco}" maxlength="90"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="bairro" value="* #{msg['pagContas.bairro']}:" />
+                         <p:inputText id="bairro" value="#{pagContasMB.entity.bairro}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="numero" value="* #{msg['pagContas.numero']}:" />
+                         <p:inputText id="numero" value="#{pagContasMB.entity.numero}" maxlength="30"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cep" value="* #{msg['pagContas.cep']}:" />
+                         <p:inputText id="cep" value="#{pagContasMB.entity.cep}" maxlength="20"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cidade" value="* #{msg['pagContas.cidade']}:" />
+                         <h:selectOneMenu id="cidade" value="#{pagContasMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                            var="cidade"
+                                            itemLabel="#{cidade.nome}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeProc1" value="* #{msg['pagContas.nomeProc1']}:" />
+                         <p:inputText id="nomeProc1" value="#{pagContasMB.entity.nomeProc1}" maxlength="90"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nacionalidadeProc1" value="* #{msg['pagContas.nacionalidadeProc1']}:" />
+                         <p:inputText id="nacionalidadeProc1" value="#{pagContasMB.entity.nacionalidadeProc1}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="estadoCivilProc1" value="* #{msg['pagContas.estadoCivilProc1']}:" />
+                         <h:selectOneMenu id="estadoCivilProc1" value="#{pagContasMB.entity.estadoCivilProc1}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
+                                            var="estadoCivil"
+                                            itemLabel="#{estadoCivil.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="profissaoProc1" value="* #{msg['pagContas.profissaoProc1']}:" />
+                         <p:inputText id="profissaoProc1" value="#{pagContasMB.entity.profissaoProc1}" maxlength="50"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="rgProc1" value="* #{msg['pagContas.rgProc1']}:" />
+                         <p:inputText id="rgProc1" value="#{pagContasMB.entity.rgProc1}" maxlength="20"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="orgaoExpeditorPro1" value="* #{msg['pagContas.orgaoExpeditorPro1']}:" />
+                         <p:inputText id="orgaoExpeditorPro1" value="#{pagContasMB.entity.orgaoExpeditorPro1}" maxlength="20"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cpfProc1" value="* #{msg['pagContas.cpfProc1']}:" />
+                         <x:cpf id="cpfProc1" value="#{pagContasMB.entity.cpfProc1}" styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nomeProc2" value="#{msg['pagContas.nomeProc2']}:" />
+                         <p:inputText id="nomeProc2" value="#{pagContasMB.entity.nomeProc2}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="nacionalidadeProc2" value="#{msg['pagContas.nacionalidadeProc2']}:" />
+                         <p:inputText id="nacionalidadeProc2" value="#{pagContasMB.entity.nacionalidadeProc2}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="estadoCivilProc2" value="#{msg['pagContas.estadoCivilProc2']}:" />
+                         <h:selectOneMenu id="estadoCivilProc2" value="#{pagContasMB.entity.estadoCivilProc2}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.estadoCivil)}" 
+                                            var="estadoCivil"
+                                            itemLabel="#{estadoCivil.descricao}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="profissaoProc2" value="#{msg['pagContas.profissaoProc2']}:" />
+                         <p:inputText id="profissaoProc2" value="#{pagContasMB.entity.profissaoProc2}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="rgProc2" value="#{msg['pagContas.rgProc2']}:" />
+                         <p:inputText id="rgProc2" value="#{pagContasMB.entity.rgProc2}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="orgaoExpeditorPro2" value="#{msg['pagContas.orgaoExpeditorPro2']}:" />
+                         <p:inputText id="orgaoExpeditorPro2" value="#{pagContasMB.entity.orgaoExpeditorPro2}" maxlength="255"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cpfProc2" value="#{msg['pagContas.cpfProc2']}:" />
+                         <x:cpf id="cpfProc2" value="#{pagContasMB.entity.cpfProc2}" styleClass="form-control"  />
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="pagContas.create">
+                <p:commandButton process="@form" update="@form" action="#{pagContasMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="pagContas.audit">
+                <x:audit for="#{pagContasMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,40 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDialogEditarParcelas">
+        <div class="container-fluid">
+            <div class="row">
+                
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="dataPagamento" value="#{msg['parcelas.dataPagamento']}:" />
+                    <p:calendar id="dataPagamento" value="#{pagamentoMB.parcela.dataPagamento}" 
+                                showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar">
+                        <x:mask/>
+                    </p:calendar>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="checkbox">
+                        <label>
+                            Pago?
+                            <h:selectBooleanCheckbox id="situacao" value="#{pagamentoMB.parcela.situacao}" />
+                        </label>
+                    </div>
+                </div>                                        
+
+            </div>
+            
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+
+            <p:commandButton  action="#{pagamentoMB.editarParcela()}" process="@form" oncomplete="widgetDialogEditarParcelas.hide();"  
+                              update=":formCreatePagamento:dataTableParcelas" title="Salvar" value="Salvar"
+                              />               
+
+
+        </div>
+    </h:form>
+</ui:composition>

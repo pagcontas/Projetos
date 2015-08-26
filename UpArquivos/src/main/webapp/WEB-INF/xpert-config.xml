@@ -1,0 +1,13 @@
+
+<xpert-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <auditing>
+        <auditing-impl>com.uparquivos.modelo.audit.Auditing</auditing-impl>
+        <metadata-impl>com.uparquivos.modelo.audit.Metadata</metadata-impl>
+        <auditing-listener>com.uparquivos.application.AuditingListenerImpl</auditing-listener>
+    </auditing>
+    
+    <entity-manager-factory>com.uparquivos.application.EntityManagerFactoryImpl</entity-manager-factory>
+    <resource-bundle>bundles.messages</resource-bundle>
+
+</xpert-config>

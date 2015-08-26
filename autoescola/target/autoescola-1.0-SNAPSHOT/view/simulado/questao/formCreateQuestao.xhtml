@@ -1,0 +1,114 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateQuestao" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="descricao" value="* #{msg['questao.descricao']}:" />
+                        <p:inputTextarea id="descricao" value="#{questaoMB.entity.descricao}" maxlength="400" rows="10" styleClass="form-control"
+                                         cols="50"/>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="* #{msg['questao.tipo']}:" />
+                        <h:selectOneMenu id="tipo" value="#{questaoMB.entity.tipo}"  styleClass="form-control" >
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoProva)}" 
+                                           var="tipoProva"
+                                           itemLabel="#{tipoProva.descricao}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="caminhoIMGQ" value="#{msg['alternativa.caminhoIMG']}:" />
+                        <p:inputText id="caminhoIMGQ" value="#{questaoMB.entity.caminhoIMG}" maxlength="400"  styleClass="form-control"  />
+                    </div>
+                </div>
+            </div>
+
+        </p:fieldset>
+
+        <p:fieldset legend="Alternativas" id="fieldID">
+
+            <div class="container-fluid">
+                <x:modalMessages/>
+                <div class="row">
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="descricaoAlternativa" value="* #{msg['alternativa.descricao']}:" />
+                            <p:inputTextarea id="descricaoAlternativa" value="#{questaoMB.alternativaTemp.descricao}" maxlength="400" rows="10" styleClass="form-control"
+                                             cols="50"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="letra" value="* #{msg['alternativa.letra']}:" />
+                            <h:selectOneMenu id="letra" value="#{questaoMB.alternativaTemp.letra}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.letraAlternativa)}" 
+                                               var="letraAlternativa"
+                                               itemLabel="#{letraAlternativa}"/>
+                            </h:selectOneMenu>
+                        </div>                            
+
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="caminhoIMG" value="#{msg['alternativa.caminhoIMG']}:" />
+                            <p:inputText id="caminhoIMG" value="#{questaoMB.alternativaTemp.caminhoIMG}" maxlength="400"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    <h:selectBooleanCheckbox id="correta" value="#{questaoMB.alternativaTemp.correta}" />
+                                    #{msg['alternativa.correta']}?
+                                </label>
+                            </div>
+                        </div>                  
+                    </div>
+
+                    <div class="uix-center">
+                        <p:commandButton process="@this fieldID tabelaCreate" update="@this fieldID tabelaCreate" action="#{questaoMB.addAlternativas}" value="Adicionar" />
+                    </div>
+
+                    <p:dataTable id="tabelaCreate" value="#{questaoMB.alternativasTemp}" var="alternativaTab" emptyMessage="#{xmsg['noRecordFound']}">
+                        <p:column headerText="Letra">
+                            <h:outputText value="#{alternativaTab.letra}"/>
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <h:outputText value="#{alternativaTab.descricao}"/>
+                        </p:column>
+                        <p:column headerText="Correta?">
+                            <h:outputText value="#{alternativaTab.correta}" converter ="yesNoConverter"/>
+                        </p:column>
+                        <p:column headerText="Caminho Imagem">
+                            <h:outputText value="#{alternativaTab.caminhoIMG}"/>
+                        </p:column>  
+                        <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                            <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@this tabelaCreate" update="@this tabelaCreate" 
+                                             action="#{questaoMB.deleteAlternativa}" >
+                                <f:setPropertyActionListener value="#{alternativaTab}" target="#{questaoMB.alternativaDel}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+            </div>
+        </p:fieldset>
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="questao.create">
+                <p:commandButton process="@form" update="@form" action="#{questaoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="questao.audit">
+                <x:audit for="#{questaoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

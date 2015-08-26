@@ -1,0 +1,1405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="NFeModelo1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="44626781-ae50-4023-82b9-eb97560fe864">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nomeEmpresa" class="java.lang.String"/>
+	<parameter name="enderecoEmpresa" class="java.lang.String"/>
+	<parameter name="chaveAcesso" class="java.lang.String"/>
+	<parameter name="serie" class="java.lang.String"/>
+	<parameter name="numNota" class="java.lang.String"/>
+	<parameter name="naturezaOp" class="java.lang.String"/>
+	<parameter name="protocolo" class="java.lang.String"/>
+	<parameter name="inscriEstad" class="java.lang.String"/>
+	<parameter name="cnpj" class="java.lang.String"/>
+	<parameter name="nomeCliente" class="java.lang.String"/>
+	<parameter name="cnpjCliente" class="java.lang.String"/>
+	<parameter name="dataEmissao" class="java.lang.String"/>
+	<parameter name="enderecoCliente" class="java.lang.String"/>
+	<parameter name="bairroCliente" class="java.lang.String"/>
+	<parameter name="cepCliente" class="java.lang.String"/>
+	<parameter name="dataEmissaoVenda" class="java.lang.String"/>
+	<parameter name="horaEmissaoVenda" class="java.lang.String"/>
+	<parameter name="municipioCliente" class="java.lang.String"/>
+	<parameter name="foneCliente" class="java.lang.String"/>
+	<parameter name="ufCliente" class="java.lang.String"/>
+	<parameter name="ieCliente" class="java.lang.String"/>
+	<parameter name="baseIcms" class="java.lang.String"/>
+	<parameter name="valorIcms" class="java.lang.String"/>
+	<parameter name="baseIcmsSt" class="java.lang.String"/>
+	<parameter name="valorIcmsSt" class="java.lang.String"/>
+	<parameter name="valorTotalProdutos" class="java.lang.String"/>
+	<parameter name="valorDoFrete" class="java.lang.String"/>
+	<parameter name="valorDoSeguro" class="java.lang.String"/>
+	<parameter name="desconto" class="java.lang.String"/>
+	<parameter name="outrasDespesas" class="java.lang.String"/>
+	<parameter name="valorDoApi" class="java.lang.String"/>
+	<parameter name="valorTotalNota" class="java.lang.String"/>
+	<field name="codigo" class="java.lang.String"/>
+	<field name="descricaoPouS" class="java.lang.String"/>
+	<field name="ncm" class="java.lang.String"/>
+	<field name="cst" class="java.lang.String"/>
+	<field name="cfop" class="java.lang.String"/>
+	<field name="unid" class="java.lang.String"/>
+	<field name="qtd" class="java.lang.String"/>
+	<field name="valorUni" class="java.lang.String"/>
+	<field name="valorTotal" class="java.lang.String"/>
+	<field name="icms" class="java.lang.String"/>
+	<field name="valorIcms" class="java.lang.String"/>
+	<field name="valorIpi" class="java.lang.String"/>
+	<field name="aliqIcms" class="java.lang.String"/>
+	<field name="aliqIpi" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="512" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="393" height="26" uuid="4dc7c505-0be4-4b53-a1d3-794610b8abdc"/>
+			</rectangle>
+			<textField>
+				<reportElement x="10" y="2" width="383" height="10" uuid="7171c111-f49d-46ea-b898-2b8e1cd09779"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RECEBEMOS DE "+$P{nomeEmpresa}+" OS PRODUTOS/SERVIÇOS CONSTANTES DA NOTA FISCAL INDICADA AO LADO"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="26" width="141" height="26" uuid="92d09c47-5d7a-4eb5-87a8-fb61452b2e79"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="141" y="26" width="252" height="26" uuid="8f7b004f-3a32-4ce3-b558-c7b4e5c1d8ce"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="0" width="162" height="52" uuid="c6025272-be57-45ce-9d25-153e1c761a4f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="28" width="100" height="9" uuid="2e2f97cc-aacd-448c-be6e-1249bbf9bfa6"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[DATA DE RECEBIMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="148" y="28" width="245" height="9" uuid="650ac82c-25ac-4b2b-93eb-25e84ff8007b"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="3" width="36" height="9" uuid="c0650816-da3c-4099-ac42-4eeb173292a4"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[NF-E]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="14" width="18" height="13" uuid="ff56e25e-232c-48a9-8ac6-06d45f9bfeb9"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="33" width="32" height="14" uuid="8e135e6c-7b2a-43c5-a055-385be73e7e5c"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[SÉRIE:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="52" width="241" height="112" uuid="da3046e5-9e34-458c-ba10-b5e77435b38d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="346" y="52" width="209" height="112" uuid="b2d82feb-883c-4b1e-b67a-735ca0fdee97"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="248" y="52" width="97" height="17" uuid="da782fc9-7d37-4728-9cdc-e100c9dcb5bc"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DANFE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="69" width="102" height="20" uuid="bc49db88-5ebb-4c03-a250-34c4bb994e21"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<text><![CDATA[Documento Auxiliar da nota Fiscal Eletrônica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="246" y="94" width="48" height="24" uuid="571fc198-ff15-4980-b620-17aa8d65388b"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[0 - Entrada 1 - Saída]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="306" y="94" width="32" height="24" uuid="0e51d030-e76d-4480-925e-8c3a9e0ec38a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="246" y="118" width="24" height="15" uuid="317a7131-4363-4c87-9842-7c74c62781b1"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="246" y="133" width="46" height="15" uuid="1c96052d-bad4-424b-84af-0dac2f92b1ae"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SÉRIE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="244" y="148" width="66" height="15" uuid="7c16ef16-d63b-4bff-bcb7-f35ff70e5be1"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+ $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="69" width="220" height="40" uuid="9f0f9904-8b44-4936-aede-fa6afe658ae3"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="118" width="241" height="42" uuid="18b4b8f3-d8d1-4c57-84a3-feb6fc691c4b"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{enderecoEmpresa}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="353" y="65" width="197" height="20" uuid="e3fafc69-4f1b-4a8f-8bf1-18a6d9043c7d"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="EAN128" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{chaveAcesso}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<rectangle>
+				<reportElement x="349" y="87" width="205" height="25" uuid="42f9a749-f9c1-4a7e-b57d-eec3cd73c0da"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="358" y="115" width="190" height="46" uuid="301d0731-2bf0-4102-a420-8d2dd7c09725"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Consulta de autenticidade no portal nacional da NF-e www.nfe.fazenda.gov.br/portal ou no site da Sefaz Autorizadora]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="352" y="100" width="199" height="12" uuid="d41dd5fd-a0c1-4b38-be1d-3b095c502e66"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{chaveAcesso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="363" y="91" width="100" height="9" uuid="ce3c6bf9-0662-4625-8815-1e132fa3f13e"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CHAVE DE ACESSO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="55" width="100" height="9" uuid="f8bf6a37-866f-4816-860f-08c886d2b3af"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CONTROLE DO FISCO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="164" width="353" height="26" uuid="a5411ed3-7c63-4de3-ba84-692d67ffd460"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="353" y="164" width="202" height="26" uuid="e24af863-12b7-43bb-9bf7-b672aaed603c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="190" width="174" height="26" uuid="7fd92f5c-851f-4aa2-92f7-8091ef184a5a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="174" y="190" width="128" height="26" uuid="cc9c512b-39ba-42cb-92f4-f35fc6eeeca3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="302" y="190" width="253" height="26" uuid="c1bc5e57-983c-451b-887e-54ed3452ce64"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="345" y="226" width="115" height="26" uuid="c318876f-3598-4560-a8dc-501cdc829bfb"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="226" width="345" height="26" uuid="3ef3a68a-7353-4c84-abbd-06a1921ea069"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="166" width="100" height="9" uuid="42a85726-7736-45b2-a75a-d3fcc7875b1b"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[NATUREZA DA OPERAÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="166" width="121" height="9" uuid="8334a043-b2a7-43c1-bba0-f14c0f63413b"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[PROTOCOLO DE AUTORIZAÇÃO DE USO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="192" width="100" height="9" uuid="be723766-ca85-43f1-a479-32f1b9809644"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[INSCRIÇÃO ESTADUAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="193" width="100" height="9" uuid="61ae4131-9682-4437-90e7-2560ff876fae"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[INSCRIÇÃO ESTADUAL DO SUBST. TRIB.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="192" width="100" height="9" uuid="f6ba764d-8ab3-4ff0-8b48-6d8cc4a394fc"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CNPJ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="216" width="148" height="10" uuid="80e0e523-dcdd-4edc-9b3e-6334053fa57c"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESTINATÁRIO/REMETENTE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="460" y="226" width="95" height="26" uuid="489e776d-2d43-49d0-9c67-cc2e5620df83"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="228" width="100" height="9" uuid="48500da3-0b70-4a6d-9d30-7449ffe22571"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[NOME/RAZÃO SOCIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="228" width="100" height="9" uuid="82b79eaa-c573-4a9e-a7f5-8a705e258319"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CNPJ/CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="463" y="228" width="85" height="9" uuid="ac4b399e-5552-47d0-a7e6-7d0243091c68"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[DATA DA EMISSÃO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="250" width="214" height="26" uuid="7395df41-9491-4f01-9b4e-41b7e747d6e0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="214" y="250" width="139" height="26" uuid="5fb23ccb-8023-4ccc-9e82-800cdfeea430"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="353" y="250" width="107" height="26" uuid="afa2d133-84a6-404d-8c7d-a2e8d8e8788e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="460" y="250" width="95" height="26" uuid="7728124b-2710-45c1-9858-1a7eec1da9d3"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="302" width="132" height="10" uuid="808bbe71-3760-4e2a-819c-eceedfb9b810"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FATURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="252" width="100" height="9" uuid="f5fd4589-a386-4972-b1d8-0b9d26f49c60"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[ENDEREÇO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="252" width="100" height="9" uuid="7d5fcdfb-a97b-49ce-a00d-b6b6c12fc9f7"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CEP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="252" width="100" height="9" uuid="cbb90ca4-543a-46e4-a42e-0090588577cd"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[BAIRRO/DISTRITO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="463" y="252" width="87" height="9" uuid="3a1c8470-659b-4062-8e9e-c54bbaa69fdc"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[DATA DE ENTRADA/SAÍDA]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="309" y="148" width="36" height="15" uuid="c2277eec-7975-4291-8dbe-f899bf736a46"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="490" width="248" height="10" uuid="90498c1d-c4a0-4caf-b991-b1afc3ea4fb2"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DADOS DO PRODUTO/SERVIÇO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="500" width="42" height="12" uuid="63fe529d-1e88-498e-b400-9896bd3ec285"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="42" y="500" width="137" height="12" uuid="0868b9f5-3039-4063-a04a-62a404796e11"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[DESCRIÇÃO DO PRODUTO/SERVIÇO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="179" y="500" width="44" height="12" uuid="82f956c5-f785-4273-968e-58d47c0e75ee"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[NCM/SH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="223" y="500" width="21" height="12" uuid="50207d7c-76ab-45aa-92b5-29a6f6de6204"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="244" y="500" width="24" height="12" uuid="822ec303-2c1c-4df2-96f5-704d1fdc64d6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CFOP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="319" y="500" width="41" height="12" uuid="6995620a-5753-414c-9e5e-ec63594fdfce"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VLR. UNIT.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="268" y="500" width="22" height="12" uuid="14bdb998-4343-45d6-a7ec-b8a3751225d7"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[UNID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="290" y="500" width="29" height="12" uuid="22f299a5-bc68-40b3-be15-d832d8e51568"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[QTD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="360" y="500" width="47" height="12" uuid="ec9d6556-2de7-47fc-b339-6c26a8c36f69"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VLR. TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="407" y="500" width="28" height="12" uuid="5067359e-e352-4209-bc69-d46452c7c64c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[BC ICMS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="525" y="500" width="30" height="12" uuid="3133de6c-e9eb-4c84-a38c-c2506975253d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[ALÍQ. ICMS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="435" y="500" width="28" height="12" uuid="343167a9-c78f-42f8-89be-e2e8685d8add"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VLR. ICMS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="495" y="500" width="30" height="12" uuid="2b649be7-750a-44a7-a7b7-c9c1840c2bb9"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[ALÍQ. IPI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="463" y="500" width="32" height="12" uuid="7b09e952-40b1-4ed9-9746-ec4ebcabd180"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VLR>IPI]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="311" width="555" height="26" uuid="c90fd966-e85a-4c1f-b043-2ba150613f3a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="347" width="110" height="26" uuid="6b24485f-a7a7-44ef-a359-78902927b7f7"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="337" width="132" height="10" uuid="d73c0c0d-3a32-48e5-b591-f201ed7c0ccf"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÁLCULO DO IMPOSTO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="373" width="95" height="26" uuid="b1b0f7de-7060-4ddb-8b9b-a2ac664f76d4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="399" width="248" height="10" uuid="eefde996-7d25-4b86-93c6-4377fe44df44"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRANSPORTADOR/VOLUMES TRANSPORTADOS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="412" width="214" height="26" uuid="6c36bf02-6e5d-46f0-8620-be0ae301e567"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="438" width="268" height="26" uuid="018088da-e0f5-4a7d-bbff-a0b657ede455"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="464" width="95" height="26" uuid="e19ce0c7-5ea8-45da-88ef-b1561a386b9e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="316" width="100" height="14" uuid="b4fedbc8-7b27-4305-855b-ace8d9ecf788"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<text><![CDATA[OUTROS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="190" y="373" width="104" height="26" uuid="e051bae2-1df8-4307-9b27-f4e2f3e4f8b1"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="110" y="347" width="94" height="26" uuid="b941fa8a-1868-4c90-b6d6-ae9a06db695a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="204" y="347" width="105" height="26" uuid="a1361321-6d8c-4a97-a02c-f1112ba82be7"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="309" y="347" width="126" height="26" uuid="89b7e295-0527-4293-8929-27b845cbf9ea"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="435" y="347" width="121" height="26" uuid="bb2eddfe-2ef7-403d-a948-7bd05fdcd178"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="95" y="373" width="95" height="26" uuid="d58ee4b2-7177-41c5-b610-a636f8f29c31"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="294" y="373" width="89" height="26" uuid="c8eb6ffa-f3fb-484e-92c8-ac1a096b21a9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="383" y="373" width="80" height="26" uuid="a6365390-c0fa-407a-a0a1-8cc2dc116e5b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="463" y="373" width="93" height="26" uuid="d420d640-ac16-4eea-bc0e-04892a4ff364"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="214" y="412" width="76" height="26" uuid="679e8133-fefc-460a-af83-53218e5a933d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="290" y="412" width="73" height="26" uuid="4b4c8473-822c-4caa-b778-9cd105802040"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="363" y="412" width="72" height="26" uuid="d284e4ed-1701-4d62-a144-a1ed50c86099"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="435" y="412" width="28" height="26" uuid="92a57e64-bbd4-4af1-9aef-675ffa94ce9d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="463" y="412" width="92" height="26" uuid="9f2f42db-d7d1-4beb-91c8-7ef9b538b387"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="268" y="438" width="167" height="26" uuid="aabedf2c-7e8a-4420-b157-01528da999f4"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="435" y="438" width="28" height="26" uuid="0d13989b-6a90-4bf0-b1af-bc0d6a9e8289"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="463" y="438" width="92" height="26" uuid="deaa03ed-03e5-4a52-82ce-16485335709c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="95" y="464" width="119" height="26" uuid="44c7830c-0aad-4138-8dc3-cc4226c1997f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="214" y="464" width="80" height="26" uuid="a1c0a54d-c1f7-40f0-8c0c-ccdeab87a390"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="294" y="464" width="89" height="26" uuid="33e561ae-11d0-41ec-bc89-d66a5fbf0aab"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="383" y="464" width="89" height="26" uuid="00aafb9a-9db2-45bc-83b0-3f8b8a331cfb"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="472" y="464" width="83" height="26" uuid="70375821-538c-423e-9476-37d01c9363c8"/>
+			</rectangle>
+			<textField>
+				<reportElement x="306" y="98" width="32" height="20" uuid="dea06f2b-9195-46fe-b973-b1cbca1efa64"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{serie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="118" width="76" height="15" uuid="ea0d34ac-d242-4a33-9c79-618ce7a07d4c"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numNota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="292" y="133" width="54" height="15" uuid="41ce40f5-777a-409b-9058-144f405c728c"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{serie}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="349" width="100" height="9" uuid="3305de07-b05e-47ac-9d3f-65af9d665cbd"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[BASE DE CÁLCULO DO ICMS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="349" width="90" height="9" uuid="c17095ca-026b-4c60-8811-9d74c02e7c62"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR DO ICMS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="349" width="90" height="9" uuid="0bee7ece-fc8e-4fb2-ab85-1a0b1ea75d1e"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[BASE DE CÁLCULO DO ICMS ST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="349" width="90" height="9" uuid="7920695e-bd27-44e3-b071-a9b4a96c777d"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR DO ICMS ST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="349" width="90" height="9" uuid="3172b8ae-3797-47b4-9a34-7c1bfa3b51c6"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR TOTAL DOS PRODUTOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="375" width="90" height="9" uuid="dfdc3d0d-de9d-4412-9e1b-b6c39e9813f2"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR DO FRETE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="375" width="79" height="9" uuid="3798521e-0f58-47b4-94d7-15697c1fdaf4"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR DO SEGURO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="197" y="375" width="79" height="9" uuid="4955569b-0f0f-4563-b0f0-cc49984a76e8"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[DESCONTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="375" width="87" height="9" uuid="40c7c7b2-0697-4cb1-838b-b801720c5dd7"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[OUTRAS DESPESAS ACESSÓRIAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="376" width="73" height="9" uuid="8f877812-841b-4cae-817a-fb98b80cb88f"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR DO IPI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="376" width="76" height="9" uuid="1a8b8082-0e0c-47ec-8063-eda6289ca1db"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR TOTAL DA NOTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="414" width="90" height="9" uuid="1dd8ebdc-c28e-4d1e-9ad9-0d87a3a9837e"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[RAZÃO SOCIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="414" width="67" height="9" uuid="ffe55d9c-1860-4683-b5ff-1579b1446ff9"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR DO FRETE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="294" y="414" width="67" height="9" uuid="37f33e33-671a-45fc-a482-0ad63422f756"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO ANTT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="414" width="67" height="9" uuid="2318ee10-2026-4cda-85da-41b491225fde"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[PLACA DO VEÍCULO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="437" y="414" width="26" height="9" uuid="0005c2f0-dc32-4b88-b08d-7f31aeb31df5"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[UF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="437" y="439" width="26" height="9" uuid="1a0324ba-ae66-4094-a9ce-a49204bdbfb2"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[UF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="414" width="67" height="9" uuid="34c860b3-9b0e-45d8-839f-9e462e73d652"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[CNPJ/CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="440" width="67" height="9" uuid="c766c1b8-889c-42e2-8b53-3a6f01a3bc1d"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[ENDEREÇO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="440" width="67" height="9" uuid="25b6b031-f7de-4746-91f7-36a97c968fcd"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[MUNICÍPIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="440" width="67" height="9" uuid="df2558a5-62c1-4e39-b5b2-3fc1c494eade"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[INSCRIÇÃO ESTADUAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="466" width="67" height="9" uuid="30c4a8c1-9fe2-4e08-8eb3-584835e810fe"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[QUANTIDADE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="466" width="67" height="9" uuid="9a1df768-9c6d-4e05-9b93-9d520bab50ee"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[ESPÉCIE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="466" width="67" height="9" uuid="bc12ca39-9692-4eda-af2e-5e88874b9eb0"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[MARCA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="466" width="67" height="9" uuid="89a3e5db-0178-4d6b-9bf8-8c1d41693889"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[NUMERAÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="466" width="67" height="9" uuid="6d97d3f4-d28e-4426-94f0-4dc1386e467e"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[PESO BRUTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="479" y="466" width="67" height="9" uuid="61ae9672-7556-4995-b3cb-00c5370a48aa"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[PESO LÍQUIDO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="425" y="12" width="100" height="15" uuid="0a612c37-4d16-4c8b-b795-c80ad906a484"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numNota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="33" width="44" height="14" uuid="187b14f6-8357-4663-b012-71dbdfea8e71"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{serie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="7" y="175" width="342" height="15" uuid="48d701b6-b274-4e1b-93ea-22b94ee56a62"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{naturezaOp}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="175" width="192" height="15" uuid="346dbf95-fd37-46ff-a1e3-408c8a63eec8"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{protocolo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="8" y="201" width="166" height="15" uuid="16bf5d4a-ae27-431e-b33c-8bab215014ef"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{inscriEstad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="201" width="248" height="15" uuid="e414643d-a0cc-4e5e-a829-e16b495acd9b"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="9" y="236" width="335" height="13" uuid="8016c3ea-2f1e-404f-8004-c7bbdd021d3d"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="351" y="236" width="105" height="14" uuid="353d50f8-2317-438f-8b63-6c7447a40477"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cnpjCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="236" width="91" height="12" uuid="9030a95a-746a-4a1d-8cb4-9a780f559b8d"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataEmissao}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="276" width="214" height="26" uuid="11411196-cdf1-439d-b8d3-2935443c8a7b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="214" y="276" width="88" height="26" uuid="5ef36071-1ead-4696-bee1-b886fdfad3b5"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="302" y="276" width="35" height="26" uuid="0266c1f3-9620-422a-8974-48247bb5f9a3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="337" y="276" width="122" height="26" uuid="a7cec3e8-5b23-4d95-bbac-0594da11d057"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="459" y="276" width="96" height="26" uuid="638fe9e2-6f34-433e-993d-ddfad523e356"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="7" y="277" width="125" height="9" uuid="08225b79-27a8-4eba-ab02-cd9f3df86edc"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[MUNÍCIPIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="278" width="84" height="9" uuid="cbf680e0-dc01-42b4-9b65-59bab037453a"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[FONE/FAX]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="277" width="32" height="9" uuid="6a30a899-4657-4ce1-8759-f12835bdd50a"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[UF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="344" y="277" width="84" height="9" uuid="1d0172be-3e0f-4aa3-9fd8-fe4e593dcbb3"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[INSCRIÇÃO ESTADUAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="462" y="278" width="84" height="9" uuid="e1f2cc26-f43a-4b37-81c6-9f4335d8c8a4"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[HORA DE ENTRADA/SAÍDA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="258" width="202" height="18" uuid="8b673967-9211-4300-aa30-21c5686bb316"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{enderecoCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="261" width="129" height="15" uuid="acc66836-fe5c-44a6-a327-bb25552ff02c"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bairroCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="261" width="100" height="16" uuid="76e8afd5-08c8-4530-a38e-cea8b71e6eac"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cepCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="261" width="92" height="15" uuid="c1bb7bfb-409d-4b68-867d-e94c2b95ba49"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataEmissaoVenda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="286" width="91" height="16" uuid="1bc977ba-ae83-4f91-8fec-bdce2477cadd"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{horaEmissaoVenda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="8" y="286" width="206" height="16" uuid="b407a4e8-b64d-4c49-a593-2fa35347c30d"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{municipioCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="218" y="286" width="82" height="16" uuid="f7b2bb42-e3af-4ba0-b92f-2d843d1a3ac1"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{foneCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="286" width="32" height="16" uuid="73d800ba-c1c5-424d-b812-9598fb7f6a53"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ufCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="343" y="286" width="113" height="16" uuid="d7f0e368-83ec-4fa7-b45c-b2e10d3d43ec"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ieCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="358" width="105" height="15" uuid="fd4425a0-e6e9-414a-b72b-448f9b03025b"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{baseIcms}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="112" y="358" width="85" height="15" uuid="5fd9a78e-8f7d-4b2c-a864-f36957366166"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorIcms}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="356" width="100" height="17" uuid="61aa6cff-424b-4a35-b703-81e536dc65e7"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{baseIcmsSt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="313" y="358" width="115" height="15" uuid="1c4ce0ad-8efb-4557-a33a-112247a8bc9f"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorIcms}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="356" width="112" height="17" uuid="a5e73073-3cb3-4403-871e-9b7a3e8f6344"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorTotalProdutos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="384" width="90" height="15" uuid="df3ff2f6-a814-4ac7-b969-e2ada37b5b93"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorDoFrete}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="95" y="385" width="93" height="14" uuid="5d9e5cf3-c646-4991-b385-e5825d5cf4d4"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorDoSeguro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="384" width="95" height="15" uuid="9b2f8391-86c5-4226-a90f-62b564c3d0d2"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{desconto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="384" width="87" height="15" uuid="c4ed1727-1798-448c-8cb1-a09f8b739a18"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{outrasDespesas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="384" y="385" width="79" height="14" uuid="fd400724-89e9-45cc-be8f-75eb0585ffeb"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorDoApi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="384" width="87" height="15" uuid="67ed6e24-6948-4de2-99d9-9f64f48a5957"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valorTotalNota}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="138" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="42" height="12" uuid="ee04324d-c6b5-4aad-8cf3-f27352626371"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="42" y="0" width="137" height="12" uuid="d54ee012-4ece-4c73-970b-598f7dbdfa92"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descricaoPouS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="179" y="0" width="44" height="12" uuid="787bdccf-8ee5-4277-b728-84e5ce544597"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ncm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="223" y="0" width="21" height="12" uuid="5ec00fa1-11cc-4954-b9da-0b6a537de2c8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cst}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="244" y="0" width="24" height="12" uuid="85c77a49-c9f3-4a1f-b1c1-a2a7ba82788d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cfop}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="268" y="0" width="22" height="12" uuid="78463ea0-6ff6-47d2-930a-14febf7796a1"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="290" y="0" width="29" height="12" uuid="ad5bb9df-4fc9-4c70-9650-7c4f3674829b"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qtd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="319" y="0" width="42" height="12" uuid="8a83eb52-699b-4f28-8136-5ea5205b735e"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorUni}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="361" y="0" width="46" height="12" uuid="02b40255-b73a-4a04-aa8a-27b57751f48d"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="405" y="0" width="30" height="12" uuid="6d9effa7-f396-403e-86c8-afa8e7b395fd"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{icms}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="435" y="0" width="28" height="12" uuid="b3c63ac0-6638-4672-95ce-02fc5974c96c"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorIcms}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="463" y="0" width="32" height="12" uuid="9cb4495a-67b2-41be-a17e-f31768ebfa36"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorIpi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="525" y="0" width="30" height="12" uuid="1fcae871-edc5-47ff-be81-30d093135b95"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aliqIcms}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="495" y="0" width="30" height="12" uuid="3642bfd1-2e5e-48f5-9c97-20dec2e3da35"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aliqIpi}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="152" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="10" width="132" height="30" uuid="5505f33b-0db1-4a1c-983e-e68b8e987860"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="51" width="279" height="101" uuid="ea11bc2b-9e9f-4950-9fa4-0f44c63deafe"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="279" y="51" width="276" height="101" uuid="f643b542-7675-428d-809a-f2273aab815b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="132" y="10" width="147" height="30" uuid="e4d39663-4752-491d-820f-6b4e110db9b0"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="279" y="10" width="132" height="30" uuid="3fe311c6-75f2-4540-bb3e-353d29bc0216"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="411" y="10" width="144" height="30" uuid="9b003421-8022-4455-9bac-76600e21411c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="41" width="248" height="10" uuid="3540695b-d1af-4ea4-be97-16d418ea002b"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DADOS ADICIONAIS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="1" width="248" height="10" uuid="5b5727aa-d080-4db3-9a6d-6d9be4e9e7f1"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÁLCULO DO ISSQN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="12" width="100" height="9" uuid="7bfece02-e612-4b84-a720-3a26d8661ae6"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[INSCRIÇÃO MUNICIPAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="139" y="12" width="100" height="9" uuid="e35aa1cd-7d36-4994-9b1d-eaecb55c4004"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR TOTAL DOS SERVIÇOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="12" width="100" height="9" uuid="3cded957-ff38-46ae-85ea-32e691e91314"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[BASE DE CÁLCULO DO ISSQN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="12" width="100" height="9" uuid="d7091b2e-42b5-48e0-8079-e3a07f813c3c"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[VALOR DO ISSQN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="54" width="100" height="9" uuid="c60b80b1-df42-43d9-a92d-221040c179c6"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[INFORMAÇÕES COMPLEMENTARES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="287" y="54" width="100" height="9" uuid="9a3f54da-ac00-4dc5-8de7-b903bee0b10f"/>
+				<textElement>
+					<font fontName="SansSerif" size="5"/>
+				</textElement>
+				<text><![CDATA[RESERVADO AO FISCO]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,64 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateAlternativa" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="letra" value="* #{msg['alternativa.letra']}:" />
+                         <h:selectOneMenu id="letra" value="#{alternativaMB.entity.letra}"  styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.letraAlternativa)}" 
+                                            var="letraAlternativa"
+                                            itemLabel="#{letraAlternativa}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="descricao" value="* #{msg['alternativa.descricao']}:" />
+                         <p:inputText id="descricao" value="#{alternativaMB.entity.descricao}" maxlength="400"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="caminhoIMG" value="#{msg['alternativa.caminhoIMG']}:" />
+                         <p:inputText id="caminhoIMG" value="#{alternativaMB.entity.caminhoIMG}" maxlength="400"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <div class="checkbox">
+                             <label>
+                                 <h:selectBooleanCheckbox id="correta" value="#{alternativaMB.entity.correta}" />
+                                 #{msg['alternativa.correta']}
+                             </label>
+                         </div>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="questao" value="#{msg['alternativa.questao']}:" />
+                         <h:selectOneMenu id="questao" value="#{alternativaMB.entity.questao}" converter="entityConverter" styleClass="form-control" >
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.questao)}" 
+                                            var="questao"
+                                            itemLabel="#{questao}"/>
+                         </h:selectOneMenu>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="alternativa.create">
+                <p:commandButton process="@form" update="@form" action="#{alternativaMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="alternativa.audit">
+                <x:audit for="#{alternativaMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

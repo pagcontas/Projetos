@@ -1,0 +1,99 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['estoque.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEstoque.xhtml" />
+        <h:form id="formListEstoque">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="estoque_export" target=":formListEstoque:dataTableEstoque"
+                                     widgetVar="dataTableEstoqueWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="estoque" rowIndexVar="index" id="dataTableEstoque" widgetVar="dataTableEstoqueWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{estoqueMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{estoqueMB.dataModel.paginatorTemplate}"
+                         value="#{estoqueMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['estoque.empresa']}" sortBy="#{estoque.empresa}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estoque.empresa']}" />
+                    </f:facet>
+                    <h:outputText value="#{estoque.empresa}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['estoque.produto']}" sortBy="#{estoque.produto}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estoque.produto']}" />
+                    </f:facet>
+                    <h:outputText value="#{estoque.produto}"/>
+                </p:column>
+                <p:column headerText="#{msg['estoque.quantidade']}" sortBy="#{estoque.quantidade}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estoque.quantidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{estoque.quantidade}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Unidade Medida" style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Unidade de Medida" />
+                    </f:facet>
+                    <h:outputText value="#{estoque.produto.unidadeDeFracao!=null ? estoque.produto.unidadeDeFracao.descricao : estoque.produto.unidadeDeVenda.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['estoque.qtdMinima']}" sortBy="#{estoque.qtdMinima}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['estoque.qtdMinima']}" />
+                    </f:facet>
+                    <h:outputText value="#{estoque.qtdMinima}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEstoqueDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEstoque" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{estoque}" target="#{estoqueMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="estoque.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEstoque" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{estoque.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="estoque.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{estoqueMB.delete}" >
+                            <f:setPropertyActionListener value="#{estoque.id}" target="#{estoqueMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{estoque}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="estoque.audit">
+                    <x:auditDelete for="#{estoqueMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEstoqueDetail" header="#{msg['estoque.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailEstoque.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

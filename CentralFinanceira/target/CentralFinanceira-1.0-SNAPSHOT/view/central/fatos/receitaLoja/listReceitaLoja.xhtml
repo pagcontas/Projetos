@@ -1,0 +1,100 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['receitaLoja.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuReceitaLoja.xhtml" />
+        <h:form id="formListReceitaLoja">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="receitaLoja_export" target=":formListReceitaLoja:dataTableReceitaLoja"
+                                     widgetVar="dataTableReceitaLojaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="receitaLoja" rowIndexVar="index" id="dataTableReceitaLoja" widgetVar="dataTableReceitaLojaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{receitaLojaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{receitaLojaMB.dataModel.paginatorTemplate}"
+                         value="#{receitaLojaMB.dataModel}" lazy="true" >
+                
+                <p:column headerText="Codigo Loja" sortBy="#{receitaLoja.loja}"
+                          filterBy="#{receitaLoja.loja.id}" style="text-align: right;"  width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="Codigo Loja" />
+                    </f:facet>
+                    <h:outputText value="#{receitaLoja.loja.id}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['receitaLoja.loja']}" sortBy="#{receitaLoja.loja}"
+                      filterBy="#{receitaLoja.loja.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['receitaLoja.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{receitaLoja.loja}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['receitaLoja.tipoReceita']}" sortBy="#{receitaLoja.tipoReceita}"
+                      filterBy="#{receitaLoja.tipoReceita.nome}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['receitaLoja.tipoReceita']}" />
+                    </f:facet>
+                    <h:outputText value="#{receitaLoja.tipoReceita}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['receitaLoja.periodo']}" sortBy="#{receitaLoja.periodo}"
+                    filterBy="#{receitaLoja.periodo}"  style="text-align: right;" width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['receitaLoja.periodo']}" />
+                    </f:facet>
+                    <h:outputText value="#{receitaLoja.periodo}" converter="periodoConverterList"/>
+                </p:column>
+                <p:column headerText="#{msg['receitaLoja.total']}" sortBy="#{receitaLoja.total}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['receitaLoja.total']}" />
+                    </f:facet>
+                    <h:outputText value="#{receitaLoja.total}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetReceitaLojaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailReceitaLoja" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{receitaLoja}" target="#{receitaLojaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="receitaLoja.create">
+                        <p:button icon="ui-icon-pencil" outcome="createReceitaLoja" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{receitaLoja.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="receitaLoja.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{receitaLojaMB.delete}" >
+                            <f:setPropertyActionListener value="#{receitaLoja.id}" target="#{receitaLojaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{receitaLoja}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="receitaLoja.audit">
+                    <x:auditDelete for="#{receitaLojaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetReceitaLojaDetail" header="#{msg['receitaLoja.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailReceitaLoja.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

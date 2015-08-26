@@ -1,0 +1,220 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fatosBanPop.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFatosBanPop.xhtml" />
+        <h:form id="formListFatosBanPopMB">
+            <x:modalMessages/> 
+            <x:dataTableActions fileName="listagem_banco_popular" target=":formListFatosBanPopMB:dataTableFatosBanPopMB"    
+                                widgetVar="dataTableFatosBanPopMBWidget"  />
+            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fatosBanPopMB" rowIndexVar="index" id="dataTableFatosBanPopMB" widgetVar="dataTableFatosBanPopMBWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fatosBanPopMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fatosBanPopMB.dataModel.paginatorTemplate}"
+                         value="#{fatosBanPopMB.dataModel}" lazy="true" >
+                <p:ajax event="page" oncomplete="updateSum()"/>
+                <p:ajax event="filter" oncomplete="updateSum()"/>
+                <p:ajax event="sort" oncomplete="updateSum()"/>
+
+                <p:column headerText="Cód. Loja" sortBy="#{fatosBanPopMB.loja}"
+                          filterBy="#{fatosBanPopMB.loja.id}" style="text-align: right;" width="5%">
+                    <f:facet name="header">
+                        <h:outputText value="Cód." />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.loja.id}">
+                        <x:initializer/>
+                    </h:outputText> 
+                </p:column>
+                <p:column headerText="#{msg['fatosops.loja']}" sortBy="#{fatosBanPopMB.loja}"
+                          filterBy="#{fatosBanPopMB.loja.nome}" width="20%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.loja}">
+                        <x:initializer/>
+                    </h:outputText> 
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.convenioboleto']}" sortBy="#{fatosBanPopMB.conveniobanpop}"
+                          filterBy="#{fatosBanPopMB.conveniobanpop.nome}" width="20%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.convenioboleto']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.conveniobanpop}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.periodo']}" sortBy="#{fatosBanPopMB.periodo}"
+                          filterBy="#{fatosBanPopMB.periodo}" style="text-align: right;" width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.periodo']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.periodo}" converter="periodoConverterList"/>
+                </p:column>               
+                <p:column headerText="#{msg['fatosops.qtd']}" sortBy="#{fatosBanPopMB.qtd}"
+                          filterBy="#{fatosBanPopMB.qtd}" style="text-align: right;" width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.qtd']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.qtd}">
+                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosBanPopMB.totalQtdPaginaAtual()}" id="somaQdt" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.arrecadado']}" sortBy="#{fatosBanPopMB.arrecadado}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.arrecadado']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.arrecadado}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosBanPopMB.totalArrecadadoPaginaAtual()}" id="somaArrecadado" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.unitarioconvenio']}" sortBy="#{fatosBanPopMB.unitarioconvenio}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.unitarioconvenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.unitarioconvenio}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosBanPopMB.totalUniConvenioPaginaAtual()}" id="somaUniConv" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.unitarioloja']}" sortBy="#{fatosBanPopMB.unitarioloja}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.unitarioloja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.unitarioloja}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosBanPopMB.totalUniLojaPaginaAtual()}" id="somaUniLoja" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['fatosops.unitarioliquido']}" sortBy="#{fatosBanPopMB.unitarioLiquido}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.unitarioliquido']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.unitarioLiquido}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosBanPopMB.totalUniLiquidoPaginaAtual()}" id="somaUniLiq" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="#{msg['fatosops.comissaoLoja']}" sortBy="#{fatosBanPopMB.comissaoLoja}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.comissaoLoja']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.comissaoLoja}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosBanPopMB.totalComLojaPaginaAtual()}" id="somaComLoja" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="#{msg['fatosops.comissaoConvenio']}" sortBy="#{fatosBanPopMB.comissaoConvenio}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.comissaoConvenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.comissaoConvenio}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosBanPopMB.totalComConvenioPaginaAtual()}" id="somaComConv" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+                <p:column headerText="#{msg['fatosops.comissaoLiquida']}" sortBy="#{fatosBanPopMB.comissaoLiquida}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosops.comissaoLiquida']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBanPopMB.comissaoLiquida}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{fatosBanPopMB.totalComLiquidaPaginaAtual()}" id="somaComLiq" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFatosBanPopDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFatosBanPop" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fatosBanPopMB}" target="#{fatosBanPopMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fatosBanPop.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFatosBanPop" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fatosBanPopMB.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fatosBanPop.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fatosBanPopMB.delete}" >
+                            <f:setPropertyActionListener value="#{fatosBanPopMB.id}" target="#{fatosBanPopMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fatosBanPopMB}" />
+                        </p:commandButton>
+                    </x:securityArea>
+
+                </p:column>            
+
+            </p:dataTable>
+
+            <p:remoteCommand name="updateSum" update=":formListFatosBanPopMB:dataTableFatosBanPopMB:somaQdt :formListFatosBanPopMB:dataTableFatosBanPopMB:somaArrecadado
+                             :formListFatosBanPopMB:dataTableFatosBanPopMB:somaUniConv :formListFatosBanPopMB:dataTableFatosBanPopMB:somaUniLoja 
+                             :formListFatosBanPopMB:dataTableFatosBanPopMB:somaUniLiq :formListFatosBanPopMB:dataTableFatosBanPopMB:somaComLoja 
+                             :formListFatosBanPopMB:dataTableFatosBanPopMB:somaComConv :formListFatosBanPopMB:dataTableFatosBanPopMB:somaComLiq" process="@this" />
+
+
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fatosBanPopMB.audit">
+                    <x:auditDelete for="#{fatosBanPopMB.entityClass}"/>
+                </x:securityArea>  
+
+
+            </div>  
+
+        </h:form>
+
+        <p:dialog widgetVar="widgetFatosBanPopDetail" header="#{msg['fatosBanPop.detail']}" appendTo="@(body)" modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailFatosBanPop.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

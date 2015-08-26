@@ -1,0 +1,15 @@
+package br.com.jsoft.centralfinanceira.dao.central.impl;
+
+import br.com.jsoft.centralfinanceira.application.BaseDAOImpl;
+import br.com.jsoft.centralfinanceira.dao.central.CredigivalorDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.Credigivalor;
+import javax.ejb.Stateless;
+
+/**
+ *
+ * @author killerbee
+ */
+@Stateless
+public class CredigivalorDAOImpl extends BaseDAOImpl<Credigivalor> implements CredigivalorDAO {
+   
+}

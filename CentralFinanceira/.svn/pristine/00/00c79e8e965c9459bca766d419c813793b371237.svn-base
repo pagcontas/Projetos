@@ -1,0 +1,75 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['convenioRecarga.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConvenioRecarga.xhtml" />
+        <h:form id="formListConvenioRecarga">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="convenioRecarga_export" target=":formListConvenioRecarga:dataTableConvenioRecarga"
+                                     widgetVar="dataTableConvenioRecargaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="convenioRecarga" rowIndexVar="index" id="dataTableConvenioRecarga" widgetVar="dataTableConvenioRecargaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{convenioRecargaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{convenioRecargaMB.dataModel.paginatorTemplate}"
+                         value="#{convenioRecargaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioRecarga.nome']}" sortBy="#{convenioRecarga.nome}"
+                    filterBy="#{convenioRecarga.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioRecarga.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioRecarga.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenioRecarga.tarifa']}" sortBy="#{convenioRecarga.tarifa}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenioRecarga.tarifa']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenioRecarga.tarifa}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetConvenioRecargaDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailConvenioRecarga" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{convenioRecarga}" target="#{convenioRecargaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="convenioRecarga.create">
+                        <p:button icon="ui-icon-pencil" outcome="createConvenioRecarga" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{convenioRecarga.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="convenioRecarga.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{convenioRecargaMB.delete}" >
+                            <f:setPropertyActionListener value="#{convenioRecarga.id}" target="#{convenioRecargaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{convenioRecarga}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="convenioRecarga.audit">
+                    <x:auditDelete for="#{convenioRecargaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetConvenioRecargaDetail" header="#{msg['convenioRecarga.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailConvenioRecarga.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,51 @@
+package br.com.jsoft.centralfinanceira.vo;
+
+import br.com.jsoft.centralfinanceira.modelo.central.ConvenioBoleto;
+import br.com.jsoft.centralfinanceira.modelo.central.Posto;
+import java.util.Date;
+import javax.validation.constraints.NotNull;
+
+/**
+ *
+ * @author Ayslan
+ */
+public class ConsultaFatosVO {
+
+    private Posto posto;
+    private ConvenioBoleto convenio;
+    private String periodoInicial;
+    private String periodoFinal;
+
+    public String getPeriodoInicial() {
+        return periodoInicial;
+    }
+
+    public void setPeriodoInicial(String periodoInicial) {
+        this.periodoInicial = periodoInicial;
+    }
+
+    public String getPeriodoFinal() {
+        return periodoFinal;
+    }
+
+    public void setPeriodoFinal(String periodoFinal) {
+        this.periodoFinal = periodoFinal;
+    }
+ 
+    public Posto getPosto() {
+        return posto;
+    }
+
+    public void setPosto(Posto posto) {
+        this.posto = posto;
+    }
+
+    public ConvenioBoleto getConvenio() {
+        return convenio;
+    }
+
+    public void setConvenio(ConvenioBoleto convenio) {
+        this.convenio = convenio;
+    }
+
+}

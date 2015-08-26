@@ -1,0 +1,56 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailPagamento" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.aluno']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.aluno.nome}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.valor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.valor}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.desconto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.desconto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.entrada']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.entrada}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.tipoPagamento']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.tipoPagamento}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.dataPrimeiraParcela']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.dataPrimeiraParcela}" styleClass="uix-content-detail">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['pagamento.qtdParcelas']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{pagamentoMB.entity.qtdParcelas}" styleClass="uix-content-detail"/>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="widgetPagamentoDetail.hide()" />
+            <x:securityArea rolesAllowed="pagamento.audit">
+                <x:audit for="#{pagamentoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

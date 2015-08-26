@@ -1,0 +1,123 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['itemVenda.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuItemVenda.xhtml" />
+        <h:form id="formListItemVenda">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="itemVenda_export" target=":formListItemVenda:dataTableItemVenda"
+                                     widgetVar="dataTableItemVendaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="itemVenda" rowIndexVar="index" id="dataTableItemVenda" widgetVar="dataTableItemVendaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{itemVendaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{itemVendaMB.dataModel.paginatorTemplate}"
+                         value="#{itemVendaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemVenda.venda']}" sortBy="#{itemVenda.venda}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemVenda.venda']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemVenda.venda}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemVenda.produto']}" sortBy="#{itemVenda.produto}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemVenda.produto']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemVenda.produto}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemVenda.qtd']}" sortBy="#{itemVenda.qtd}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemVenda.qtd']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemVenda.qtd}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemVenda.valorUnitario']}" sortBy="#{itemVenda.valorUnitario}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemVenda.valorUnitario']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemVenda.valorUnitario}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemVenda.unidadeDeVenda']}" sortBy="#{itemVenda.unidadeDeVenda}"
+                    filterBy="#{itemVenda.unidadeDeVenda}"  filterOptions="#{findAllBean.getSelect(classMB.unidadeDeMedida)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemVenda.unidadeDeVenda']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemVenda.unidadeDeVenda}"/>
+                </p:column>
+                <p:column headerText="#{msg['itemVenda.icmsCompra']}" sortBy="#{itemVenda.icmsCompra}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemVenda.icmsCompra']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemVenda.icmsCompra}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemVenda.ipi']}" sortBy="#{itemVenda.ipi}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemVenda.ipi']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemVenda.ipi}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['itemVenda.ativo']}" sortBy="#{itemVenda.ativo}"
+                    filterBy="#{itemVenda.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['itemVenda.ativo']}" />
+                    </f:facet>
+                    <h:outputText value="#{itemVenda.ativo}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetItemVendaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailItemVenda" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{itemVenda}" target="#{itemVendaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="itemVenda.create">
+                        <p:button icon="ui-icon-pencil" outcome="createItemVenda" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{itemVenda.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="itemVenda.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{itemVendaMB.delete}" >
+                            <f:setPropertyActionListener value="#{itemVenda.id}" target="#{itemVendaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{itemVenda}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="itemVenda.audit">
+                    <x:auditDelete for="#{itemVendaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetItemVendaDetail" header="#{msg['itemVenda.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailItemVenda.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

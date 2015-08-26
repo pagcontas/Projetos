@@ -1,0 +1,60 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateEndereco" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="endereco" value="* #{msg['endereco.endereco']}:" />
+                         <p:inputText id="endereco" value="#{enderecoMB.entity.endereco}" maxlength="60"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="bairro" value="* #{msg['endereco.bairro']}:" />
+                         <p:inputText id="bairro" value="#{enderecoMB.entity.bairro}" maxlength="60"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cidade" value="* #{msg['endereco.cidade']}:" />
+                         <h:selectOneMenu id="cidade" value="#{enderecoMB.entity.cidade}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                            var="cidade"
+                                            itemLabel="#{cidade}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="cep" value="* #{msg['endereco.cep']}:" />
+                         <p:inputText id="cep" value="#{enderecoMB.entity.cep}" maxlength="15"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="numero" value="#{msg['endereco.numero']}:" />
+                         <p:inputText id="numero" value="#{enderecoMB.entity.numero}" maxlength="15"  styleClass="form-control"  />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="complemento" value="#{msg['endereco.complemento']}:" />
+                         <p:inputText id="complemento" value="#{enderecoMB.entity.complemento}" maxlength="60"  styleClass="form-control"  />
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="endereco.create">
+                <p:commandButton process="@form" update="@form" action="#{enderecoMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="endereco.audit">
+                <x:audit for="#{enderecoMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

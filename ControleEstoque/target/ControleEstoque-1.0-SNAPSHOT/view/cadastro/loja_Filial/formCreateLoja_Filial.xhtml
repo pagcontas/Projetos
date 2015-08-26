@@ -1,0 +1,140 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateLoja_Filial" >
+        <x:modalMessages/>
+
+        <p:tabView id="tabGeral">
+            <p:tab title="#{msg['dadosGerais']}">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipo" value="#{msg['loja_Filial.tipo']}:" />
+                            <h:selectOneMenu id="tipo" value="#{loja_FilialMB.entity.tipo}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoLoja)}" 
+                                               var="tipoLoja"
+                                               itemLabel="#{tipoLoja.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="razaoSocial" value="* #{msg['loja_Filial.razaoSocial']}:" />
+                            <p:inputText id="razaoSocial" value="#{loja_FilialMB.entity.razaoSocial}" maxlength="200"  styleClass="form-control" required="true" 
+                                         requiredMessage="Razão Social Obrigatório!"/>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="nomeFantasia" value="#{msg['loja_Filial.nomeFantasia']}:" />
+                            <p:inputText id="nomeFantasia" value="#{loja_FilialMB.entity.nomeFantasia}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cnpj" value="* #{msg['loja_Filial.cnpj']}:" />
+                            <x:cnpj id="cnpj" value="#{loja_FilialMB.entity.cnpj}" styleClass="form-control" required="true"
+                                    requiredMessage="Cnpj é obrigatório!"/>                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="inscricaoEstatual" value="#{msg['loja_Filial.inscricaoEstatual']}:" />
+                            <p:inputMask id="inscricaoEstatual" value="#{loja_FilialMB.entity.inscricaoEstatual}" mask="99.999.999-9"  styleClass="form-control"  />
+                        </div>
+                        
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Endereços Físicos">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="endereco" value="* #{msg['loja_Filial.endereco']}:" />
+                            <p:inputText id="endereco" value="#{loja_FilialMB.entity.endereco}" maxlength="200"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numero" value="#{msg['loja_Filial.numero']}:" />
+                            <p:inputText id="numero" value="#{loja_FilialMB.entity.numero}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="bairro" value="#{msg['loja_Filial.bairro']}:" />
+                            <p:inputText id="bairro" value="#{loja_FilialMB.entity.bairro}" maxlength="50"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cidadeEndereco" value="* #{msg['loja_Filial.cidadeEndereco']}:" />
+                            <h:selectOneMenu id="cidadeEndereco" value="#{loja_FilialMB.entity.cidadeEndereco}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.cidade)}" 
+                                               var="cidade"
+                                               itemLabel="#{cidade.nome}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="cep" value="#{msg['loja_Filial.cep']}:" />
+                            <p:inputMask id="cep" value="#{loja_FilialMB.entity.cep}" mask="99999-999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="complemento" value="#{msg['loja_Filial.complemento']}:" />
+                            <p:inputText id="complemento" value="#{loja_FilialMB.entity.complemento}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="tipoEndereco" value="#{msg['loja_Filial.tipoEndereco']}:" />
+                            <h:selectOneMenu id="tipoEndereco" value="#{loja_FilialMB.entity.tipoEndereco}"  styleClass="form-control" >
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.tipoEndereco)}" 
+                                               var="tipoEndereco"
+                                               itemLabel="#{tipoEndereco.descricao}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            <p:tab title="Endereços Digitais/Telefones">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="telefone" value="#{msg['loja_Filial.telefone']}:" />
+                            <p:inputMask id="telefone" value="#{loja_FilialMB.entity.telefone}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="fax" value="#{msg['loja_Filial.fax']}:" />
+                            <p:inputMask id="fax" value="#{loja_FilialMB.entity.fax}" mask="(99) 9999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="celula1" value="#{msg['loja_Filial.celula1']}:" />
+                            <p:inputMask id="celula1" value="#{loja_FilialMB.entity.celula1}" mask="(99) 99999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="celular2" value="#{msg['loja_Filial.celular2']}:" />
+                            <p:inputMask id="celular2" value="#{loja_FilialMB.entity.celular2}" mask="(99) 99999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="whatsapp" value="#{msg['loja_Filial.whatsapp']}:" />
+                            <p:inputMask id="whatsapp" value="#{loja_FilialMB.entity.whatsapp}" mask="(99) 99999-9999"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="email" value="#{msg['loja_Filial.email']}:" />
+                            <p:inputText id="email" value="#{loja_FilialMB.entity.email}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="facebook" value="#{msg['loja_Filial.facebook']}/Site:" />
+                            <p:inputText id="facebook" value="#{loja_FilialMB.entity.facebook}" maxlength="100"  styleClass="form-control"  />
+                        </div>
+                    </div>
+                </div>
+            </p:tab>
+            
+        </p:tabView>               
+
+
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="loja_Filial.create">
+                <p:commandButton process="@form" update="@form" action="#{loja_FilialMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="loja_Filial.audit">
+                <x:audit for="#{loja_FilialMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

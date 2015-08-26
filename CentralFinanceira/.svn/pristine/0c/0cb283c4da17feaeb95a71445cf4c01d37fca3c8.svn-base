@@ -1,0 +1,370 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Rentabilidade por Convenio" />
+    <ui:define name="body">
+        <div class="container-fluid">
+            <h:form id="listRentabilidadeLoja">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="tipo" value="Tipo de Convenio:" />
+                        <h:selectOneMenu id="tipo" value="#{rentabilidadeConvenioMB.camposConsulta.tipoBoleto}"  styleClass="form-control" >
+                            <f:selectItems value="#{findAllBean.get(classMB.tipoBoletos)}" 
+                                           var="tipo"
+                                           itemLabel="#{tipo.descricao}"/>
+                            <p:ajax process="@this" update="listRentabilidadeLoja"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <h:panelGroup rendered="#{rentabilidadeConvenioMB.boleto}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenioboleto" value="Convenio Boleto:" />
+                            <h:selectOneMenu id="convenioboleto" value="#{rentabilidadeConvenioMB.camposConsulta.convenioBoleto}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioBoleto)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup rendered="#{rentabilidadeConvenioMB.boletoSite}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conveniosite" value="Convenio Site:" />
+                            <h:selectOneMenu id="conveniosite" value="#{rentabilidadeConvenioMB.camposConsulta.convenioSite}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioSite)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{rentabilidadeConvenioMB.credito}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conveniocredito" value="Convenio Crédito:" />
+                            <h:selectOneMenu id="conveniocredito" value="#{rentabilidadeConvenioMB.camposConsulta.convenioCredito}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.conveniocredigi)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{rentabilidadeConvenioMB.recarga}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conveniorecarga" value="Convenio Recarga:" />
+                            <h:selectOneMenu id="conveniorecarga" value="#{rentabilidadeConvenioMB.camposConsulta.convenioRecarga}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioRecarga)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{rentabilidadeConvenioMB.valeGas}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="conveniogas" value="Convenio Vale Gás" />
+                            <h:selectOneMenu id="conveniogas" value="#{rentabilidadeConvenioMB.camposConsulta.convenioValeGas}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioGas)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{rentabilidadeConvenioMB.OP}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenioreop" value="Convenio OP" />
+                            <h:selectOneMenu id="convenioreop" value="#{rentabilidadeConvenioMB.camposConsulta.convenioOp}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.conveniop)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{rentabilidadeConvenioMB.BB}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenioreBb" value="Convenio BB" />
+                            <h:selectOneMenu id="convenioreBb" value="#{rentabilidadeConvenioMB.camposConsulta.convenioBB}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.conveniobb)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{rentabilidadeConvenioMB.BP}">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="convenioreBp" value="Convenio BP" />
+                            <h:selectOneMenu id="convenioreBp" value="#{rentabilidadeConvenioMB.camposConsulta.convenioBP}" converter="entityConverter" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{findAllBean.get(classMB.convenioBanPop)}" 
+                                               var="convenioBoleto"
+                                               itemLabel="#{convenioBoleto}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Periodo Inicial:"/>
+                        <p:inputMask mask="99/9999" value="#{rentabilidadeConvenioMB.camposConsulta.dataInicial}" styleClass="form-control" />
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel value="Periodo Final:"/>
+                        <p:inputMask mask="99/9999" value="#{rentabilidadeConvenioMB.camposConsulta.dataFinal}" styleClass="form-control" />
+                    </div>       
+                </div>                
+
+                <div class="uix-center">
+                    <p:commandButton process="@this listRentabilidadeLoja" update="@this tabView:dataTableFatosBoletos" action="#{rentabilidadeConvenioMB.getListasConvenioConvenio()}" value="Buscar" />
+                </div>
+
+
+                <x:modalMessages autoUpdate="true"/> 
+                <p:tabView id="tabView" >
+                    <p:tab title="#{rentabilidadeConvenioMB.camposConsulta.tipoBoleto.descricao}">
+                        <x:dataTableActions fileName="listagem_comissao_Loja" target=":listRentabilidadeLoja:tabView:dataTableFatosBoletos"    
+                                            widgetVar="dataTableFatosBoletosWidget"  />
+                        <div class="row">
+                            <p:dataTable paginator="true" rows="12" rowsPerPageTemplate="12,24,36" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                                         var="rentBoleto" rowIndexVar="index" id="dataTableFatosBoletos" widgetVar="dataTableFatosBoletosWidget" styleClass="table-responsive"
+                                         currentPageReportTemplate="#{rentabilidadeConvenioMB.dataModel.currentPageReportTemplate}"
+                                         paginatorTemplate="#{rentabilidadeConvenioMB.dataModel.paginatorTemplate}"
+                                         value="#{rentabilidadeConvenioMB.boletos}" filteredValue="#{rentabilidadeConvenioMB.boletosFiltrados}" lazy="false"                                         
+                                         resizableColumns="true" liveResize="true">
+                                <p:ajax event="page" oncomplete="updateSum()"/>
+                                <p:ajax event="filter" oncomplete="updateSum()"/>
+                                <p:ajax event="sort" oncomplete="updateSum()"/>
+                                <p:column headerText="Convênio" sortBy="#{rentBoleto.convenio}"
+                                          filterBy="#{rentBoleto.convenio}" style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.convenio}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Empresa" sortBy="#{rentBoleto.empresa}"
+                                          filterBy="#{rentBoleto.empresa}" width="10%" style="white-space: nowrap;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Empresa" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.empresa}">
+                                        <x:initializer/>
+                                    </h:outputText>
+                                </p:column>                        
+                                <p:column headerText="Guias" sortBy="#{rentBoleto.guias}"
+                                          style="text-align: right;" width="8%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Guias" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.guias}">
+                                        <f:convertNumber minFractionDigits="0" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.totalGuiasBoletos()}" id="somaGuiasBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="0" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{rentBoleto.valor}"
+                                          style="text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Valor" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.valor}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.totalValorBoletos()}" id="somaValorBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Tarifa Convênio" sortBy="#{rentBoleto.tarifaConvenio}"
+                                          style="color:#0000FF; text-align: right;" width="10%">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaConvenio}" style="color:#0000FF;">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText> 
+
+                                </p:column>
+
+                                <p:column headerText="Comissão Convênio" sortBy="#{rentBoleto.comissaoConvenio}"
+                                          style="color:#0000FF; text-align: right; " >
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Convênio" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoConvenio}" style="color:#0000FF;">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.totalComissaoConvenioBoletos()}" id="somaComissaoConvBoletos" style="color:#0000FF; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeConvenioMB.porcentagemComissao(rentabilidadeConvenioMB.totalComissaoConvenioBoletos(), rentabilidadeConvenioMB.totalComissaoConvenioBoletos())}" id="porcComissaoConvenioBoleto" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                        </h:outputText>%
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Tarifa Loja" sortBy="#{rentBoleto.tarifaLoja}"
+                                          style="color:#FF0000; text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Tarifa Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.tarifaLoja}" style="color:#FF0000;">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+
+                                </p:column>
+
+                                <p:column headerText="Comissão Loja" sortBy="#{rentBoleto.comissaoLoja}"
+                                          style="color:#FF0000; text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Comissão Loja" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissaoLoja}" style="color:#FF0000;">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.totalComissaoLojaBoletos()}" id="somaComissaoLojaBoletos" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeConvenioMB.porcentagemComissao(rentabilidadeConvenioMB.totalComissaoConvenioBoletos(), rentabilidadeConvenioMB.totalComissaoLojaBoletos())}" id="porcComissaoLojaBoleto" style="color:#FF0000; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                        </h:outputText>%
+                                    </f:facet>                                    
+                                </p:column>
+
+                                <p:column headerText="Custo Oper." sortBy="#{rentBoleto.comissao}"
+                                          style="color:#FF0000; text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Custo Oper." />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao}" style="color:#FF0000;">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.totalComissaoSistemaBoletos()}" id="somaComissaoSistemaBoletos" style="color:#FF0000; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeConvenioMB.porcentagemComissao(rentabilidadeConvenioMB.totalComissaoConvenioBoletos(), rentabilidadeConvenioMB.totalComissaoSistemaBoletos())}" id="porcComissaoSistemaBoleto" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                        </h:outputText>%
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Total Descontos" sortBy="#{rentBoleto.comissao}"
+                                          style="color:#FF0000; text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Total Descontos" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.comissao + rentBoleto.comissaoLoja + rentBoleto.tarifaLoja}" style="color:#FF0000;">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.totalDescontosBoletos()}" id="somaTotalDescontosBoletos" style="color:#FF0000; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeConvenioMB.porcentagemComissao(rentabilidadeConvenioMB.totalComissaoConvenioBoletos(), rentabilidadeConvenioMB.totalDescontosBoletos())}" id="porcTotalDescontoBoleto" style="color:#FF0000; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                        </h:outputText>%
+                                    </f:facet>
+                                </p:column>
+
+                                <p:column headerText="Imposto" sortBy="#{rentBoleto.imposto}"
+                                          style="color:#FF8C00; text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Imposto" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.imposto}" style="color:#FF8C00;">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.totalImpostoBoletos()}" id="somaImpostoBoletos" style="color:#FF8C00; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeConvenioMB.porcentagemComissao(rentabilidadeConvenioMB.totalComissaoConvenioBoletos(), rentabilidadeConvenioMB.totalImpostoBoletos())}" id="porcComissaoImpostoBoleto" style="color:#FF8C00; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                        </h:outputText>%
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Líquido" sortBy="#{rentBoleto.liquido}"
+                                          style="color: green; text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Líquido" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentBoleto.liquido}"  style="#{rentBoleto.liquido eq 0 ? '' : (rentBoleto.liquido lt 0 ? 'color: red' : 'color: green')}">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                    </h:outputText>
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.totalLiquidoBoletos()}" id="somaLiquidoBoletos" style="#{rentabilidadeMB.totalLiquidoBoletos() eq 0 ? '' : (rentabilidadeMB.totalLiquidoBoletos() lt 0 ? 'color: red' : 'color: green')}; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                                        </h:outputText>
+                                        <br/>
+                                        <h:outputText value="#{rentabilidadeConvenioMB.porcentagemComissao(rentabilidadeConvenioMB.totalComissaoConvenioBoletos(), rentabilidadeConvenioMB.totalLiquidoBoletos())}" id="porcComissaoLiquidaBoleto" style="#{rentBoleto.liquido eq 0 ? '' : (rentBoleto.liquido lt 0 ? 'color: red' : 'color: green')}; font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                        </h:outputText>%
+                                    </f:facet>
+                                </p:column>
+                                <p:column headerText="Porcentagem" style="text-align: right;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Porcentagem" />
+                                    </f:facet>
+                                    <h:outputText value="#{rentabilidadeConvenioMB.porcentagemLiquida(rentabilidadeConvenioMB.totalLiquidoBoletos(), rentBoleto.liquido)}" style="font-weight:bold">
+                                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                    </h:outputText>%
+                                    <f:facet name="footer">
+                                        <h:outputText value="#{rentabilidadeConvenioMB.porcentagemLiquida(rentabilidadeConvenioMB.totalLiquidoBoletos(), rentabilidadeConvenioMB.totalLiquidoBoletos())}" id="porcentTotal" style="font-weight:bold">
+                                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                                        </h:outputText>%                                      
+                                    </f:facet>
+                                </p:column>
+
+
+                            </p:dataTable>
+                            <p:remoteCommand name="updateSum" update=":listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaGuiasBoletos  
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaComissaoConvBoletos   
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaComissaoLojaBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaComissaoSistemaBoletos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaImpostoBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaLiquidoBoletos 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaValorBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoConvenioBoleto 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoLojaBoleto :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoSistemaBoleto 
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoImpostoBoleto :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcComissaoLiquidaBoleto
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:somaTotalDescontosBoletos :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcTotalDescontoBoleto
+                                             :listRentabilidadeLoja:tabView:dataTableFatosBoletos:porcentTotal" process="@this" />
+
+
+
+                        </div>
+
+                    </p:tab>
+
+
+
+                </p:tabView>
+            </h:form>
+
+
+        </div>
+    </ui:define>
+</ui:composition>

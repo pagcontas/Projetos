@@ -1,0 +1,153 @@
+package br.com.jsoft.centralfinanceira.mb.contrato;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.contrato.ContratoBO;
+import br.com.jsoft.centralfinanceira.dao.contrato.EquipeDAO;
+import br.com.jsoft.centralfinanceira.dao.contrato.FilhoDAO;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Contrato;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Equipe;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Filho;
+import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.exception.DeleteException;
+
+/**
+ *
+ * @author ti05
+ */
+@ManagedBean
+@ViewScoped
+public class ContratoMB extends AbstractBaseBean<Contrato> implements Serializable {
+
+    @EJB
+    private ContratoBO contratoBO;
+
+    @EJB
+    private EquipeDAO equipeDAO;
+    
+    @EJB
+    private FilhoDAO filhoDAO;
+
+    private Equipe equipe;
+    
+    private Filho filho;
+
+    @Override
+    public ContratoBO getBO() {
+        return contratoBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    @Override
+    public void init() {
+        equipe = new Equipe();
+        filho = new Filho();
+    }
+
+    public void addItemLista() {
+        
+        equipe.setContrato(getEntity());
+        
+        getEntity().getEquipes().add(equipe);
+        
+        equipe = new Equipe();
+    }
+    
+    public void addFilhoLista() {
+        
+        filho.setContrato1(getEntity());
+        
+        getEntity().getFilhosProprietario().add(filho);
+        
+        filho = new Filho();
+    }
+    
+    public void addFilhoListaSoc() {
+        
+        filho.setContrato2(getEntity());
+        
+        getEntity().getFilhosSocio().add(filho);
+        
+        filho = new Filho();
+    }
+
+
+    public void removerItemLista(Equipe item) throws DeleteException {
+
+        if (item.getId() != null) {
+            equipeDAO.delete(item.getId());
+            getEntity().getEquipes().remove(item);
+        } else {
+            getEntity().getEquipes().remove(item);
+            
+        }
+    }
+    
+    public void removerFilhoLista(Filho item) throws DeleteException {
+
+        if (item.getId() != null) {
+            filhoDAO.delete(item.getId());
+            getEntity().getFilhosProprietario().remove(item);
+        } else {
+            getEntity().getFilhosProprietario().remove(item);
+            
+        }
+    }
+    
+    public void removerFilhoListaSoc(Filho item) throws DeleteException {
+
+        if (item.getId() != null) {
+            filhoDAO.delete(item.getId());
+            getEntity().getFilhosSocio().remove(item);
+        } else {
+            getEntity().getFilhosSocio().remove(item);
+            
+        }
+    }
+    
+    public void gerarFicha(Contrato contrato) {
+        contratoBO.gerarFichaDeInscricao(contrato);
+    }
+
+    public void gerarContrato(Contrato contrato) {
+        contratoBO.gerarContrato(contrato);
+    }
+
+    public void gerarPromissoria(Contrato contrato) {
+        contratoBO.gerarNotaPromissoria(contrato);
+    }
+
+    public void gerarAnexo(Contrato contrato) {
+        contratoBO.gerarAnexo(contrato);
+    }
+
+    public Equipe getEquipe() {
+        return equipe;
+    }
+    
+    public void setEquipe(Equipe equipe) {
+        this.equipe = equipe;
+    }
+
+    public Filho getFilho() {
+        return filho;
+    }
+
+    public void setFilho(Filho filho) {
+        this.filho = filho;
+    }
+
+    @Override
+    public void postSave() {
+        setEntity(new Contrato());
+    }
+    
+    
+}

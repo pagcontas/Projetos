@@ -1,0 +1,533 @@
+package br.com.jsoft.centralfinanceira.bo.central;
+
+import com.xpert.core.crud.AbstractBusinessObject;
+import br.com.jsoft.centralfinanceira.dao.central.FatosBoletosDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+import br.com.jsoft.centralfinanceira.vo.ComissaoConvenioVO;
+import br.com.jsoft.centralfinanceira.vo.ComissaoLojaVO;
+import br.com.jsoft.centralfinanceira.vo.ConsultaFatosVO;
+import br.com.jsoft.centralfinanceira.vo.RelatorioRemunecaoVO;
+import br.com.jsoft.centralfinanceira.vo.RentabilidadeVO;
+import static com.xpert.Configuration.getEntityManager;
+import com.xpert.core.validation.UniqueField;
+import com.xpert.core.exception.BusinessException;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import com.xpert.faces.utils.FacesJasper;
+import com.xpert.persistence.query.Restrictions;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import javax.faces.context.FacesContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author Juniel
+ */
+@Stateless
+public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
+
+    @EJB
+    private FatosBoletosDAO fatosBoletosDAO;
+
+    @Override
+    public FatosBoletosDAO getDAO() {
+        return fatosBoletosDAO;
+    }
+
+    @Override
+    public List<UniqueField> getUniqueFields() {
+
+        return null;
+    }
+
+    @Override
+    public void validate(FatosBoletos fatosBoletos) throws BusinessException {
+    }
+
+    @Override
+    public boolean isAudit() {
+        return true;
+    }
+
+    /**
+     *
+     * @author Juniel
+     * @param fatos
+     * @see Metodo usado para gerar relatorio Caused by:
+     * java.lang.OutOfMemoryError: GC overhead limit exceeded
+     */
+    public void gerarReport(List<RelatorioRemunecaoVO> fatos) {
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String caminho;
+        caminho = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/images/pag_contas.jpg");
+        HashMap params = new HashMap();
+        params.put("dataAtual", dt.format(new Date()));
+        params.put("caminhoImagem", caminho);
+        FacesJasper.createJasperReport(fatos, params,
+                "/WEB-INF/report/template/FatosBoletos/relatorioRemuneracao.jasper", "Relatorio_de_Remuneração");
+
+    }
+
+    public List<RelatorioRemunecaoVO> consultaLoja(ConsultaFatosVO consultaFatosVO) {
+
+        Restrictions restrictions = new Restrictions();
+
+        if (consultaFatosVO.getLoja() != null) {
+            restrictions.equals("fb.loja", consultaFatosVO.getLoja());
+        }
+        if (consultaFatosVO.getConvenio() != null) {
+            restrictions.equals("fb.convenioboleto", consultaFatosVO.getConvenio());
+        }
+
+        if (!"".equals(consultaFatosVO.getPeriodoInicial()) && "".equals(consultaFatosVO.getPeriodoFinal())) {
+            restrictions.greaterEqualsThan("fb.periodo", convertPeriodoInteger(consultaFatosVO.getPeriodoInicial()));
+        }
+
+        if ("".equals(consultaFatosVO.getPeriodoInicial()) && !"".equals(consultaFatosVO.getPeriodoFinal())) {
+            restrictions.lessEqualsThan("fb.periodo", convertPeriodoInteger(consultaFatosVO.getPeriodoInicial()));
+        }
+
+        if (!"".equals(consultaFatosVO.getPeriodoInicial()) && !"".equals(consultaFatosVO.getPeriodoFinal())) {
+            restrictions.greaterEqualsThan("fb.periodo", convertPeriodoInteger(consultaFatosVO.getPeriodoInicial()));
+            restrictions.lessEqualsThan("fb.periodo", convertPeriodoInteger(consultaFatosVO.getPeriodoFinal()));
+        }
+
+        List<RelatorioRemunecaoVO> relatorioRemunecao = new ArrayList<RelatorioRemunecaoVO>();
+
+        List<FatosBoletos> fatosBoletos;
+
+        fatosBoletos = fatosBoletosDAO.getQueryBuilder()
+                .from(FatosBoletos.class, "fb")
+                .add(restrictions).orderBy("fb.loja.id, fb.convenioboleto.id, fb.periodo ASC")
+                .getResultList();
+
+        for (FatosBoletos fato : fatosBoletos) {
+            relatorioRemunecao.add(new RelatorioRemunecaoVO(fato));
+        }
+
+        return relatorioRemunecao;
+    }
+
+    public void updateUniConvenio(ComissaoConvenioVO comissaoConvenio) {
+        fatosBoletosDAO.updateUnitarioConvenio(comissaoConvenio.getId(), comissaoConvenio.getUnitarioconvenio(), comissaoConvenio.getPeriodo());
+    }
+
+    public void updateUniLoja(ComissaoLojaVO comissaoLoja) {
+        fatosBoletosDAO.updateUnitarioLoja(comissaoLoja.getId(), comissaoLoja.getUnitarioloja(), comissaoLoja.getPeriodo());
+    }
+
+    public List<RentabilidadeVO> listRentabilidade(Long loja, Date dataInicial, Date dataFinal, int boleto) {
+
+        List<RentabilidadeVO> rentabilidades = new ArrayList<RentabilidadeVO>();
+        String queryString = "";
+
+        if (loja != null && dataInicial != null && dataFinal != null) {
+            queryString = retornaQuery(boleto).replaceAll("DATAINICIAL", convertPeriodo(dataInicial).toString())
+                    .replaceAll("DATAFINAL", convertPeriodo(dataFinal).toString()) + " AND loja_id=LOJAIDQUERY "
+                    .replaceAll("LOJAIDQUERY", loja.toString()) + getAfterWhere(boleto);
+
+        }
+
+        if (loja != null && dataInicial != null && dataFinal == null) {
+            queryString = retornaQuery(boleto).replaceAll("DATAINICIAL", convertPeriodo(dataInicial).toString())
+                    .replaceAll("DATAFINAL", convertPeriodo(new Date()).toString()) + " AND loja_id=LOJAIDQUERY "
+                    .replaceAll("LOJAIDQUERY", loja.toString()) + getAfterWhere(boleto);
+        }
+
+        if (loja != null && dataInicial == null && dataFinal != null) {
+            queryString = retornaQuery(boleto).replaceAll("DATAINICIAL", "199001")
+                    .replaceAll("DATAFINAL", convertPeriodo(dataFinal).toString()) + " AND loja_id=LOJAIDQUERY "
+                    .replaceAll("LOJAIDQUERY", loja.toString()) + getAfterWhere(boleto);
+        }
+
+        if (loja != null && dataInicial == null && dataFinal == null) {
+            queryString = retornaQuery(boleto).replaceAll("DATAINICIAL", "199001")
+                    .replaceAll("DATAFINAL", convertPeriodo(new Date()).toString()) + " AND loja_id=LOJAIDQUERY "
+                    .replaceAll("LOJAIDQUERY", loja.toString()) + getAfterWhere(boleto);
+        }
+
+        if (loja == null && dataInicial != null && dataFinal != null) {
+            queryString = retornaQuery(boleto)
+                    .replaceAll("DATAINICIAL", convertPeriodo(dataInicial).toString())
+                    .replaceAll("DATAFINAL", convertPeriodo(dataFinal).toString())+ getAfterWhere(boleto);
+        }
+
+        if (loja == null && dataInicial != null && dataFinal == null) {
+            queryString = retornaQuery(boleto)
+                    .replaceAll("DATAINICIAL", convertPeriodo(dataInicial).toString())
+                    .replaceAll("DATAFINAL", convertPeriodo(new Date()).toString())+ getAfterWhere(boleto);
+        }
+
+        if (loja == null && dataInicial == null && dataFinal != null) {
+            queryString = retornaQuery(boleto)
+                    .replaceAll("DATAINICIAL", "199001")
+                    .replaceAll("DATAFINAL", convertPeriodo(dataFinal).toString())+ getAfterWhere(boleto);
+        }
+
+        if (loja == null && dataInicial == null && dataFinal == null) {
+            queryString = retornaQuery(boleto).replaceAll("DATAINICIAL", "199001")
+                    .replaceAll("DATAFINAL", convertPeriodo(new Date()).toString())+ getAfterWhere(boleto);
+        }
+
+        Query query;
+
+        query = getEntityManager().createNativeQuery(queryString);
+
+        List<Object[]> resultado = query.getResultList();
+
+        for (Object[] tupla : resultado) {
+
+            RentabilidadeVO rentabilidade = new RentabilidadeVO();
+            if (tupla[0] != null) {
+                rentabilidade.setConvenio(((BigInteger) tupla[0]).longValue());
+            } else {
+                rentabilidade.setConvenio(Long.valueOf(0));
+            }
+
+            if (tupla[1] != null) {
+                rentabilidade.setEmpresa((String) tupla[1]);
+            } else {
+                rentabilidade.setEmpresa("");
+            }
+
+            if (tupla[2] != null) {
+                rentabilidade.setGuias(((BigInteger) tupla[2]).intValue());
+            } else {
+                rentabilidade.setGuias(Integer.valueOf(0));
+            }
+
+            if (tupla[3] != null) {
+                rentabilidade.setValor((BigDecimal) tupla[3]);
+            } else {
+                rentabilidade.setValor(BigDecimal.ZERO);
+            }
+
+            if (tupla[4] != null) {
+                rentabilidade.setTarifaConvenio((BigDecimal) tupla[4]);
+            } else {
+                rentabilidade.setTarifaConvenio(BigDecimal.ZERO);
+            }
+
+            if (tupla[5] != null) {
+                rentabilidade.setComissaoConvenio((BigDecimal) tupla[5]);
+            } else {
+                rentabilidade.setComissaoConvenio(BigDecimal.ZERO);
+            }
+
+            if (tupla[6] != null) {
+                rentabilidade.setTarifaLoja((BigDecimal) tupla[6]);
+            } else {
+                rentabilidade.setTarifaLoja(BigDecimal.ZERO);
+            }
+
+            if (tupla[7] != null) {
+                rentabilidade.setComissaoLoja((BigDecimal) tupla[7]);
+            } else {
+                rentabilidade.setComissaoLoja(BigDecimal.ZERO);
+            }
+
+            if (tupla[8] != null) {
+                rentabilidade.setComissaoW7((BigDecimal) tupla[8]);
+            } else {
+                rentabilidade.setComissaoW7(BigDecimal.ZERO);
+            }
+
+            if (tupla[9] != null) {
+                rentabilidade.setComissao((BigDecimal) tupla[9]);
+            } else {
+                rentabilidade.setComissao(BigDecimal.ZERO);
+            }
+
+            if (tupla[10] != null) {
+                rentabilidade.setImposto((BigDecimal) tupla[10]);
+            } else {
+                rentabilidade.setImposto(BigDecimal.ZERO);
+            }
+
+            if (tupla[11] != null) {
+                rentabilidade.setLiquido((BigDecimal) tupla[11]);
+            } else {
+                rentabilidade.setLiquido(BigDecimal.ZERO);
+            }
+
+            rentabilidades.add(rentabilidade);
+        }
+
+        return rentabilidades;
+    }
+
+    private Integer convertPeriodo(Date data) {
+        SimpleDateFormat formatador = new SimpleDateFormat("yyyyMM");
+
+        return Integer.parseInt(formatador.format(data));
+    }
+
+    /*
+     método de retorno de querys. Abaixo os equivalentes
+     boletos; => 1
+     boletosSite; => 2
+     boletosCreditos; => 3
+     boletosRecargas; => 4
+     boletosValeGas; => 5
+     boletosOps; => 6
+     boletosBB; =>7
+     boletosBP; =>8
+     */
+    private String retornaQuery(int tipo) {
+        String query = "";
+        switch (tipo) {
+            case 1:
+                query = "select convenioboleto_id as convenio, nome empresa, sum(qtd) as guias, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum(qtd*unitarioconvenio*0.2215) as imposto, "
+                        + "sum((qtd*unitarioconvenio)-(qtd*unitarioloja)-(qtd*unitarioconvenio*0.2215)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosboletos f "
+                        + "inner join cadastro.convenioboleto c on (c.id=convenioboleto_id) "
+                        + "where periodo between DATAINICIAL and DATAFINAL ";
+                break;
+            case 2:
+                query = "select conveniosite_id as convenio, nome empresa, sum(qtd) as guias, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",sum(qtd*unitarioconvenio*comissaow7/100) as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum(qtd*unitarioconvenio*0.2215) as imposto, "
+                        + "sum((qtd*unitarioconvenio)-(qtd*unitarioloja)-(qtd*unitarioconvenio*0.2215)-(qtd*unitarioconvenio*comissaow7/100)-(comissao_sn_ph)) as liquido from financeira.fatosboletosite f "
+                        + "inner join cadastro.conveniosite c on (c.id=conveniosite_id) "
+                        + "where periodo between DATAINICIAL and DATAFINAL ";
+
+                break;
+            case 3:
+                query = "select conveniocredigi_id as convenio, nome empresa, sum(qtd) as guias, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(arrecadado*unitarioconvenio/100) comissaoconvenio "
+                        + ",avg(unitarioloja) as tarifaloja, sum(arrecadado*unitarioloja/100) as comissaoloja "
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((arrecadado*unitarioconvenio/100)*0) as imposto "
+                        + ",sum((arrecadado*unitarioconvenio/100)-(arrecadado*unitarioloja/100)"
+                        + "-((arrecadado*unitarioconvenio/100)*0)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatoscreditos f "
+                        + "inner join cadastro.conveniocredigi c on (c.id=conveniocredigi_id) "
+                        + "where periodo between DATAINICIAL and DATAFINAL ";
+                break;
+            case 4:
+                query = "select conveniorecarga_id as convenio, nome empresa, sum(qtd) as qtd, sum(arrecadado) as valor "
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(arrecadado*unitarioconvenio/100) comissaoconvenio "
+                        + ",avg(unitarioloja) as tarifaloja, sum(arrecadado*unitarioloja/100) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((arrecadado*unitarioconvenio/100)*0) as imposto"
+                        + ",sum((arrecadado*unitarioconvenio/100)-(arrecadado*unitarioloja/100)"
+                        + "-((arrecadado*unitarioconvenio/100)*0)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosrecarga f "
+                        + "inner join cadastro.conveniorecarga c on (c.id=conveniorecarga_id) "
+                        + "where periodo between DATAINICIAL and DATAFINAL ";
+                break;
+            case 5:
+                query = "select conveniogas_id as convenio, nome empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((qtd*unitarioconvenio)*0) as imposto"
+                        + ",sum((qtd*unitarioconvenio)-(qtd*unitarioloja/100)"
+                        + "-((qtd*unitarioconvenio/100)*0)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosvalegas f "
+                        + "inner join cadastro.conveniogas c on (c.id=conveniogas_id) "
+                        + "where periodo between DATAINICIAL and DATAFINAL ";
+                break;
+            case 6:
+                query = "select conveniop_id as convenio, nome empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper, 0.0 as imposto "
+                        + ",sum((qtd*unitarioconvenio)-(qtd*unitarioloja)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosops f "
+                        + "inner join cadastro.conveniop c on (c.id=conveniop_id) "
+                        + "where periodo between DATAINICIAL and DATAFINAL ";
+                break;
+            case 7:
+                query = "select conveniobb_id as convenio, nome empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((qtd*unitarioconvenio)*0.225) as imposto "
+                        + ",sum((qtd*unitarioconvenio)-(qtd*unitarioloja)"
+                        + "-((qtd*unitarioconvenio)*0.225)-(comissao_sn_ph)) as liquido  "
+                        + "from financeira.fatosbb f "
+                        + "inner join cadastro.conveniobb c on (c.id=conveniobb_id) "
+                        + "where periodo between DATAINICIAL and DATAFINAL ";
+                break;
+            case 8: // Banco popular
+                query = "select conveniobanpop_id as convenio, nome empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((qtd*unitarioconvenio)*0.225) as imposto "
+                        + ",sum((qtd*unitarioconvenio)-(qtd*unitarioloja)"
+                        + "-((qtd*unitarioconvenio)*0.225)-(comissao_sn_ph)) as liquido  "
+                        + "from financeira.fatosbanpop f "
+                        + "inner join cadastro.conveniobanpop c on (c.id=conveniobanpop_id) "
+                        + "where periodo between DATAINICIAL and DATAFINAL ";
+                break;
+            case 9: // fatos boletos
+                query = "select cast (0 as bigint) as convenio, cast('' as varchar(50)) empresa, sum(qtd) as guias, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum(qtd*unitarioconvenio*0.2215) as imposto, "
+                        + "sum((qtd*unitarioconvenio)-(qtd*unitarioloja)-(qtd*unitarioconvenio*0.2215)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosboletos f ";
+                break;
+            case 10: // fatos site
+                query = "select cast (0 as bigint) as convenio, cast('' as varchar(50)) empresa, sum(qtd) as guias, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",sum(qtd*unitarioconvenio*comissaow7/100) as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum(qtd*unitarioconvenio*0.2215) as imposto, "
+                        + "sum((qtd*unitarioconvenio)-(qtd*unitarioloja)-(qtd*unitarioconvenio*0.2215)-(qtd*unitarioconvenio*comissaow7/100)-(comissao_sn_ph)) as liquido from financeira.fatosboletosite f ";
+                break;
+            case 11: // creditos
+                query = "select cast (0 as bigint) as convenio, cast('' as varchar(50)) empresa, sum(qtd) as guias, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(arrecadado*unitarioconvenio/100) comissaoconvenio "
+                        + ",avg(unitarioloja) as tarifaloja, sum(arrecadado*unitarioloja/100) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((arrecadado*unitarioconvenio/100)*0) as imposto "
+                        + ",sum((arrecadado*unitarioconvenio/100)-(arrecadado*unitarioloja/100)"
+                        + "-((arrecadado*unitarioconvenio/100)*0)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatoscreditos f ";
+                break;
+            case 12: // recarga
+                query = "select cast (0 as bigint) as convenio, cast('' as varchar(50)) empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(arrecadado*unitarioconvenio/100) comissaoconvenio "
+                        + ",avg(unitarioloja) as tarifaloja, sum(arrecadado*unitarioloja/100) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((arrecadado*unitarioconvenio/100)*0) as imposto"
+                        + ",sum((arrecadado*unitarioconvenio/100)-(arrecadado*unitarioloja/100)"
+                        + "-((arrecadado*unitarioconvenio/100)*0)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosrecarga f";
+                break;
+            case 13: // vale gas
+                query = "select cast (0 as bigint) as convenio, cast('' as varchar(50)) empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((qtd*unitarioconvenio)*0) as imposto"
+                        + ",sum((qtd*unitarioconvenio)-(qtd*unitarioloja/100)"
+                        + "-((qtd*unitarioconvenio/100)*0)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosvalegas f";
+                break;
+            case 14: // ops
+                query = "select cast (0 as bigint) as convenio, cast('' as varchar(50)) empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper, 0.0 as imposto"
+                        + ",sum((qtd*unitarioconvenio)-(qtd*unitarioloja)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosops f";
+                break;
+            case 15: // banco brasil
+                query = "select cast (0 as bigint) as convenio, cast('' as varchar(50)) empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((qtd*unitarioconvenio)*0.225) as imposto"
+                        + ",sum((qtd*unitarioconvenio)-(qtd*unitarioloja)"
+                        + "-((qtd*unitarioconvenio)*0.225)-(comissao_sn_ph)) as liquido "
+                        + "from financeira.fatosbb f";
+                break;
+            case 16: // bradesco
+                query = "select cast (0 as bigint) as convenio, cast('' as varchar(50)) empresa, sum(qtd) as qtd, sum(arrecadado) as valor"
+                        + ",avg(unitarioconvenio) as tarifaconvenio, sum(qtd*unitarioconvenio) comissaoconvenio"
+                        + ",avg(unitarioloja) as tarifaloja, sum(qtd*unitarioloja) as comissaoloja"
+                        + ",0.0 as comissaow7, sum(comissao_sn_ph) as custoper"
+                        + ",sum((qtd*unitarioconvenio)*0.225) as imposto "
+                        + ",sum((qtd*unitarioconvenio)-(qtd*unitarioloja)"
+                        + "-((qtd*unitarioconvenio)*0.225)-(comissao_sn_ph)) as liquido  "
+                        + "from financeira.fatosbanpop f ";
+                break;
+        }
+        return query;
+    }
+
+    private String getAfterWhere(int opcao) {
+        String where = "";
+        switch (opcao) {
+            case 1: //boletos
+                where = " group by nome, convenioboleto_id "
+                        + "order by nome, convenioboleto_id;";
+                break;
+            case 2: //boletos site
+                where = "group by nome, conveniosite_id "
+                        + "order by nome, conveniosite_id;";
+                break;
+            case 3: //boletos credito
+                where = "group by nome, conveniocredigi_id "
+                        + "order by nome, conveniocredigi_id;";
+                break;
+            case 4: //boletos recarga
+                where = "group by nome, conveniorecarga_id "
+                        + "order by nome, conveniorecarga_id;";
+                break;
+            case 5: // boletos vale gas
+                where = "group by nome, conveniogas_id "
+                        + "order by nome, conveniogas_id;";
+                break;
+            case 6: // boletos ops
+                where = "group by nome, conveniop_id "
+                        + "order by nome, conveniop_id;";
+                break;
+            case 7: // boletos banco
+                where = "group by nome, conveniobb_id "
+                        + "order by nome, conveniobb_id;";
+                break;
+            case 8: // boletos bradesco
+                where = "group by nome, conveniobanpop_id "
+                        + "order by nome, conveniobanpop_id;";
+                break;
+
+        }
+        return where;
+    }
+
+    private int verificaQueryExecutada(int opcao) {
+        int valor = 0;
+        switch (opcao) {
+            case 1:
+                valor = 9;
+                break;
+            case 2:
+                valor = 10;
+                break;
+            case 3:
+                valor = 11;
+                break;
+            case 4:
+                valor = 12;
+                break;
+            case 5:
+                valor = 13;
+                break;
+            case 6:
+                valor = 14;
+                break;
+            case 7:
+                valor = 15;
+                break;
+            case 8:
+                valor = 16;
+                break;
+        }
+        return valor;
+    }
+
+    private Integer convertPeriodoInteger(String periodo) {
+        String[] temp = periodo.split("/");
+        Integer periodoTemp = Integer.valueOf(temp[1] + temp[0]);
+
+        return periodoTemp;
+    }
+}

@@ -1,0 +1,122 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['fatosBoletos.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFatosBoletos.xhtml" />
+        <h:form id="formListFatosBoletos">
+            <x:modalMessages/> 
+            <x:dataTableActions fileName="listagem_fatos_boletos" target=":formListFatosBoletos:dataTableFatosBoletos"    
+                                widgetVar="dataTableFatosBoletosWidget"  />
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="fatosBoletos" rowIndexVar="index" id="dataTableFatosBoletos" widgetVar="dataTableFatosBoletosWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{fatosBoletosMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{fatosBoletosMB.dataModel.paginatorTemplate}"
+                         value="#{fatosBoletosMB.dataModel}" lazy="true" >
+              
+                <p:column headerText="Pos" sortBy="#{fatosBoletos.posto}"
+                          filterBy="#{fatosBoletos.posto.id}" width="5%">
+                    <f:facet name="header">
+                        <h:outputText value="Pos" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletos.posto.id}">
+                        <x:initializer/>
+                    </h:outputText> 
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.posto']}" sortBy="#{fatosBoletos.posto}"
+                          filterBy="#{fatosBoletos.posto.nome}" width="20%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.posto']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletos.posto}">
+                        <x:initializer/>
+                    </h:outputText> 
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.convenioboleto']}" sortBy="#{fatosBoletos.convenioboleto}"
+                         filterBy="#{fatosBoletos.convenioboleto.nome}" width="20%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.convenioboleto']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletos.convenioboleto}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.periodo']}" sortBy="#{fatosBoletos.periodo}"
+                    filterBy="#{fatosBoletos.periodo}" style="text-align: right;" width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.periodo']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletos.periodo}" converter="periodoConverterList"/>
+                </p:column>               
+                <p:column headerText="#{msg['fatosBoletos.qtd']}" sortBy="#{fatosBoletos.qtd}"
+                    filterBy="#{fatosBoletos.qtd}" style="text-align: right;" width="8%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.qtd']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletos.qtd}"/>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.arrecadado']}" sortBy="#{fatosBoletos.arrecadado}"
+                       filterBy="#{fatosBoletos.arrecadado}" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.arrecadado']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletos.arrecadado}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.unitarioconvenio']}" sortBy="#{fatosBoletos.unitarioconvenio}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.unitarioconvenio']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletos.unitarioconvenio}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['fatosBoletos.unitarioposto']}" sortBy="#{fatosBoletos.unitarioposto}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['fatosBoletos.unitarioposto']}" />
+                    </f:facet>
+                    <h:outputText value="#{fatosBoletos.unitarioposto}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>                
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFatosBoletosDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFatosBoletos" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{fatosBoletos}" target="#{fatosBoletosMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="fatosBoletos.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFatosBoletos" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{fatosBoletos.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="fatosBoletos.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{fatosBoletosMB.delete}" >
+                            <f:setPropertyActionListener value="#{fatosBoletos.id}" target="#{fatosBoletosMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{fatosBoletos}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="fatosBoletos.audit">
+                    <x:auditDelete for="#{fatosBoletosMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFatosBoletosDetail" header="#{msg['fatosBoletos.detail']}" appendToBody="true" modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFatosBoletos.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

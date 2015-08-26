@@ -1,0 +1,66 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['convenio.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConvenio.xhtml" />
+        <h:form id="formListConvenio">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="convenio_export" target=":formListConvenio:dataTableConvenio"
+                                     widgetVar="dataTableConvenioWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="convenio" rowIndexVar="index" id="dataTableConvenio" widgetVar="dataTableConvenioWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{convenioMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{convenioMB.dataModel.paginatorTemplate}"
+                         value="#{convenioMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['convenio.nome']}" sortBy="#{convenio.nome}"
+                    filterBy="#{convenio.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['convenio.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{convenio.nome}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetConvenioDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailConvenio" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{convenio}" target="#{convenioMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="convenio.create">
+                        <p:button icon="ui-icon-pencil" outcome="createConvenio" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{convenio.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="convenio.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{convenioMB.delete}" >
+                            <f:setPropertyActionListener value="#{convenio.id}" target="#{convenioMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{convenio}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="convenio.audit">
+                    <x:auditDelete for="#{convenioMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetConvenioDetail" header="#{msg['convenio.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailConvenio.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

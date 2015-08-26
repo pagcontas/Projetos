@@ -1,0 +1,58 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFatosBoletos" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.periodo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosBoletosMB.entity.periodo}" styleClass="uix-content-detail" converter="periodoConverterList"/>
+                </div>                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.qtd']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosBoletosMB.entity.qtd}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.arrecadado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosBoletosMB.entity.arrecadado}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.unitarioconvenio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosBoletosMB.entity.unitarioconvenio}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.unitarioposto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosBoletosMB.entity.unitarioposto}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.posto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosBoletosMB.entity.posto}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.convenioboleto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosBoletosMB.entity.convenioboleto}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="widgetFatosBoletosDetail.hide()" />
+            <x:securityArea rolesAllowed="fatosBoletos.audit">
+                <x:audit for="#{fatosBoletosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

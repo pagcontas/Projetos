@@ -1,0 +1,132 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.vos.report;
+
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
+public class RelatorioRemunecaoVO {
+
+    private final String posto;
+    private final String periodo;
+    private final String qtd;
+    private final String convenioBoleto;
+    private final String arrecadado;
+    private final String unitarioConvenio;
+    private final String unitarioPosto;
+    private final String comissaoPosto; // qtd * unitarioPosto
+    private final String comissaoConvenio; //qtd * unitarioConvenio
+    private final String unitarioLiquido; // unitarioConvenio - unitarioPosto
+    private final String comissaoLiquida; //comissaoConvenio - comissaoPosto 
+
+    public String getPosto() {
+        return posto;
+    }
+
+    public RelatorioRemunecaoVO(FatosBoletos entity) {
+        double comissaoPostoTemp = entity.getQtd() * entity.getUnitarioposto().doubleValue();
+        double comissaoConvenioTemp = entity.getQtd() * entity.getUnitarioconvenio().doubleValue();
+        
+        this.posto = entity.getPosto().getId() + " - " + entity.getPosto().getNome();
+        this.periodo = convertMes(entity.getMes()) + "/" + entity.getAno();
+        this.qtd = entity.getQtd() + "";
+        this.convenioBoleto = entity.getConvenioboleto().getId() + " - " + entity.getConvenioboleto().getNome();
+        this.arrecadado = entity.getArrecadado() + "";
+        this.unitarioConvenio = entity.getUnitarioconvenio() + "";
+        this.unitarioPosto = converterDoubleString(entity.getUnitarioposto().doubleValue());
+        this.comissaoPosto =  comissaoPostoTemp  + "";
+        this.comissaoConvenio = comissaoConvenioTemp + "";
+        this.unitarioLiquido = (entity.getUnitarioconvenio().doubleValue() - entity.getUnitarioposto().doubleValue()) + "";
+        this.comissaoLiquida = (comissaoConvenioTemp - comissaoPostoTemp) +"";
+    }
+
+    private String converterDoubleString(double numDouble) {
+        /*Transformando um double em 2 casas decimais*/
+        DecimalFormat fmt = new DecimalFormat("0.00");   //limita o número de casas decimais      
+        String string = fmt.format(numDouble);
+
+        return string;
+    }
+
+    private String convertMes(int mes) {
+        String mesRetorno;
+        switch (mes) {
+            case 1:
+                mesRetorno = "JAN";
+                break;
+            case 2:
+                mesRetorno = "FEV";
+            case 3:
+                mesRetorno = "MAR";
+                break;
+            case 4:
+                mesRetorno = "ABR";
+            case 5:
+                mesRetorno = "MAIO";
+                break;
+            case 6:
+                mesRetorno = "JUN";
+            case 7:
+                mesRetorno = "JUL";
+                break;
+            case 8:
+                mesRetorno = "AGO";
+            case 9:
+                mesRetorno = "SET";
+            case 10:
+                mesRetorno = "OUT";
+            case 11:
+                mesRetorno = "NOV";
+                break;
+            case 12:
+                mesRetorno = "DEZ";
+            default:
+                mesRetorno = "";
+        }
+        return mesRetorno;
+    }
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public String getQtd() {
+        return qtd;
+    }
+
+    public String getConvenioBoleto() {
+        return convenioBoleto;
+    }
+
+    public String getArrecadado() {
+        return arrecadado;
+    }
+
+    public String getUnitarioConvenio() {
+        return unitarioConvenio;
+    }
+
+    public String getUnitarioPosto() {
+        return unitarioPosto;
+    }
+
+    public String getComissaoPosto() {
+        return comissaoPosto;
+    }
+
+    public String getComissaoConvenio() {
+        return comissaoConvenio;
+    }
+
+    public String getUnitarioLiquido() {
+        return unitarioLiquido;
+    }
+
+    public String getComissaoLiquida() {
+        return comissaoLiquida;
+    }
+}

@@ -1,0 +1,20 @@
+package br.com.jsoft.centralfinanceira.dao.central;
+
+import com.xpert.persistence.dao.BaseDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.Credigivalor;
+import br.com.jsoft.centralfinanceira.vo.ComissaoConvenioCredVO;
+import br.com.jsoft.centralfinanceira.vo.ComissaoConvenioSiteVO;
+import br.com.jsoft.centralfinanceira.vo.ComissaoLojaCredVO;
+import br.com.jsoft.centralfinanceira.vo.ComissaoLojaSiteVO;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.ejb.Local;
+
+/**
+ *
+ * @author killerbee
+ */
+@Local
+public interface CredigivalorDAO extends BaseDAO<Credigivalor> {
+    
+}

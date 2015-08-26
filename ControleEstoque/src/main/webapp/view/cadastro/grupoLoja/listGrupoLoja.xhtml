@@ -1,0 +1,93 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['grupoLoja.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuGrupoLoja.xhtml" />
+        <h:form id="formListGrupoLoja">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="grupoLoja_export" target=":formListGrupoLoja:dataTableGrupoLoja"
+                                     widgetVar="dataTableGrupoLojaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="grupoLoja" rowIndexVar="index" id="dataTableGrupoLoja" widgetVar="dataTableGrupoLojaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{grupoLojaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{grupoLojaMB.dataModel.paginatorTemplate}"
+                         value="#{grupoLojaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['grupoLoja.descricao']}" sortBy="#{grupoLoja.descricao}"
+                    filterBy="#{grupoLoja.descricao}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoLoja.descricao']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoLoja.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['grupoLoja.preco1']}" sortBy="#{grupoLoja.preco1}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoLoja.preco1']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoLoja.preco1}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['grupoLoja.preco2']}" sortBy="#{grupoLoja.preco2}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoLoja.preco2']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoLoja.preco2}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['grupoLoja.preco3']}" sortBy="#{grupoLoja.preco3}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['grupoLoja.preco3']}" />
+                    </f:facet>
+                    <h:outputText value="#{grupoLoja.preco3}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetGrupoLojaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailGrupoLoja" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{grupoLoja}" target="#{grupoLojaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="grupoLoja.create">
+                        <p:button icon="ui-icon-pencil" outcome="createGrupoLoja" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{grupoLoja.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="grupoLoja.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{grupoLojaMB.delete}" >
+                            <f:setPropertyActionListener value="#{grupoLoja.id}" target="#{grupoLojaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{grupoLoja}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="grupoLoja.audit">
+                    <x:auditDelete for="#{grupoLojaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetGrupoLojaDetail" header="#{msg['grupoLoja.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailGrupoLoja.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

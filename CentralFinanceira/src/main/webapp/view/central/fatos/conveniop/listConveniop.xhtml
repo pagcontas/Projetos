@@ -1,0 +1,84 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['conveniop.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuConveniop.xhtml" />
+        <h:form id="formListConveniop">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="conveniop_export" target=":formListConveniop:dataTableConveniop"
+                                     widgetVar="dataTableConveniopWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="conveniop" rowIndexVar="index" id="dataTableConveniop" widgetVar="dataTableConveniopWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{conveniopMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{conveniopMB.dataModel.paginatorTemplate}"
+                         value="#{conveniopMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['conveniop.nome']}" sortBy="#{conveniop.nome}"
+                    filterBy="#{conveniop.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['conveniop.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{conveniop.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['conveniop.tarifa']}" sortBy="#{conveniop.tarifa}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['conveniop.tarifa']}" />
+                    </f:facet>
+                    <h:outputText value="#{conveniop.tarifa}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['conveniop.iss']}" sortBy="#{conveniop.iss}"
+                       style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['conveniop.iss']}" />
+                    </f:facet>
+                    <h:outputText value="#{conveniop.iss}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetConveniopDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailConveniop" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{conveniop}" target="#{conveniopMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="conveniop.create">
+                        <p:button icon="ui-icon-pencil" outcome="createConveniop" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{conveniop.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="conveniop.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{conveniopMB.delete}" >
+                            <f:setPropertyActionListener value="#{conveniop.id}" target="#{conveniopMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{conveniop}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="conveniop.audit">
+                    <x:auditDelete for="#{conveniopMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetConveniopDetail" header="#{msg['conveniop.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailConveniop.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

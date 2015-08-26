@@ -1,0 +1,76 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formEditarLoja" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="periodo" value="* #{msg['fatosBoletos.periodoCreate']}(mês/ano):" />
+                    <p:inputMask id="periodo" mask="99/9999" placeHolder="" value="#{comissaoBoleto.periodo}" 
+                                 styleClass="form-control" converter="periodoConverterUpdate" disabled="true"/>
+                </div>             
+
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['lojaBoleto.id']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosLojaMB.comissaoLoja.id}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.lojaboleto']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosLojaMB.comissaoLoja.nome}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.qtd']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosLojaMB.comissaoLoja.qtd}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.arrecadado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosLojaMB.comissaoLoja.arrecadado}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel for="unitarioloja:input" value="#{msg['fatosBoletos.unitariolojaCreate']}:" />
+                    <x:inputNumber id="unitarioloja" value="#{boletosLojaMB.comissaoLoja.unitarioloja}" styleClass="form-control"/>
+                </div>   
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.comissaoLoja']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosLojaMB.comissaoLoja.comissaoloja}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.comissaoConvenio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosLojaMB.comissaoLoja.comissaoconvenio}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosBoletos.comissaoLiquida']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{boletosLojaMB.comissaoLoja.comissaoliquida}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+
+            </div>
+        </div>
+        <p:separator/>
+        <div class="uix-center">
+
+            <p:commandButton oncomplete="widgetEditarLoja.hide();" process="@form" 
+                             update=":formEditarLoja :formListFatosBoletosLoja" title="Salvar" value="Salvar"
+                             action="#{boletosLojaMB.updateUnitarioLoja}">               
+            </p:commandButton>
+
+        </div>
+    </h:form>
+</ui:composition>

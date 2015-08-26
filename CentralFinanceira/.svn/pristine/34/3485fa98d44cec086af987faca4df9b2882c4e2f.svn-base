@@ -1,0 +1,113 @@
+package br.com.jsoft.centralfinanceira.mb.contrato;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.contrato.ContratoBO;
+import br.com.jsoft.centralfinanceira.dao.contrato.EquipeDAO;
+import br.com.jsoft.centralfinanceira.dao.contrato.ItensEquipeDAO;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Contrato;
+import br.com.jsoft.centralfinanceira.modelo.contrato.Equipe;
+import br.com.jsoft.centralfinanceira.modelo.contrato.ItensEquipe;
+import com.xpert.faces.utils.FacesMessageUtils;
+import com.xpert.persistence.exception.DeleteException;
+
+/**
+ *
+ * @author ti05
+ */
+@ManagedBean
+@ViewScoped
+public class ContratoMB extends AbstractBaseBean<Contrato> implements Serializable {
+
+    @EJB
+    private ContratoBO contratoBO;
+
+    @EJB
+    private ItensEquipeDAO itensEquipeDAO;
+
+    @EJB
+    private EquipeDAO equipeDAO;
+
+    private Equipe equipe;
+
+    private ItensEquipe itensEquipe;
+
+    private ItensEquipe itensEquipeRemovido;
+
+    @Override
+    public ContratoBO getBO() {
+        return contratoBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    public void gerarFicha(Contrato contrato) {
+        contratoBO.gerarFichaDeInscricao(contrato);
+    }
+
+    public void gerarContrato(Contrato contrato) {
+        contratoBO.gerarContrato(contrato);
+    }
+
+    public void gerarPromissoria(Contrato contrato) {
+        contratoBO.gerarNotaPromissoria(contrato);
+    }
+
+    public void gerarAnexo(Contrato contrato) {
+        contratoBO.gerarAnexo(contrato);
+    }
+
+    public Equipe getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(Equipe equipe) {
+        this.equipe = equipe;
+    }
+
+    public ItensEquipe getItensEquipe() {
+        return itensEquipe;
+    }
+
+    public void setItensEquipe(ItensEquipe itensEquipe) {
+        this.itensEquipe = itensEquipe;
+    }
+
+    public ItensEquipe getItensEquipeRemovido() {
+        return itensEquipeRemovido;
+    }
+
+    public void setItensEquipeRemovido(ItensEquipe itensEquipeRemovido) {
+        this.itensEquipeRemovido = itensEquipeRemovido;
+    }
+
+    @Override
+    public void init() {
+        equipe = new Equipe();
+        itensEquipe = new ItensEquipe();
+    }
+
+    public void addItemLista() {
+        itensEquipe.setEquipe(equipe);
+        
+        getEntity().getItensEquipe().add(itensEquipe);
+        init();
+    }
+
+    public void removerItemLista(ItensEquipe item) throws DeleteException {
+
+        if (item.getId() != null) {
+            itensEquipeDAO.delete(item.getId());
+            equipeDAO.delete(item.getEquipe().getId());
+            getEntity().getItensEquipe().remove(item);
+        } else {
+            getEntity().getItensEquipe().remove(item);
+        }
+    }
+}

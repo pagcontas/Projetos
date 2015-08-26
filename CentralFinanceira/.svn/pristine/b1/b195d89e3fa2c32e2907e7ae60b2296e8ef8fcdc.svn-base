@@ -1,0 +1,190 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.jsoft.centralfinanceira.mb.maps;
+
+import br.com.jsoft.centralfinanceira.bo.central.LojaBO;
+import br.com.jsoft.centralfinanceira.modelo.central.Cidade;
+import br.com.jsoft.centralfinanceira.modelo.central.Loja;
+import br.com.jsoft.centralfinanceira.modelo.central.TipoLoja;
+import com.xpert.core.crud.AbstractBaseBean;
+import java.io.Serializable;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
+//import org.primefaces.model.map.GeocodeResult;
+
+/**
+ *
+ * @author KillerBeeTwo
+ */
+@ManagedBean
+public class AddMarkersMB extends AbstractBaseBean<Loja> implements Serializable {
+
+    @EJB
+    private LojaBO lojaBO;
+
+    private Loja loja;
+
+    private String latLong;
+
+    private String zoom;
+
+    private List<Loja> lojas;
+
+    private MapModel model;
+//    private GeocodeEvent geocode;
+
+    @Override
+    public void init() {
+        model = new DefaultMapModel();
+        latLong = "-5.0937396,-42.7410782";
+        lojas = lojaBO.getDAO().list("ativo", true);
+
+        if (lojas != null) {
+            for (Loja loja : lojas) {
+                if (loja.getLatitude() != null && loja.getLongitude() != null) {
+                    if (loja.getLatitude().contains(".") && loja.getLongitude().contains(".")) {
+
+                        if (soContemNumeros(loja.getLatitude().substring(0, loja.getLatitude().indexOf(".") - 1).replace("+", "").replace("-", ""))
+                                && soContemNumeros(loja.getLatitude().substring(loja.getLatitude().indexOf(".") + 1, loja.getLatitude().length()))) {
+                            if (loja.getLatitude().substring(loja.getLatitude().indexOf("."), loja.getLatitude().length()).length() == 8) {
+                                Marker marker = new Marker(new LatLng(Double.valueOf(loja.getLatitude()), Double.valueOf(loja.getLongitude())), (loja.getId() + " - " + loja.getNome()));
+
+                                TipoLoja tipo = lojaBO.getDAO().getInitialized(loja.getTipoLoja());
+
+                                if (tipo.getId() == 1) {
+                                    marker.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
+
+                                }
+                                if (tipo.getId() == 2) {
+                                    marker.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+
+                                }
+                                if (tipo.getId() == 3) {
+                                    marker.setIcon("http://maps.google.com/mapfiles/ms/icons/yellow-dot.png");
+
+                                }
+                                if (tipo.getId() == 4) {
+                                    marker.setIcon("http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
+
+                                }
+
+                                model.addOverlay(marker);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    public AddMarkersMB() {
+    }
+
+    public void addMarkers() {
+        model = new DefaultMapModel();
+        if (loja != null) {
+            if (loja.getLatitude() != null && loja.getLongitude() != null) {
+                if (loja.getLatitude().contains(".") && loja.getLongitude().contains(".")) {
+
+                    if (soContemNumeros(loja.getLatitude().substring(0, loja.getLatitude().indexOf(".") - 1).replace("+", "").replace("-", ""))
+                            && soContemNumeros(loja.getLatitude().substring(loja.getLatitude().indexOf(".") + 1, loja.getLatitude().length()))
+                            && soContemNumeros(loja.getLongitude().substring(0, loja.getLongitude().indexOf(".") - 1).replace("+", "").replace("-", ""))
+                            && soContemNumeros(loja.getLongitude().substring(loja.getLongitude().indexOf(".") + 1, loja.getLongitude().length()))) {
+                        if (loja.getLatitude().substring(loja.getLatitude().indexOf("."), loja.getLatitude().length()).length() == 8
+                                && loja.getLongitude().substring(loja.getLongitude().indexOf("."), loja.getLongitude().length()).length() == 8) {
+
+                            Marker marker = new Marker(new LatLng(Double.valueOf(loja.getLatitude()), Double.valueOf(loja.getLongitude())), (loja.getId() + " - " + loja.getNome()));
+                            latLong = (marker.getLatlng().toString());
+
+                            TipoLoja tipo = lojaBO.getDAO().getInitialized(loja.getTipoLoja());
+
+                            if (tipo.getId() == 1) {
+                                marker.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
+
+                            }
+                            if (tipo.getId() == 2) {
+                                marker.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+
+                            }
+                            if (tipo.getId() == 3) {
+                                marker.setIcon("http://maps.google.com/mapfiles/ms/icons/yellow-dot.png");
+
+                            }
+                            if (tipo.getId() == 4) {
+                                marker.setIcon("http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
+
+                            }
+
+                            model.addOverlay(marker);
+                        }
+                    }
+                }
+            }
+        } else {
+            init();
+        }
+    }
+
+    public MapModel getModel() {
+        return this.model;
+    }
+
+    @Override
+    public LojaBO getBO() {
+        return lojaBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    public boolean soContemNumeros(String texto) {
+        if (texto == null) {
+            return false;
+        }
+        for (char letra : texto.toCharArray()) {
+            if (letra < '0' || letra > '9') {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public Loja getLoja() {
+        return loja;
+    }
+
+    public void setLoja(Loja loja) {
+        this.loja = loja;
+    }
+
+    public String getLatLong() {
+        return latLong;
+    }
+
+    public void setLatLong(String latLong) {
+        this.latLong = latLong;
+    }
+
+    private String getLongLatCidade(Cidade cidade) {
+        String longLat = "Lat:-5.1864438,Lng:-42.8014784";
+
+        if (cidade.getNome().equals("Parnaiba")) {
+            longLat = "Lng:-5.1864438,Lng:-42.8014784";
+        }
+
+        return longLat;
+    }
+}

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="anexo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="12df2700-3c3b-48f1-88c3-4306235a62b3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="subtitulo" class="java.lang.String"/>
+	<parameter name="texto1" class="java.lang.String"/>
+	<parameter name="texto2" class="java.lang.String"/>
+	<parameter name="pagContas" class="java.lang.String"/>
+	<parameter name="nomeMaisProc1e2" class="java.lang.String"/>
+	<parameter name="cpfProc1" class="java.lang.String"/>
+	<parameter name="cpfProc2" class="java.lang.String"/>
+	<parameter name="dataAssinatura" class="java.lang.String"/>
+	<parameter name="fiador1" class="java.lang.String"/>
+	<parameter name="cpfF1" class="java.lang.String"/>
+	<parameter name="fiador2" class="java.lang.String"/>
+	<parameter name="cpfF2" class="java.lang.String"/>
+	<parameter name="razaoSocial" class="java.lang.String"/>
+	<parameter name="cnpj" class="java.lang.String"/>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="0" width="555" height="20" uuid="97b9108d-eca8-41b0-956d-6ca2ca064067"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="49" width="555" height="20" uuid="87a427a6-9a58-43fe-a24a-cba1fe0948ad"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{subtitulo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="99" width="555" height="20" uuid="5c904227-7c7f-4fd4-94cd-402f2c53265f"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{texto1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="129" width="555" height="20" uuid="29c12b8f-a350-4563-9b66-2e4f673a74d0"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{texto2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="197" width="555" height="20" uuid="23d75242-0fd0-4545-ac41-a15888accb9b"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataAssinatura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="253" width="267" height="15" uuid="ddc1aae3-eced-4787-9432-2e64591fbe89"/>
+				<textElement markup="styled"/>
+				<textFieldExpression><![CDATA[$P{pagContas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="279" y="253" width="276" height="15" uuid="034914c4-caff-42d8-8f33-859c177a4d9f"/>
+				<textElement markup="styled">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERMISSIONÁRIA]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="300" width="267" height="1" uuid="602ae885-8cd5-448a-a2b8-3c6caf58280b"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="279" y="300" width="276" height="1" uuid="39ec0bff-e6c5-470f-acfa-9be1519668d8"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="301" width="267" height="15" uuid="62dc488a-fa64-49bb-b784-a1794e506c8e"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeMaisProc1e2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="302" width="276" height="15" uuid="36c0df02-466b-4e67-801c-597e1ed85210"/>
+				<textFieldExpression><![CDATA[$P{razaoSocial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="317" width="276" height="14" uuid="d2e8c8ff-bc84-4cf2-8b01-5edec3eca4d4"/>
+				<textFieldExpression><![CDATA[$P{cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="316" width="129" height="14" uuid="e7eee7a8-e93a-4e0a-911a-b2671702ffee"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfProc1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="141" y="316" width="126" height="14" uuid="702807f0-e066-450e-b10d-edc8b6c32edb"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfProc2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="359" width="100" height="20" uuid="3673b1dd-7e88-410f-bce1-97fed43ee8b2"/>
+				<textElement markup="none">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIADOR (ES):]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="422" width="267" height="1" uuid="bd3796b2-b074-4592-8414-eda2b83783be"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="279" y="422" width="276" height="1" uuid="767b7f14-2d85-48d0-ac03-3b5b799d7d94"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="0" y="585" width="267" height="1" uuid="422ecea6-65e7-4e43-886c-c215b5447d72"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="279" y="585" width="276" height="1" uuid="a188b422-8f92-42ff-8a6a-a22e948ffc0c"/>
+			</line>
+			<textField>
+				<reportElement positionType="Float" x="0" y="423" width="267" height="17" uuid="7718b2b2-992f-45a8-a805-47c907d5415f"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fiador1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="0" y="440" width="267" height="15" uuid="adacb48e-da5d-4cff-b1be-64e1e9a2d9d5"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfF1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="279" y="424" width="276" height="17" uuid="0c06b994-8a3c-43e5-9840-09725b34616d"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fiador2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="279" y="441" width="276" height="15" uuid="c050a841-78f9-4805-8425-05b21e1e8a91"/>
+				<textElement markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpfF2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="521" width="100" height="20" uuid="d86fab19-c841-4936-a48e-401d18d6bb85"/>
+				<textElement markup="none">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TESTEMUNHAS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="586" width="100" height="15" uuid="ce4ee6cf-bab6-4091-b6d1-a02617e48b3e"/>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="279" y="587" width="100" height="15" uuid="fc8e4811-a53f-493d-8f1d-287919968c8b"/>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="601" width="100" height="15" uuid="618209ba-52a7-46fb-9e0e-da4a4ef97349"/>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="279" y="602" width="100" height="15" uuid="3cb0a0a5-9b69-4b12-a09e-63ce0bb1ace0"/>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="725" width="555" height="1" uuid="6452900e-77ee-4d6b-ad6e-def8e3702759"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

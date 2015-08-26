@@ -1,0 +1,99 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+
+
+    <h:form id="formCreateNotaFiscal" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="loja" value="#{msg['pedido.loja']}:" />
+                        <h:selectOneMenu id="loja" value="#{notaFiscalMB.entity.loja}" converter="entityConverter" 
+                                         disabled="#{notaFiscalMB.entity.venda!=null}" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{findAllBean.get(classMB.loja_Filial)}" 
+                                           var="loja_Filial"
+                                           itemLabel="#{loja_Filial}"/>
+                            <p:ajax process="@this" update="panelZero"/>
+                        </h:selectOneMenu>
+                    </div>   
+                    <h:panelGroup id="panelZero">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="venda" value="* #{msg['notaFiscal.venda']}:" />
+                            <h:selectOneMenu id="venda" value="#{notaFiscalMB.entity.venda}" converter="entityConverter" 
+                                             disabled="#{notaFiscalMB.entity.venda!=null}" styleClass="form-control" >
+                                <x:initializer/>
+                                <f:selectItem itemLabel="#{xmsg['select']}" />
+                                <f:selectItems value="#{notaFiscalMB.vendasLoja}" 
+                                               var="venda"
+                                               itemLabel="#{venda.id} - #{venda.nomeEcNPJCliente}">  
+                                </f:selectItems>
+                                <p:ajax update="panelOne panelTwo" listener="#{notaFiscalMB.carregarValores()}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelOne">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numeroNota" value="* #{msg['notaFiscal.numeroNota']}:" />
+                            <p:inputMask id="numeroNota" mask = "9?999999999" value="#{notaFiscalMB.entity.numeroNota}" styleClass="form-control"  >
+                                <p:ajax update="panelTwo" listener="#{notaFiscalMB.setarChaveAcesso()}"/>
+                            </p:inputMask>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelTwo">
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel for="numChaveDeAcesso" value="* #{msg['notaFiscal.numChaveDeAcesso']}:"/>
+                            <p:inputText id="numChaveDeAcesso" value="#{notaFiscalMB.entity.numChaveDeAcesso}" maxlength="255"  styleClass="form-control"  disabled ="true"/>
+                        </div>
+
+                    </h:panelGroup>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="stat" value="* #{msg['notaFiscal.status']}:" />
+
+                        <p:inputText id="stat" value="#{notaFiscalMB.entity.status.descricao}" maxlength="255"  styleClass="form-control" disabled="true" />
+
+                    </div>
+
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="protocolo" value="Número de Protocolo:" rendered="#{notaFiscalMB.entity.id!=null}"/>
+                        <p:inputMask id="protocolo" mask = "9?999999999999999" value="#{notaFiscalMB.entity.protocolo}" styleClass="form-control"  rendered="#{notaFiscalMB.entity.id!=null}">
+                        </p:inputMask>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="emissao" value="Data de Emissão da Nota" rendered="#{notaFiscalMB.entity.id!=null}"/>
+                        <p:calendar id="emissao" value="#{notaFiscalMB.entity.dataEmissao}" 
+                                    showOn="button" pattern="dd/MM/yyyy" styleClass="uix-calendar"  rendered="#{notaFiscalMB.entity.id!=null}">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="horaEmissao" value="Horário de Emissão da Nota:" rendered="#{notaFiscalMB.entity.id!=null}"/>
+                        <p:calendar id="horaEmissao" value="#{notaFiscalMB.entity.horaEmissao}" 
+                                    showOn="button" pattern="HH:mm" timeOnly="true" styleClass="uix-calendar" rendered="#{notaFiscalMB.entity.id!=null}">
+                            <x:mask/>
+                        </p:calendar>
+                    </div>
+
+                </div>
+
+            </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="notaFiscal.create">
+                <p:commandButton process="@form" update="@form" action="#{notaFiscalMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="notaFiscal.audit">
+                <x:audit for="#{notaFiscalMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

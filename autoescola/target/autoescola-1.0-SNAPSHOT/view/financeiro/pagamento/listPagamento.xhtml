@@ -1,0 +1,155 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['pagamento.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuPagamento.xhtml" />
+        <h:form id="formListPagamento">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="pagamento_export" target=":formListPagamento:dataTablePagamento"
+                                widgetVar="dataTablePagamentoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="pagamento" rowIndexVar="index" id="dataTablePagamento" widgetVar="dataTablePagamentoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{pagamentoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{pagamentoMB.dataModel.paginatorTemplate}"
+                         value="#{pagamentoMB.dataModel}" lazy="true" >
+                <p:ajax event="sort" oncomplete="updateSomatorio()" />
+                <p:ajax event="page" oncomplete="updateSomatorio()" />
+                <p:ajax event="filter" oncomplete="updateSomatorio()" />
+
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['aluno.cpf']}" sortBy="#{pagamento.aluno}"
+                          filterBy="#{pagamento.aluno.cpf}" width="8%" style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['aluno.cpf']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.aluno.cpf}" converter="cpfConverter"/>
+                </p:column>   
+                <p:column headerText="#{msg['pagamento.aluno']}" sortBy="#{pagamento.aluno}"
+                          filterBy="#{pagamento.aluno.nome}" width="20%" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.aluno']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.aluno.nome}"/>
+                </p:column>                
+                <p:column headerText="#{msg['pagamento.tipoPagamento']}" sortBy="#{pagamento.tipoPagamento}"
+                          filterBy="#{pagamento.tipoPagamento}"  filterOptions="#{findAllBean.getSelect(classMB.bandeira)}" 
+                          style="text-align: right;" width="5%">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.tipoPagamento']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.tipoPagamento.descricao}"/>
+                </p:column>
+                <p:column headerText="Data 1ª Parcela" sortBy="#{pagamento.dataPrimeiraParcela}"
+                          filterBy="#{pagamento.dataPrimeiraParcela}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data 1ª Parcela" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{pagamento.dataPrimeiraParcela}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Qtd Parcelas" sortBy="#{pagamento.qtdParcelas}"
+                          filterBy="#{pagamento.qtdParcelas}"  style="text-align: right;" width="5%"  >
+                    <f:facet name="header">
+                        <h:outputText value="Qtd Parcelas" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.qtdParcelas}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['pagamento.desconto']}" sortBy="#{pagamento.desconto}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.desconto']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.desconto}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(pagamentoMB.dataModel, 'desconto')}" id="sumDesconto" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.entrada']}" sortBy="#{pagamento.entrada}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.entrada']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.entrada}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(pagamentoMB.dataModel, 'entrada')}" id="sumEntrada" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['pagamento.valor']}" sortBy="#{pagamento.valor}"
+                          style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['pagamento.valor']}" />
+                    </f:facet>
+                    <h:outputText value="#{pagamento.valor}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{x:sum(pagamentoMB.dataModel, 'valor')}" id="sumValor" style="font-weight:bold">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </f:facet>
+                </p:column>
+                <p:column headerText="Pago?" sortBy="#{pagamento.pago}"
+                          filterBy="#{pagamento.pago}"
+                          filterOptions="#{booleanSelectItensEmptyOption}"
+                          style="text-align: center;">
+                    <h:outputText value="#{pagamento.pago}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetPagamentoDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailPagamento" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{pagamento}" target="#{pagamentoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="pagamento.create">
+                        <p:button icon="ui-icon-pencil" outcome="createPagamento" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{pagamento.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="pagamento.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{pagamentoMB.remove}" >
+                            <f:setPropertyActionListener value="#{pagamento}" target="#{pagamentoMB.entity}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{pagamento.aluno.nome}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <p:remoteCommand name="updateSomatorio" update=":formListPagamento:dataTablePagamento:sumDesconto 
+                             :formListPagamento:dataTablePagamento:sumEntrada :formListPagamento:dataTablePagamento:sumValor" process="@this" />
+
+
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="pagamento.audit">
+                    <x:auditDelete for="#{pagamentoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetPagamentoDetail" header="#{msg['pagamento.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+            <ui:include src="detailPagamento.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

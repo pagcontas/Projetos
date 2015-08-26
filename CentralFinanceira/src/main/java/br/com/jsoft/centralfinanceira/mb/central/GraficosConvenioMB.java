@@ -1,0 +1,236 @@
+package br.com.jsoft.centralfinanceira.mb.central;
+
+import java.io.Serializable;
+import com.xpert.core.crud.AbstractBaseBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import br.com.jsoft.centralfinanceira.bo.central.FatosBoletosBO;
+import br.com.jsoft.centralfinanceira.modelo.central.Cidade;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletos;
+import br.com.jsoft.centralfinanceira.modelo.enums.TipoBoletos;
+import br.com.jsoft.centralfinanceira.vo.ConvenioCampConsultVO;
+import br.com.jsoft.centralfinanceira.vo.GraficoHistoricoArrecadacaoVO;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LegendPlacement;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
+
+/**
+ *
+ * @author Juniel
+ */
+@ManagedBean
+@ViewScoped
+public class GraficosConvenioMB extends AbstractBaseBean<FatosBoletos> implements Serializable {
+
+    private LineChartModel dateModel;
+
+    private List<GraficoHistoricoArrecadacaoVO> lista;
+
+    private ConvenioCampConsultVO camposConsulta;
+
+    @EJB
+    private FatosBoletosBO fatosBoletosBO;
+
+    @Override
+    public void init() {
+        dateModel = new LineChartModel();
+        camposConsulta = new ConvenioCampConsultVO();
+    }
+
+    @Override
+    public FatosBoletosBO getBO() {
+        return fatosBoletosBO;
+    }
+
+    @Override
+    public String getDataModelOrder() {
+        return "id";
+    }
+
+    public void gerarGrafico() {
+        dateModel = new LineChartModel();
+        lista = fatosBoletosBO.listaHistoricoArrecadacaoConvenio(camposConsulta);
+
+        createDateModel();
+        //camposConsulta = new ConvenioCampConsultVO();
+    }
+
+    public LineChartModel getDateModel() {
+        return dateModel;
+    }
+
+    private void createDateModel() {
+
+        LineChartSeries series1 = new LineChartSeries();
+        if (isBoleto()) {
+            series1.setLabel("Boletos");
+        }
+
+        if (isBoletoSite()) {
+            series1.setLabel("Boletos Site");
+        }
+
+        if (isCredito()) {
+            series1.setLabel("Crédito Celular");
+        }
+
+        if (isRecarga()) {
+            series1.setLabel("Recarga Celular");
+        }
+
+        if (isOP()) {
+            series1.setLabel("Ordem de Pagamento");
+        }
+
+        if (isValeGas()) {
+            series1.setLabel("Vale Gás");
+        }
+
+        if (isBB()) {
+            series1.setLabel("Banco do Brasil");
+        }
+
+        if (isBP()) {
+            series1.setLabel("Banco Popular");
+        }
+
+        for (GraficoHistoricoArrecadacaoVO lista1 : lista) {
+            series1.set(convertInteiroParaData(lista1.getPeriodo()), lista1.getBoletos());
+        }
+
+        dateModel.addSeries(series1);
+
+        String titulo = "Gráfico Rentabilidade dos Convenios "+camposConsulta.getTipoBoleto().getDescricao();
+
+        if (camposConsulta.getConvenioBoleto() != null) {
+            titulo = "Gráfico Rentabilidade do Convenio " + camposConsulta.getConvenioBoleto().getNome();
+        }
+        if (camposConsulta.getConvenioSite() != null) {
+            titulo = "Gráfico Rentabilidade do Convenio " + camposConsulta.getConvenioSite().getNome();
+        }
+        if (camposConsulta.getConvenioCredito() != null) {
+            titulo = "Gráfico Rentabilidade do Convenio " + camposConsulta.getConvenioCredito().getNome();
+        }
+
+        if (camposConsulta.getConvenioRecarga() != null) {
+            titulo = "Gráfico Rentabilidade do Convenio " + camposConsulta.getConvenioRecarga().getNome();
+        }
+        if (camposConsulta.getConvenioValeGas() != null) {
+            titulo = "Gráfico Rentabilidade do Convenio " + camposConsulta.getConvenioValeGas().getNome();
+        }
+        if (camposConsulta.getConvenioOp() != null) {
+            titulo = "Gráfico Rentabilidade do Convenio " + camposConsulta.getConvenioOp().getNome();
+        }
+        if (camposConsulta.getConvenioBB() != null) {
+            titulo = "Gráfico Rentabilidade do Convenio " + camposConsulta.getConvenioBB().getNome();
+        }
+        if (camposConsulta.getConvenioBP() != null) {
+            titulo = "Gráfico Rentabilidade do Convenio " + camposConsulta.getConvenioBP().getNome();
+        }
+
+        dateModel.setTitle(titulo);
+        dateModel.setZoom(true);
+        dateModel.setLegendPosition("e");
+        dateModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+        dateModel.setAnimate(true);
+
+        DateAxis xAxis = new DateAxis("Período");
+        DateAxis yAxis = new DateAxis("Valores");
+        xAxis.setTickAngle(-50);
+        xAxis.setTickFormat("%b, %y");
+
+        dateModel.getAxes().put(AxisType.X, xAxis);
+    }
+
+    private String convertInteiroParaData(int num) {
+        String data = String.valueOf(num);
+
+        StringBuilder stringBuilder = new StringBuilder(data);
+
+        return stringBuilder.insert(stringBuilder.length() - 2, "-").toString() + "-01";
+    }
+
+    public List<Cidade> getCidades() {
+        return fatosBoletosBO.getCidadesComPosto();
+    }
+
+    private String dataEmPeriodo(Date data) {
+
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        int mes = calendar.get(GregorianCalendar.MONTH) + 1;
+        int ano = calendar.get(GregorianCalendar.YEAR);
+
+        String periodo = String.valueOf(ano).concat(String.format("%02d", mes));
+
+        return periodo;
+    }
+
+    public boolean isBoleto() {
+        return camposConsulta.getTipoBoleto() == TipoBoletos.BOLETOS;
+    }
+
+    public boolean isBoletoSite() {
+        return camposConsulta.getTipoBoleto() == TipoBoletos.BOLETOSITE;
+    }
+
+    public boolean isCredito() {
+        return camposConsulta.getTipoBoleto() == TipoBoletos.CREDIDOS;
+    }
+
+    public boolean isRecarga() {
+        return camposConsulta.getTipoBoleto() == TipoBoletos.RECARGA;
+    }
+
+    public boolean isValeGas() {
+        return camposConsulta.getTipoBoleto() == TipoBoletos.VALEGAS;
+    }
+
+    public boolean isOP() {
+        return camposConsulta.getTipoBoleto() == TipoBoletos.OPS;
+    }
+
+    public boolean isBB() {
+        return camposConsulta.getTipoBoleto() == TipoBoletos.BB;
+    }
+
+    public boolean isBP() {
+        return camposConsulta.getTipoBoleto() == TipoBoletos.BP;
+    }
+
+    private Date convertPeriodDate(String data) {
+        Calendar agora = Calendar.getInstance();
+        if (!"".equals(data)) {
+            String[] temp = data.split("/");
+            Integer periodoTemp = Integer.valueOf(temp[1] + temp[0]);
+            agora.set(Integer.valueOf(temp[1]), Integer.valueOf(temp[0]) - 1, 1);
+
+            return agora.getTime();
+        }
+        return null;
+    }
+
+    public List<GraficoHistoricoArrecadacaoVO> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<GraficoHistoricoArrecadacaoVO> lista) {
+        this.lista = lista;
+    }
+
+    public ConvenioCampConsultVO getCamposConsulta() {
+        return camposConsulta;
+    }
+
+    public void setCamposConsulta(ConvenioCampConsultVO camposConsulta) {
+        this.camposConsulta = camposConsulta;
+    }
+
+}

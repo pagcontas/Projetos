@@ -1,0 +1,97 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['laudo.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuLaudo.xhtml" />
+        <h:form id="formListLaudo">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="laudo_export" target=":formListLaudo:dataTableLaudo"
+                                     widgetVar="dataTableLaudoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="laudo" rowIndexVar="index" id="dataTableLaudo" widgetVar="dataTableLaudoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{laudoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{laudoMB.dataModel.paginatorTemplate}"
+                         value="#{laudoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['laudo.nome']}" sortBy="#{laudo.nome}"
+                    filterBy="#{laudo.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['laudo.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{laudo.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['laudo.cidade']}" sortBy="#{laudo.cidade}"
+                    filterBy="#{laudo.cidade}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['laudo.cidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{laudo.cidade}"/>
+                </p:column>
+                <p:column headerText="#{msg['laudo.pais']}" sortBy="#{laudo.pais}"
+                    filterBy="#{laudo.pais}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['laudo.pais']}" />
+                    </f:facet>
+                    <h:outputText value="#{laudo.pais}"/>
+                </p:column>
+                <p:column headerText="#{msg['laudo.imagem']}" sortBy="#{laudo.imagem}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['laudo.imagem']}" />
+                    </f:facet>
+                    <h:outputText value="#{laudo.imagem}"/>
+                </p:column>
+                <p:column headerText="#{msg['laudo.dataCadastro']}" sortBy="#{laudo.dataCadastro}"
+                    filterBy="#{laudo.dataCadastro}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['laudo.dataCadastro']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{laudo.dataCadastro}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLaudoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLaudo" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{laudo}" target="#{laudoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="laudo.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLaudo" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{laudo.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="laudo.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{laudoMB.delete}" >
+                            <f:setPropertyActionListener value="#{laudo.id}" target="#{laudoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{laudo}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="laudo.audit">
+                    <x:auditDelete for="#{laudoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetLaudoDetail" header="#{msg['laudo.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailLaudo.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

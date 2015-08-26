@@ -1,0 +1,103 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['endereco.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEndereco.xhtml" />
+        <h:form id="formListEndereco">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="endereco_export" target=":formListEndereco:dataTableEndereco"
+                                     widgetVar="dataTableEnderecoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="endereco" rowIndexVar="index" id="dataTableEndereco" widgetVar="dataTableEnderecoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{enderecoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{enderecoMB.dataModel.paginatorTemplate}"
+                         value="#{enderecoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['endereco.endereco']}" sortBy="#{endereco.endereco}"
+                    filterBy="#{endereco.endereco}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['endereco.endereco']}" />
+                    </f:facet>
+                    <h:outputText value="#{endereco.endereco}"/>
+                </p:column>
+                <p:column headerText="#{msg['endereco.bairro']}" sortBy="#{endereco.bairro}"
+                    filterBy="#{endereco.bairro}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['endereco.bairro']}" />
+                    </f:facet>
+                    <h:outputText value="#{endereco.bairro}"/>
+                </p:column>
+                <p:column headerText="#{msg['endereco.cidade']}" sortBy="#{endereco.cidade}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['endereco.cidade']}" />
+                    </f:facet>
+                    <h:outputText value="#{endereco.cidade}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['endereco.cep']}" sortBy="#{endereco.cep}"
+                    filterBy="#{endereco.cep}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['endereco.cep']}" />
+                    </f:facet>
+                    <h:outputText value="#{endereco.cep}"/>
+                </p:column>
+                <p:column headerText="#{msg['endereco.numero']}" sortBy="#{endereco.numero}"
+                    filterBy="#{endereco.numero}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['endereco.numero']}" />
+                    </f:facet>
+                    <h:outputText value="#{endereco.numero}"/>
+                </p:column>
+                <p:column headerText="#{msg['endereco.complemento']}" sortBy="#{endereco.complemento}"
+                    filterBy="#{endereco.complemento}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['endereco.complemento']}" />
+                    </f:facet>
+                    <h:outputText value="#{endereco.complemento}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEnderecoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEndereco" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{endereco}" target="#{enderecoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="endereco.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEndereco" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{endereco.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="endereco.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{enderecoMB.delete}" >
+                            <f:setPropertyActionListener value="#{endereco.id}" target="#{enderecoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{endereco}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="endereco.audit">
+                    <x:auditDelete for="#{enderecoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEnderecoDetail" header="#{msg['endereco.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailEndereco.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,104 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['filho.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuFilho.xhtml" />
+        <h:form id="formListFilho">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="filho_export" target=":formListFilho:dataTableFilho"
+                                     widgetVar="dataTableFilhoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="filho" rowIndexVar="index" id="dataTableFilho" widgetVar="dataTableFilhoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{filhoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{filhoMB.dataModel.paginatorTemplate}"
+                         value="#{filhoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['filho.nome']}" sortBy="#{filho.nome}"
+                    filterBy="#{filho.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['filho.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{filho.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['filho.telefone']}" sortBy="#{filho.telefone}"
+                    filterBy="#{filho.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['filho.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{filho.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['filho.nascimento']}" sortBy="#{filho.nascimento}"
+                    filterBy="#{filho.nascimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['filho.nascimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{filho.nascimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['filho.participaNegocio']}" sortBy="#{filho.participaNegocio}"
+                    filterBy="#{filho.participaNegocio}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['filho.participaNegocio']}" />
+                    </f:facet>
+                    <h:outputText value="#{filho.participaNegocio}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column headerText="#{msg['filho.email']}" sortBy="#{filho.email}"
+                    filterBy="#{filho.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['filho.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{filho.email}"/>
+                </p:column>
+                <p:column headerText="#{msg['filho.contrato']}" sortBy="#{filho.contrato}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['filho.contrato']}" />
+                    </f:facet>
+                    <h:outputText value="#{filho.contrato}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetFilhoDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailFilho" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{filho}" target="#{filhoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="filho.create">
+                        <p:button icon="ui-icon-pencil" outcome="createFilho" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{filho.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="filho.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{filhoMB.delete}" >
+                            <f:setPropertyActionListener value="#{filho.id}" target="#{filhoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{filho}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="filho.audit">
+                    <x:auditDelete for="#{filhoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetFilhoDetail" header="#{msg['filho.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailFilho.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

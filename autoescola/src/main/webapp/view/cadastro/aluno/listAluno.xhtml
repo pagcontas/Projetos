@@ -1,0 +1,108 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['aluno.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuAluno.xhtml" />
+        <h:form id="formListAluno">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="aluno_export" target=":formListAluno:dataTableAluno"
+                                     widgetVar="dataTableAlunoWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="aluno" rowIndexVar="index" id="dataTableAluno" widgetVar="dataTableAlunoWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{alunoMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{alunoMB.dataModel.paginatorTemplate}"
+                         value="#{alunoMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>                
+                <p:column headerText="#{msg['aluno.rg']}" sortBy="#{aluno.rg}"
+                    filterBy="#{aluno.rg}"  style="text-align: right;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['aluno.rg']}" />
+                    </f:facet>
+                    <h:outputText value="#{aluno.rg}"/>
+                </p:column>
+                <p:column headerText="#{msg['aluno.cpf']}" sortBy="#{aluno.cpf}"
+                    filterBy="#{aluno.cpf}" style="text-align: right;"  >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['aluno.cpf']}"/>
+                    </f:facet>
+                    <h:outputText value="#{aluno.cpf}" converter="cpfConverter"/>
+                </p:column>
+                <p:column headerText="#{msg['aluno.nome']}" sortBy="#{aluno.nome}"
+                          filterBy="#{aluno.nome}" width="20%"  >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['aluno.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{aluno.nome}"/>
+                </p:column>
+                <p:column headerText="Data do Processo" sortBy="#{aluno.dataDoProcesso}"
+                          filterBy="#{aluno.dataDoProcesso}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Data do Processo" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{aluno.dataDoProcesso}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Validae do Processo" sortBy="#{aluno.dataValidadeProcesso}"
+                          filterBy="#{aluno.dataValidadeProcesso}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Validade do Processo" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{aluno.dataValidadeProcesso}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                                               
+                <p:column headerText="Ativo?" sortBy="#{aluno.active}"
+                    filterBy="#{aluno.active}" filterOptions="#{booleanSelectItensEmptyOption}"  style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="Ativo?" />
+                    </f:facet>
+                    <h:outputText value="#{aluno.active}" converter ="yesNoConverter" />
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="widgetAlunoDetail.show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailAluno" title="#{xmsg['detail']}"  rendered="false">
+                        <f:setPropertyActionListener value="#{aluno}" target="#{alunoMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="aluno.create">
+                        <p:button icon="ui-icon-pencil" outcome="createAluno" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{aluno.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="aluno.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{alunoMB.delete}" >
+                            <f:setPropertyActionListener value="#{aluno.id}" target="#{alunoMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{aluno.nome}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="aluno.audit">
+                    <x:auditDelete for="#{alunoMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetAlunoDetail" header="#{msg['aluno.detail']}" appendToBody="true" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailAluno.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

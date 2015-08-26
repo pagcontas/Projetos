@@ -1,0 +1,70 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    
+  
+    <h:form id="formCreateFatosValeGas" >
+        <p:fieldset legend="#{xmsg['generalData']}">
+            <x:modalMessages/>
+
+            <div class="container-fluid">
+                 <div class="row">
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="qtd" value="* #{msg['fatosValeGas.qtd']}:" />
+                         <p:inputMask id="qtd" mask="9?999999999" placeHolder="" value="#{fatosValeGasMB.entity.qtd}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="periodo" value="* #{msg['fatosValeGas.periodo']}:" />
+                         <p:inputMask id="periodo" mask="9?999999999" placeHolder="" value="#{fatosValeGasMB.entity.periodo}" styleClass="form-control" />
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="arrecadado:input" value="#{msg['fatosValeGas.arrecadado']}:" />
+                         <x:inputNumber id="arrecadado" value="#{fatosValeGasMB.entity.arrecadado}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="unitarioconvenio:input" value="#{msg['fatosValeGas.unitarioconvenio']}:" />
+                         <x:inputNumber id="unitarioconvenio" value="#{fatosValeGasMB.entity.unitarioconvenio}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="unitarioloja:input" value="#{msg['fatosValeGas.unitarioloja']}:" />
+                         <x:inputNumber id="unitarioloja" value="#{fatosValeGasMB.entity.unitarioloja}" styleClass="form-control"/>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="loja" value="#{msg['fatosValeGas.loja']}:" />
+                         <h:selectOneMenu id="loja" value="#{fatosValeGasMB.entity.loja}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.loja)}" 
+                                            var="loja"
+                                            itemLabel="#{loja}"/>
+                         </h:selectOneMenu>
+                     </div>
+                      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                         <h:outputLabel for="conveniogas" value="#{msg['fatosValeGas.conveniogas']}:" />
+                         <h:selectOneMenu id="conveniogas" value="#{fatosValeGasMB.entity.conveniogas}" converter="entityConverter" styleClass="form-control" >
+                             <x:initializer/>
+                             <f:selectItem itemLabel="#{xmsg['select']}" />
+                             <f:selectItems value="#{findAllBean.get(classMB.convenioGas)}" 
+                                            var="convenioGas"
+                                            itemLabel="#{convenioGas}"/>
+                         </h:selectOneMenu>
+                     </div>
+
+                 </div>
+             </div>
+        </p:fieldset>
+        <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
+        <div class="uix-center">
+            <x:securityArea rolesAllowed="fatosValeGas.create">
+                <p:commandButton process="@form" update="@form" action="#{fatosValeGasMB.save}" value="#{xmsg['save']}" />
+            </x:securityArea>
+            <x:securityArea rolesAllowed="fatosValeGas.audit">
+                <x:audit for="#{fatosValeGasMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+
+</ui:composition>

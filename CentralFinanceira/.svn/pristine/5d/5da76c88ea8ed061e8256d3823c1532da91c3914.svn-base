@@ -1,0 +1,14 @@
+package br.com.jsoft.centralfinanceira.dao.central.impl;
+
+import br.com.jsoft.centralfinanceira.application.BaseDAOImpl;
+import br.com.jsoft.centralfinanceira.dao.central.FatosBoletoSiteDAO;
+import br.com.jsoft.centralfinanceira.modelo.central.FatosBoletoSite;
+import javax.ejb.Stateless;
+
+/**
+ *
+ * @author killerbee
+ */
+@Stateless
+public class FatosBoletoSiteDAOImpl extends BaseDAOImpl<FatosBoletoSite> implements FatosBoletoSiteDAO {
+}

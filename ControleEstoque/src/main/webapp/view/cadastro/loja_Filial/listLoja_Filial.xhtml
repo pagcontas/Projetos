@@ -1,0 +1,114 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Consultar de Empresa" />
+    <ui:define name="body">
+        <ui:include src="menuLoja_Filial.xhtml" />
+        <h:form id="formListLoja_Filial">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="loja_Filial_export" target=":formListLoja_Filial:dataTableLoja_Filial"
+                                     widgetVar="dataTableLoja_FilialWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="loja_Filial" rowIndexVar="index" id="dataTableLoja_Filial" widgetVar="dataTableLoja_FilialWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{loja_FilialMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{loja_FilialMB.dataModel.paginatorTemplate}"
+                         value="#{loja_FilialMB.dataModel}" lazy="true" >
+                <p:column headerText="Código" sortBy="#{loja_Filial.id}"
+                    filterBy="#{loja_Filial.id}"  style="text-align: right;" >
+                    <f:facet name="header">
+                        <h:outputText value="Código" />
+                    </f:facet>
+                    <h:outputText value="#{loja_Filial.id}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja_Filial.tipo']}" sortBy="#{loja_Filial.tipo}"
+                    filterBy="#{loja_Filial.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoLoja)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loja_Filial.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{loja_Filial.tipo.descricao}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja_Filial.cnpj']}" sortBy="#{loja_Filial.cnpj}"
+                    filterBy="#{loja_Filial.cnpj}" style="text-align: right;"  >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loja_Filial.cnpj']}" />
+                    </f:facet>
+                    <h:outputText value="#{loja_Filial.cnpj}" converter="cnpjConverter"/>
+                </p:column>
+                <p:column headerText="#{msg['loja_Filial.razaoSocial']}" sortBy="#{loja_Filial.razaoSocial}"
+                    filterBy="#{loja_Filial.razaoSocial}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loja_Filial.razaoSocial']}" />
+                    </f:facet>
+                    <h:outputText value="#{loja_Filial.razaoSocial}"/>
+                </p:column>         
+                                      
+                <p:column headerText="#{msg['loja_Filial.telefone']}" sortBy="#{loja_Filial.telefone}"
+                    filterBy="#{loja_Filial.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loja_Filial.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{loja_Filial.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja_Filial.fax']}" sortBy="#{loja_Filial.fax}"
+                    filterBy="#{loja_Filial.fax}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loja_Filial.fax']}" />
+                    </f:facet>
+                    <h:outputText value="#{loja_Filial.fax}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja_Filial.celula1']}" sortBy="#{loja_Filial.celula1}"
+                    filterBy="#{loja_Filial.celula1}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loja_Filial.celula1']}" />
+                    </f:facet>
+                    <h:outputText value="#{loja_Filial.celula1}"/>
+                </p:column>
+                <p:column headerText="#{msg['loja_Filial.celular2']}" sortBy="#{loja_Filial.celular2}"
+                    filterBy="#{loja_Filial.celular2}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['loja_Filial.celular2']}" />
+                    </f:facet>
+                    <h:outputText value="#{loja_Filial.celular2}"/>
+                </p:column>
+               
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetLoja_FilialDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailLoja_Filial" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{loja_Filial}" target="#{loja_FilialMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="loja_Filial.create">
+                        <p:button icon="ui-icon-pencil" outcome="createLoja_Filial" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{loja_Filial.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="loja_Filial.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{loja_FilialMB.delete}" >
+                            <f:setPropertyActionListener value="#{loja_Filial.id}" target="#{loja_FilialMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{loja_Filial}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="loja_Filial.audit">
+                    <x:auditDelete for="#{loja_FilialMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetLoja_FilialDetail" header="Empresa - Detalhamento" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailLoja_Filial.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

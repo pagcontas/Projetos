@@ -1,0 +1,76 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="Gráfico de Rentabilidade de Loja" />
+    <ui:define name="body">
+
+        <h:form id="formGerarGrafico">
+            <x:modalMessages/>
+            <div class="row">
+
+
+
+                <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+
+                    <h:outputLabel value="#{msg['fatosBoletos.loja']}:"/>
+
+                    <p:autoComplete value="#{graficosMB.loja}" 
+
+                                    completeMethod="#{lojaMB.consultarLoja}" styleClass="uix-autocomplete" 
+
+                                    minQueryLength="1" forceSelection="true"
+
+                                    var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="entityConverter"> 
+                        <x:initializer/>
+                        <p:column> 
+
+                            <h:outputText value="#{p.id} - #{p.nome}"/>
+
+                        </p:column> 
+                        <p:ajax update="panelCidade" listener="#{graficosMB.cidadeLoja()}"/>
+
+                    </p:autoComplete>
+
+                </div>
+
+
+                <h:panelGroup id="panelCidade">
+                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                        <h:outputLabel for="cidade" value="#{msg['loja.cidade']}:" />
+                        <h:selectOneMenu id="cidade" value="#{graficosMB.cidade}" converter="entityConverter" styleClass="form-control" >
+                            <x:initializer/>
+                            <f:selectItem itemLabel="#{xmsg['select']}" />
+                            <f:selectItems value="#{graficosMB.cidades}" 
+                                           var="cidade"
+                                           itemLabel="#{cidade}"/>
+                        </h:selectOneMenu>
+                    </div>
+
+                </h:panelGroup>
+
+            </div>
+            <div class="row">
+                <div class="uix-center">
+                    <p:commandButton value="Gerar Gráfico" ajax="false" update="panelZero" action="#{graficosMB.gerarGrafico}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <h:panelGroup id="panelZero">                     
+                    <p:chart type="line" model="#{graficosMB.dateModel}" style="height:500px;" widgetVar="chart"/>                     
+                    <div class="uix-center">                         
+                        <p:commandButton type="button" value="Desativar Zoom" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>                     
+                    </div>                 
+                </h:panelGroup>
+            </div>
+
+        </h:form>
+
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,104 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['equipe.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuEquipe.xhtml" />
+        <h:form id="formListEquipe">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="equipe_export" target=":formListEquipe:dataTableEquipe"
+                                     widgetVar="dataTableEquipeWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="equipe" rowIndexVar="index" id="dataTableEquipe" widgetVar="dataTableEquipeWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{equipeMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{equipeMB.dataModel.paginatorTemplate}"
+                         value="#{equipeMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['equipe.cargo']}" sortBy="#{equipe.cargo}"
+                    filterBy="#{equipe.cargo}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['equipe.cargo']}" />
+                    </f:facet>
+                    <h:outputText value="#{equipe.cargo}"/>
+                </p:column>
+                <p:column headerText="#{msg['equipe.nome']}" sortBy="#{equipe.nome}"
+                    filterBy="#{equipe.nome}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['equipe.nome']}" />
+                    </f:facet>
+                    <h:outputText value="#{equipe.nome}"/>
+                </p:column>
+                <p:column headerText="#{msg['equipe.dataNascimento']}" sortBy="#{equipe.dataNascimento}"
+                    filterBy="#{equipe.dataNascimento}"   style="text-align: center;">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['equipe.dataNascimento']}" />
+                        <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{equipe.dataNascimento}">
+                        <f:convertDateTime />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['equipe.telefone']}" sortBy="#{equipe.telefone}"
+                    filterBy="#{equipe.telefone}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['equipe.telefone']}" />
+                    </f:facet>
+                    <h:outputText value="#{equipe.telefone}"/>
+                </p:column>
+                <p:column headerText="#{msg['equipe.celular']}" sortBy="#{equipe.celular}"
+                    filterBy="#{equipe.celular}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['equipe.celular']}" />
+                    </f:facet>
+                    <h:outputText value="#{equipe.celular}"/>
+                </p:column>
+                <p:column headerText="#{msg['equipe.email']}" sortBy="#{equipe.email}"
+                    filterBy="#{equipe.email}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['equipe.email']}" />
+                    </f:facet>
+                    <h:outputText value="#{equipe.email}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetEquipeDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailEquipe" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{equipe}" target="#{equipeMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="equipe.create">
+                        <p:button icon="ui-icon-pencil" outcome="createEquipe" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{equipe.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="equipe.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{equipeMB.delete}" >
+                            <f:setPropertyActionListener value="#{equipe.id}" target="#{equipeMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{equipe}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="equipe.audit">
+                    <x:auditDelete for="#{equipeMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetEquipeDetail" header="#{msg['equipe.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailEquipe.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>

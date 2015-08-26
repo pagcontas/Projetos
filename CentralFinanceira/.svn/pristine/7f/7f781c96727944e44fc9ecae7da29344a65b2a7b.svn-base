@@ -1,0 +1,58 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:x="http://xpert.com/faces">
+    <h:form id="formDetailFatosCreditos" styleClass="uix-form-detail">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosCreditos.qtd']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosCreditosMB.entity.qtd}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosCreditos.periodo']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosCreditosMB.entity.periodo}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosCreditos.arrecadado']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosCreditosMB.entity.arrecadado}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosCreditos.unitarioconvenio']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosCreditosMB.entity.unitarioconvenio}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosCreditos.unitarioloja']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosCreditosMB.entity.unitarioloja}" styleClass="uix-content-detail">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosCreditos.loja']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosCreditosMB.entity.loja}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['fatosCreditos.credigivalor']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{fatosCreditosMB.entity.credigivalor}" styleClass="uix-content-detail">
+                        <x:initializer/>
+                    </h:outputText>
+                </div>
+           </div>
+         </div>
+        <p:separator/>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="widgetFatosCreditosDetail.hide()" />
+            <x:securityArea rolesAllowed="fatosCreditos.audit">
+                <x:audit for="#{fatosCreditosMB.entity}"/>
+            </x:securityArea>
+        </div>
+    </h:form>
+</ui:composition>

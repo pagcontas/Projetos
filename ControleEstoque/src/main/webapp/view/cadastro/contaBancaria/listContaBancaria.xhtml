@@ -1,0 +1,105 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:p="http://primefaces.org/ui"
+                 template="/template/mainTemplate.xhtml"
+                 xmlns:x="http://xpert.com/faces">
+    <ui:param name="title" value="#{msg['contaBancaria.list']}" />
+    <ui:define name="body">
+        <ui:include src="menuContaBancaria.xhtml" />
+        <h:form id="formListContaBancaria">
+            <x:modalMessages/>
+
+            <x:dataTableActions fileName="contaBancaria_export" target=":formListContaBancaria:dataTableContaBancaria"
+                                     widgetVar="dataTableContaBancariaWidget"  />
+
+            <p:dataTable paginator="true" rows="10" rowsPerPageTemplate="10,20,30" paginatorPosition="bottom" emptyMessage="#{xmsg['noRecordFound']}"
+                         var="contaBancaria" rowIndexVar="index" id="dataTableContaBancaria" widgetVar="dataTableContaBancariaWidget" styleClass="table-responsive"
+                         currentPageReportTemplate="#{contaBancariaMB.dataModel.currentPageReportTemplate}"
+                         paginatorTemplate="#{contaBancariaMB.dataModel.paginatorTemplate}"
+                         value="#{contaBancariaMB.dataModel}" lazy="true" >
+                <p:column styleClass="uix-datatable-index">
+                    <h:outputText value="#{index+1}"/>
+                </p:column>
+                <p:column headerText="#{msg['contaBancaria.loja']}" sortBy="#{contaBancaria.loja}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contaBancaria.loja']}" />
+                    </f:facet>
+                    <h:outputText value="#{contaBancaria.loja}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contaBancaria.banco']}" sortBy="#{contaBancaria.banco}"
+                       >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contaBancaria.banco']}" />
+                    </f:facet>
+                    <h:outputText value="#{contaBancaria.banco}">
+                        <x:initializer/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['contaBancaria.nomeTitularConta']}" sortBy="#{contaBancaria.nomeTitularConta}"
+                    filterBy="#{contaBancaria.nomeTitularConta}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contaBancaria.nomeTitularConta']}" />
+                    </f:facet>
+                    <h:outputText value="#{contaBancaria.nomeTitularConta}"/>
+                </p:column>
+                <p:column headerText="#{msg['contaBancaria.conta']}" sortBy="#{contaBancaria.conta}"
+                    filterBy="#{contaBancaria.conta}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contaBancaria.conta']}" />
+                    </f:facet>
+                    <h:outputText value="#{contaBancaria.conta}"/>
+                </p:column>
+                <p:column headerText="#{msg['contaBancaria.agencia']}" sortBy="#{contaBancaria.agencia}"
+                    filterBy="#{contaBancaria.agencia}"   >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contaBancaria.agencia']}" />
+                    </f:facet>
+                    <h:outputText value="#{contaBancaria.agencia}"/>
+                </p:column>
+                <p:column headerText="#{msg['contaBancaria.tipo']}" sortBy="#{contaBancaria.tipo}"
+                    filterBy="#{contaBancaria.tipo}"  filterOptions="#{findAllBean.getSelect(classMB.tipoDeConta)}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['contaBancaria.tipo']}" />
+                    </f:facet>
+                    <h:outputText value="#{contaBancaria.tipo}"/>
+                </p:column>
+                <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
+                    <f:facet name="header">
+                        <h:outputText value="#{xmsg['actions']}"/>
+                    </f:facet>
+                    <p:commandButton oncomplete="PF('widgetContaBancariaDetail').show();"  icon="ui-icon-zoomin" 
+                                     process="@form" update=":formDetailContaBancaria" title="#{xmsg['detail']}" >
+                        <f:setPropertyActionListener value="#{contaBancaria}" target="#{contaBancariaMB.entity}" />
+                    </p:commandButton>
+                    <x:securityArea rolesAllowed="contaBancaria.create">
+                        <p:button icon="ui-icon-pencil" outcome="createContaBancaria" title="#{xmsg['edit']}">
+                            <f:param name="id" value="#{contaBancaria.id}" />
+                        </p:button>
+                    </x:securityArea>
+                    <x:securityArea rolesAllowed="contaBancaria.delete">
+                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                                         action="#{contaBancariaMB.delete}" >
+                            <f:setPropertyActionListener value="#{contaBancaria.id}" target="#{contaBancariaMB.id}" />
+                            <x:confirmation message="#{xmsg['confirmDelete']} - #{contaBancaria}" />
+                        </p:commandButton>
+                    </x:securityArea>
+                </p:column>
+            </p:dataTable>
+            <div class="uix-audit-delete">
+                <x:securityArea rolesAllowed="contaBancaria.audit">
+                    <x:auditDelete for="#{contaBancariaMB.entityClass}"/>
+                </x:securityArea>
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="widgetContaBancariaDetail" header="#{msg['contaBancaria.detail']}" appendTo="@(body)" 
+                  modal="true" styleClass="uix-dialog-fluid" >
+                  <ui:include src="detailContaBancaria.xhtml" />
+        </p:dialog>
+    </ui:define>
+</ui:composition>
