@@ -41,7 +41,6 @@ public class AddMarkersMB extends AbstractBaseBean<Loja> implements Serializable
     private List<Loja> lojas;
 
     private MapModel model;
-//    private GeocodeEvent geocode;
 
     @Override
     public void init() {
