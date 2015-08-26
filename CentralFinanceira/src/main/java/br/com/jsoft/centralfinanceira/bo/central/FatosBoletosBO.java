@@ -132,18 +132,30 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return relatorioRemunecao;
     }
 
-    /**Metodo utitilizado para fazer a alteraçao unica de um
+    /**Metodo utitilizado para fazer a alteraçao no unitario de um determinado convenio de acordo com o periodo passado
      * 
-     * @param comissaoConvenio 
+     * @param ComissaoConvenioVO comissaoConvenio 
      */
     public void updateUniConvenio(ComissaoConvenioVO comissaoConvenio) {
         fatosBoletosDAO.updateUnitarioConvenio(comissaoConvenio.getId(), comissaoConvenio.getUnitarioconvenio(), comissaoConvenio.getPeriodo());
     }
 
+    /**Metodo utitilizado para fazer a alteraçao no unitario de um determinado convenio de acordo com o periodo passado
+     * @author Juniel
+     * @param ComissaoLojaVO comissaoLoja 
+     */
     public void updateUniLoja(ComissaoLojaVO comissaoLoja) {
         fatosBoletosDAO.updateUnitarioLoja(comissaoLoja.getId(), comissaoLoja.getUnitarioloja(), comissaoLoja.getPeriodo());
     }
 
+    /** Metodo usado para listar a rentabilidade de uma loja de acordo com periodo e tipo de boleto passado 
+     * @author Juniel
+     * @param loja
+     * @param dataInicial
+     * @param dataFinal
+     * @param boleto
+     * @return Lista de Rentabilidades
+     */
     public List<RentabilidadeVO> listRentabilidade(Long loja, Date dataInicial, Date dataFinal, int boleto) {
 
         List<RentabilidadeVO> rentabilidades = new ArrayList<RentabilidadeVO>();
@@ -284,6 +296,14 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return rentabilidades;
     }
 
+    /** Metodo usado para listar a rentabilidade das receitas e despesas de uma loja de acordo com periodo e tipo de boleto passado 
+     * @author Juniel
+     * @param loja
+     * @param dataInicial
+     * @param dataFinal
+     * @param boleto
+     * @return List<ReceitaEDespesaVO>
+     */
     public List<ReceitaEDespesaVO> listRentablidadeRecDesp(Long loja, Date dataInicial, Date dataFinal) {
         List<ReceitaEDespesaVO> receitaEDespesaVO = new ArrayList<ReceitaEDespesaVO>();
         String queryString = "select * from (select t.id, t.nome descricao, -sum(total) as valor "
@@ -388,22 +408,30 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return receitaEDespesaVO;
     }
 
+    /** Metodo para retornar uma data no formato yyyyMM com retorn inteiro
+     * @author Juniel
+     * @param data
+     * @return uma data no formato ano e mes concatenados yyyyMM
+     */
     private Integer convertPeriodo(Date data) {
         SimpleDateFormat formatador = new SimpleDateFormat("yyyyMM");
 
         return Integer.parseInt(formatador.format(data));
     }
 
-    /*
-     método de retorno de querys. Abaixo os equivalentes
-     boletos; => 1
-     boletosSite; => 2
-     boletosCreditos; => 3
-     boletosRecargas; => 4
-     boletosValeGas; => 5
-     boletosOps; => 6
-     boletosBB; =>7
-     boletosBP; =>8
+    /** método de retorno de querys. Abaixo os equivalentes
+     * 
+     * @author Juniel 
+     * @return  String
+     * @param tipo 
+     * boletos; => 1
+     * boletosSite; => 2
+     * boletosCreditos; => 3
+     * boletosRecargas; => 4
+     * boletosValeGas; => 5
+     * boletosOps; => 6
+     * boletosBB; =>7
+     * boletosBP; =>8
      */
     private String retornaQueryRentLoja(int tipo) {
         String query = "";
@@ -504,6 +532,11 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return query;
     }
 
+    /** Metodo para retornar a clausula depois do Where de uma query de acordo com a opçao passada
+     * @author Juniel
+     * @param opcao
+     * @return retorna uma string com a claussula depois do where
+     */
     private String getAfterWhere(int opcao) {
         String where = "";
         switch (opcao) {
@@ -548,6 +581,11 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return where;
     }
 
+    /** metodo serve para converter um periodo no farmado MM/yyyy paara yyyyMM convertendo em integer
+     * @author Juniel
+     * @param periodo
+     * @return retorna um numero no formato ano e mes 
+     */
     private Integer convertPeriodoInteger(String periodo) {
         String[] temp = periodo.split("/");
         Integer periodoTemp = Integer.valueOf(temp[1] + temp[0]);
@@ -555,6 +593,14 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return periodoTemp;
     }
 
+    /** Metodo usado para retornar uma lista de toda arrecadaçao de uma loja baseada no id da loja ou de uma cidade
+     * @author Juniel
+     * @param lojaId
+     * @param cidadeId
+     * @param periodoInicial
+     * @param periodoFinal
+     * @return retorna a lista de toda arrecadaçao de uma loja ou de uma cidade
+     */
     public List<GraficoHistoricoArrecadacaoVO> listaHistoricoArrecadacao(Long lojaId, Long cidadeId, Integer periodoInicial, Integer periodoFinal) {
         List<GraficoHistoricoArrecadacaoVO> lista = new ArrayList<GraficoHistoricoArrecadacaoVO>();
         String queryString = "select periodo"
@@ -694,6 +740,11 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return lista;
     }
 
+    /** metodo usado para listar toda arrecadaçao de um conveno baseado no seu id ou nao
+     * @author Juniel
+     * @param campos
+     * @return retorna uma lista de arrecaçao de um determinado convenio
+     */
     public List<GraficoHistoricoArrecadacaoVO> listaHistoricoArrecadacaoConvenio(ConvenioCampConsultVO campos) {
         List<GraficoHistoricoArrecadacaoVO> lista = new ArrayList<GraficoHistoricoArrecadacaoVO>();
         String queryString = "select periodo "
@@ -777,6 +828,11 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return lista;
     }
 
+    /** metodo usado para retornar uma string (yyyy/MM) a partir de uma data
+     * @author Juniel
+     * @param data
+     * @return retorna uma string baseada na data no formato yyyy/MM
+     */
     private String dataEmPeriodo(Date data) {
 
         GregorianCalendar calendar = new GregorianCalendar();
@@ -789,6 +845,10 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return periodo;
     }
 
+    /** metodo usado para listar somente as cidades que possuem posto
+     * @author Juniel
+     * @return retorna uma lista das cidades que possuem posto
+     */
     public List<Cidade> getCidadesComPosto() {
         QueryBuilder query = fatosBoletosDAO.getQueryBuilder();
         List<Cidade> cidades;
@@ -799,6 +859,14 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return cidades;
     }
 
+    /** metodo usado para retornar uma lista da rentabilidade de um convenio baseado nas datas e o tipo de fatos boletos
+     * @author Juniel
+     * @param convenio
+     * @param dataInicial
+     * @param dataFinal
+     * @param boleto
+     * @return retorna a lista das rentabilidade de um convenio
+     */
     public List<RentabilidadeVO> listRentabilidadeConvenio(Long convenio, Date dataInicial, Date dataFinal, int boleto) {
         List<RentabilidadeVO> rentabilidades = new ArrayList<RentabilidadeVO>();
         String queryString = "";
@@ -938,6 +1006,11 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return rentabilidades;
     }
 
+    /** metodo usado para retornar uma query baseada no tipo passado
+     * @author Juniel
+     * @param tipo
+     * @return retorna uma string com uma query
+     */
     private String retornaQueryRentConvenio(int tipo) {
         String query = "";
         switch (tipo) {
@@ -1040,6 +1113,11 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return query;
     }
 
+    /** metodo usado para retornar um complemento da clausula where de um query
+     * @author Juniel
+     * @param tipo
+     * @return retorna uma string para uma clausula where
+     */
     private String getAndConvenio(int tipo) {
         String andConvenio = "";
         switch (tipo) {
@@ -1071,6 +1149,11 @@ public class FatosBoletosBO extends AbstractBusinessObject<FatosBoletos> {
         return andConvenio;
     }
 
+    /** metodo usado para retorna uma string com a tabela para o from de uma query baseada no tipo passado
+     * @author Juniel
+     * @param tipo
+     * @return retorna uma string baseada no tipo 
+     */
     private String getFromFatos(TipoBoletos tipo) {
         String from = "";
         if (tipo == TipoBoletos.BOLETOS) {
